@@ -5,7 +5,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[900],
+      backgroundColor: Color.fromARGB(255, 4, 28, 63),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -23,12 +23,12 @@ class WelcomeScreen extends StatelessWidget {
                       width: 120,
                       height: 120,
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 26),
                     Text(
-                      'Welcome to My App',
+                      'Welcome to PathShala',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

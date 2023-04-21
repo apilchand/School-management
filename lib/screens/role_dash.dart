@@ -1,21 +1,34 @@
 import 'package:flutter/material.dart';
-
+import 'Student/Sdashboard.dart';
 class RoleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+       backgroundColor: Color.fromARGB(255, 4, 28, 63),
+      body: 
+      Column(
+        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Add text field at the top
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Choose your Role',
-                border: OutlineInputBorder(),
+            child: 
+            Center(
+              child: Text(
+                          'Choose your Role',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 50 ,
+                          ),
+                     
+                
               ),
             ),
           ),
+          SizedBox(height: 30),
           // Add two rows of two containers
           Row(
             children: [
@@ -30,11 +43,23 @@ class RoleScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Image.asset(
+                      GestureDetector(
+  onTap: () {
+    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Sdashboard(),
+                            ),
+                          );
+  },
+  child: Image.asset('images/student.png',width: 80,
+                        height: 80,),
+),
+                      /*Image.asset(
                         'images/student.png',
                         width: 80,
                         height: 80,
-                      ),
+                      ),*/
                       SizedBox(height: 10),
                       Text(
                         'Student',
