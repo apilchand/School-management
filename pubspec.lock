@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  black_hole_flutter:
+    dependency: transitive
+    description:
+      name: black_hole_flutter
+      sha256: d645025ca831faaf33f216f41a72711aa48e83696be30e113916cccb60f85e72
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.16"
   boolean_selector:
     dependency: transitive
     description:
@@ -25,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  charcode:
+    dependency: transitive
+    description:
+      name: charcode
+      sha256: fb98c0f6d12c920a02ee2d998da788bca066ca5f148492b7085ee23372b12306
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
   clock:
     dependency: transitive
     description:
@@ -41,6 +57,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
+  convert:
+    dependency: transitive
+    description:
+      name: convert
+      sha256: "3fa83bc417e26f1d55814443a603747d48e3cdf55b2f4fea27dea8e9224dcefd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
+  crypto:
+    dependency: transitive
+    description:
+      name: crypto
+      sha256: "3ce628f3c6a7144be6c524dbb20ca5af52fa59c850c587bf5e52cd70ece8e7e8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.5"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -49,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dartx:
+    dependency: transitive
+    description:
+      name: dartx
+      sha256: "6a58805ea914928d1b9c80c4a5773f77e5bff1a3867853343da659852b9eff38"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.0"
   fake_async:
     dependency: transitive
     description:
@@ -123,6 +163,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.2"
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      sha256: "67fc27ed9639506c856c840ccce7594d0bdcd91bc8d53d6e52359449a1d50602"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.11.1"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "0beed4211050b09650da49fedc3a18dedf8601ba8ce041d7ce06db73cb2aa97e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.24.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -176,6 +232,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+  time:
+    dependency: transitive
+    description:
+      name: time
+      sha256: "3dca0fa68deb018812e1fb438e2be0dfeb23897c79c8461bf77ad034cbbe0284"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.1"
+  time_machine:
+    dependency: transitive
+    description:
+      name: time_machine
+      sha256: b39511bf66cc8553d86c1242c43dbf67a17c594d5d7124727c1fdbf331e3989d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.17"
+  timetable:
+    dependency: "direct main"
+    description:
+      name: timetable
+      sha256: "4266e631e7cc20d5000ec8727a12f44ade9f33c263006d53de331668ed9f0105"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.9"
+  typed_data:
+    dependency: transitive
+    description:
+      name: typed_data
+      sha256: "26f87ade979c47a150c9eaab93ccd2bebe70a27dc0b4b29517f2904f04eb11a5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
   vector_math:
     dependency: transitive
     description:
@@ -186,3 +274,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=2.19.6 <3.0.0"
+  flutter: ">=1.24.0-7.0.pre"

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'Student/Sdashboard.dart';
+
+
 class RoleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: 
+        Center(child: Text('PathShala')),
+        backgroundColor: Color.fromARGB(255, 121, 6, 6)),
        backgroundColor: Color.fromARGB(255, 4, 28, 63),
       body: 
       Column(
@@ -55,11 +61,7 @@ class RoleScreen extends StatelessWidget {
   child: Image.asset('images/student.png',width: 80,
                         height: 80,),
 ),
-                      /*Image.asset(
-                        'images/student.png',
-                        width: 80,
-                        height: 80,
-                      ),*/
+                     
                       SizedBox(height: 10),
                       Text(
                         'Student',
@@ -84,7 +86,7 @@ class RoleScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Image.asset(
-                        'images/parent.jpg',
+                        'images/parent.png',
                         width: 80,
                         height: 80,
                       ),
@@ -167,3 +169,5 @@ class RoleScreen extends StatelessWidget {
     );
   }
 }
+
+

@@ -20,8 +20,8 @@ class WelcomeScreen extends StatelessWidget {
                   children: [
                     Image.asset(
                       'images/school.png',
-                      width: 120,
-                      height: 120,
+                      width: 800,
+                      height: 350,
                     ),
                     SizedBox(height: 26),
                     Text(
