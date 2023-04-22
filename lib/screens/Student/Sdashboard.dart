@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pathsala/TSA/timetable.dart';
+import 'package:pathsala/screens/Student/timetable.dart';
+import 'package:pathsala/screens/Student/result.dart';
+import 'package:pathsala/screens/Student/Attendance.dart';
+import 'package:pathsala/screens/Student/Download.dart';
 
 class Sdashboard extends StatelessWidget {
   @override
@@ -34,10 +37,11 @@ class Sdashboard extends StatelessWidget {
                       ),
                     ),
                     Container(
+                      padding: EdgeInsets.all(5),
                       width: constraints.maxWidth * 0.4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
-                        color: Color.fromARGB(255, 4, 31, 71),
+                        color: Color.fromARGB(255, 6, 36, 82),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -69,8 +73,8 @@ class Sdashboard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  color: Color.fromARGB(255, 79, 84, 155),
+                  borderRadius: BorderRadius.zero,
+                  color: Color.fromARGB(255, 11, 72, 165),
                 ),
                 height: constraints.maxHeight * 0.2,
                 alignment: Alignment.center,
@@ -91,10 +95,8 @@ class Sdashboard extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
-                    
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -111,12 +113,37 @@ class Sdashboard extends StatelessWidget {
                         Container(
                           width: constraints.maxWidth * 0.4,
                           height: constraints.maxHeight * 0.1,
-                          color: Colors.purple,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: Color.fromARGB(255, 96, 7, 112),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MonthlyAttendanceLogPage(),
+                                ),
+                              );
+                            },
+                            child: Center(
+                              child: Text(
+                                'Atttendance',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                         Container(
                           width: constraints.maxWidth * 0.4,
                           height: constraints.maxHeight * 0.1,
-                          color: Colors.orange,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: Color.fromARGB(255, 96, 7, 112),
+                          ),
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -145,12 +172,56 @@ class Sdashboard extends StatelessWidget {
                         Container(
                           width: constraints.maxWidth * 0.4,
                           height: constraints.maxHeight * 0.1,
-                          color: Colors.yellow,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: Color.fromARGB(255, 96, 7, 112),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MarksTable(marks: marks),
+                                ),
+                              );
+                            },
+                            child: Center(
+                              child: Text(
+                                'Result',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                         Container(
                           width: constraints.maxWidth * 0.4,
                           height: constraints.maxHeight * 0.1,
-                          color: Colors.pink,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: Color.fromARGB(255, 96, 7, 112),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResourceDownloadPage(),
+                                ),
+                              );
+                            },
+                            child: Center(
+                              child: Text(
+                                'Downloads',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -161,10 +232,9 @@ class Sdashboard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(10),
                 height: constraints.maxHeight * 0.185,
-                color: Colors.grey,
+                color: Color.fromARGB(255, 121, 6, 6),
                 alignment: Alignment.center,
-                child: 
-                Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -176,13 +246,12 @@ class Sdashboard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height:4),
+                    SizedBox(height: 4),
                     Text(
                       'Address:',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        
                       ),
                     ),
                     Text(
@@ -190,7 +259,6 @@ class Sdashboard extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
-                       
                       ),
                     ),
                     Text(
@@ -198,7 +266,6 @@ class Sdashboard extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
-                       
                       ),
                     ),
                     Text(
@@ -206,7 +273,6 @@ class Sdashboard extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
-                        
                       ),
                     ),
                     Text(
@@ -214,7 +280,6 @@ class Sdashboard extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
-                        
                       ),
                     ),
                     Text(
@@ -222,7 +287,6 @@ class Sdashboard extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
-                        
                       ),
                     ),
                   ],
@@ -235,21 +299,9 @@ class Sdashboard extends StatelessWidget {
     );
   }
 }
-
-List<String> daysOfWeek = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday'
-];
-
-List<List<String>> schedules = [
-  ['Math', 'Science', 'English'],
-  ['Art', 'Music', 'Physical Education'],
-  ['Science', 'Math', 'Social Studies'],
-  ['English', 'Physical Education', 'Math'],
-  ['Social Studies', 'Science', 'English'],
-  ['Physical Education', 'Art', 'Science'],
-];
+Map<String, double> marks = {
+  'maths': 85.0,
+  'science': 92.5,
+  'english': 78.0,
+  'social' : 95,
+};
