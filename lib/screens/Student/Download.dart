@@ -15,7 +15,8 @@ class _ResourceDownloadPageState extends State<ResourceDownloadPage> {
         title: Text('Download Resources'),
         backgroundColor: Color.fromARGB(255, 121, 6, 6),
       ),
-      body: ListView.builder(
+      body: 
+      ListView.builder(
         itemCount: resources.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(

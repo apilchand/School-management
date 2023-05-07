@@ -4,12 +4,12 @@ import 'package:pathsala/screens/Student/result.dart';
 import 'package:pathsala/screens/Student/Attendance.dart';
 import 'package:pathsala/screens/Student/Download.dart';
 
-class Sdashboard extends StatelessWidget {
+class parent_dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Student')),
+        title: Center(child: Text('Parent')),
         backgroundColor: Color.fromARGB(255, 121, 6, 6),
       ),
       backgroundColor: Color.fromARGB(255, 4, 28, 63),
@@ -40,26 +40,52 @@ class Sdashboard extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(5),
                       width: MediaQuery.of(context).size.width * 0.4,
-                      height: MediaQuery.of(context).size.height * 0.25,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
                         color: Color.fromARGB(255, 6, 36, 82),
                       ),
-                      child:
-                      SingleChildScrollView(child:         
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text("Name: Apil Chand",style: TextStyle(color: Colors.white)),
-                          Text("Roll No.: 05",style: TextStyle(color: Colors.white)),
-                          Text("Address: Kanchanpur",style: TextStyle(color: Colors.white)),
-                          Text("Contact: 9865701163",style: TextStyle(color: Colors.white)),
-                          Text("Grade: 10",style: TextStyle(color: Colors.white)),
-                          Text("Parent's Name: Govind Bahadur Chand",style: TextStyle(color: Colors.white))
-                        ],
-                      )
-                      )
+                      child:         ListView(
+                         addRepaintBoundaries: true,
+  children: <Widget>[
+    ListTile(
+      leading: Text("Name",
+                              style: TextStyle(color: Colors.white)),
+      title: Text('Apil Chand',
+                              style: TextStyle(color: Colors.white)),
+    ),
+    ListTile(
+      leading: Text("Address",
+                              style: TextStyle(color: Colors.white)),
+      title: Text('Mahendranagar',
+                              style: TextStyle(color: Colors.white)),
+    ),
+    ListTile(
+      leading: Text("Grade",
+                              style: TextStyle(color: Colors.white)),
+      title: Text('10',
+                              style: TextStyle(color: Colors.white)),
+    ),
+    ListTile(
+      leading: Text("Roll No.",
+                              style: TextStyle(color: Colors.white)),
+      title: Text('10',
+                              style: TextStyle(color: Colors.white)),
+    ),
+    ListTile(
+      leading: Text("Contact",
+                              style: TextStyle(color: Colors.white)),
+      title: Text('9865701163',
+                              style: TextStyle(color: Colors.white)),
+    ),
+    ListTile(
+      leading: Text("Parent's Name",
+                              style: TextStyle(color: Colors.white)),
+      title: Text('Govind Bahadur Chand',
+                              style: TextStyle(color: Colors.white)),
+    ),
+  ],
+  
+)
                     ),
                   ],
                 ),
@@ -73,7 +99,7 @@ class Sdashboard extends StatelessWidget {
                   borderRadius: BorderRadius.zero,
                   color: Color.fromARGB(255, 11, 72, 165),
                 ),
-                height:MediaQuery.of(context).size.height>MediaQuery.of(context).size.width ?MediaQuery.of(context).size.height * 0.2 : MediaQuery.of(context).size.width *0.2,
+                height:MediaQuery.of(context).size.height * 0.2,
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -91,7 +117,7 @@ class Sdashboard extends StatelessWidget {
                       'Dear Students,Please note that there will be a mandatory class on Friday, April 29th, 2023, from 10:00 AM to 12:00 PM in Room 102. Attendance is compulsory, and all students are required to bring their textbooks and writing materials.',
                       style: TextStyle(
                         color: Colors.white,
-                         fontSize: 15,
+                         fontSize: MediaQuery.of(context).size.width * 0.01,
                       ),
                     ),
                   ],
@@ -99,7 +125,7 @@ class Sdashboard extends StatelessWidget {
               ),
               // Third container with 4 containers in 2 rows
               Container(
-                height: MediaQuery.of(context).size.height>MediaQuery.of(context).size.width ?MediaQuery.of(context).size.height * 0.2 : MediaQuery.of(context).size.width *0.2,
+                height: MediaQuery.of(context).size.height * 0.2,
                 padding: EdgeInsets.all(8),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -239,7 +265,7 @@ class Sdashboard extends StatelessWidget {
                       'Contact for college',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: MediaQuery.of(context).size.width * 0.012,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -248,42 +274,42 @@ class Sdashboard extends StatelessWidget {
                       'Address:',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: MediaQuery.of(context).size.width * 0.01,
                       ),
                     ),
                     Text(
                       '[College Name]',
                       style: TextStyle(
                         color: Colors.white,
-                       fontSize: 15,
+                       fontSize: MediaQuery.of(context).size.width * 0.01,
                       ),
                     ),
                     Text(
                       '[Street Address]',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: MediaQuery.of(context).size.width * 0.01,
                       ),
                     ),
                     Text(
                       '[City, State, Zip Code]',
                       style: TextStyle(
                         color: Colors.white,
-                       fontSize: 15,
+                       fontSize: MediaQuery.of(context).size.width * 0.01,
                       ),
                     ),
                     Text(
                       'Phone: [+XX-XXX-XXX-XXXX]',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: MediaQuery.of(context).size.width * 0.01,
                       ),
                     ),
                     Text(
                       'Email: [info@college.edu]',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: MediaQuery.of(context).size.width * 0.01,
                         
                       ),
                     ),
