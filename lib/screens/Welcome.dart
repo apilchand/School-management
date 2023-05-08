@@ -56,10 +56,10 @@ class WelcomeScreen extends StatelessWidget {
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              Colors.white,
+                              Colors.purple,
                             ),
                             foregroundColor: MaterialStateProperty.all(
-                              Colors.blue[900],
+                              Colors.white,
                             ),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(

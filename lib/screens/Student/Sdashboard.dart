@@ -1,82 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:pathsala/screens/Student/timetable.dart';
+import 'package:pathsala/screens/Student/attendance.dart';
+import 'package:pathsala/screens/Student/download.dart';
 import 'package:pathsala/screens/Student/result.dart';
-import 'package:pathsala/screens/Student/Attendance.dart';
-import 'package:pathsala/screens/Student/Download.dart';
+import 'package:pathsala/screens/Student/timetable.dart';
 
-class Sdashboard extends StatelessWidget {
+class StudentDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('Student')),
-        backgroundColor: Color.fromARGB(255, 121, 6, 6),
-      ),
       backgroundColor: Color.fromARGB(255, 4, 28, 63),
-      body:  
-      SingleChildScrollView(
-        child:
-          Column(
+      appBar: AppBar(
+        title: Text('Student Dashboard'),
+        centerTitle: true,
+       backgroundColor: Color.fromARGB(255, 121, 6, 6)      
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              // First container with 2 containers in a row
+              SizedBox(height: 20),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                padding: EdgeInsets.all(4),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Color.fromARGB(255, 4, 31, 71),
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[200],
                       ),
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: Image.asset(
-                        'images/picture.jpg',
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: MediaQuery.of(context).size.height * 0.25,
+                      width: 120,
+                      height: 120,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(
+                          'images/picture.jpg',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Color.fromARGB(255, 6, 36, 82),
-                      ),
-                      child:
-                      SingleChildScrollView(child:         
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text("Name: Apil Chand",style: TextStyle(color: Colors.white)),
-                          Text("Roll No.: 05",style: TextStyle(color: Colors.white)),
-                          Text("Address: Kanchanpur",style: TextStyle(color: Colors.white)),
-                          Text("Contact: 9865701163",style: TextStyle(color: Colors.white)),
-                          Text("Grade: 10",style: TextStyle(color: Colors.white)),
-                          Text("Parent's Name: Govind Bahadur Chand",style: TextStyle(color: Colors.white))
+                        children: [
+                          Text(
+                            'Name: Apil Chand',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Roll No.: 05',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Address: Kanchanpur',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Contact: 9865701163',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Grade: 10',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "Parent's Name: Govind Bahadur Chand",
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ],
-                      )
-                      )
+                      ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 20),
               Container(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.zero,
-                  color: Color.fromARGB(255, 11, 72, 165),
+                  color: Colors.purple[600],
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                height:MediaQuery.of(context).size.height>MediaQuery.of(context).size.width ?MediaQuery.of(context).size.height * 0.2 : MediaQuery.of(context).size.width *0.2,
-                alignment: Alignment.center,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -87,34 +104,40 @@ class Sdashboard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    SizedBox(height: 10),
                     Text(
                       'Dear Students,Please note that there will be a mandatory class on Friday, April 29th, 2023, from 10:00 AM to 12:00 PM in Room 102. Attendance is compulsory, and all students are required to bring their textbooks and writing materials.',
                       style: TextStyle(
                         color: Colors.white,
-                         fontSize: 15,
+                        fontSize: 16,
                       ),
                     ),
                   ],
                 ),
               ),
-              // Third container with 4 containers in 2 rows
+              SizedBox(height: 20),
               Container(
-                height: MediaQuery.of(context).size.height>MediaQuery.of(context).size.width ?MediaQuery.of(context).size.height * 0.2 : MediaQuery.of(context).size.width *0.2,
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      'Quick Links',
+                      style: TextStyle(
+                        fontSize: 18,)
+
+
+),
+                     SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: Color.fromARGB(255, 96, 7, 112),
-                          ),
-                          child: GestureDetector(
+                        Expanded(
+                          child: InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -123,25 +146,77 @@ class Sdashboard extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: Center(
-                              child: Text(
-                                'Atttendance',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.calendar_today,
+                                    size: 50,
+                                    color: Colors.purple,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'Attendance',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
-                        Container(
-                         width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: Color.fromARGB(255, 96, 7, 112),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MarksTable(marks: {},),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.assignment,
+                                    size: 50,
+                                    color: Colors.purple,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'Result',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                          child: GestureDetector(
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -150,57 +225,35 @@ class Sdashboard extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: Center(
-                              child: Text(
-                                'Timetable',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.schedule,
+                                    size: 50,
+                                    color: Colors.purple,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'Timetable',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                         width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: Color.fromARGB(255, 96, 7, 112),
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MarksTable(marks: marks),
-                                ),
-                              );
-                            },
-                            child: Center(
-                              child: Text(
-                                'Result',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                         width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: Color.fromARGB(255, 96, 7, 112),
-                          ),
-                          child: GestureDetector(
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -209,13 +262,28 @@ class Sdashboard extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: Center(
-                              child: Text(
-                                'Downloads',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                ),
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.file_download,
+                                    size: 50,
+                                    color: Colors.purple,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'Downloads',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -225,80 +293,10 @@ class Sdashboard extends StatelessWidget {
                   ],
                 ),
               ),
-              // Fourth container
-              Container(
-                padding: EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.height>MediaQuery.of(context).size.width ?MediaQuery.of(context).size.height * 0.3 : MediaQuery.of(context).size.width *0.3,
-                color: Color.fromARGB(255, 121, 6, 6),
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'Contact for college',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-                    Text(
-                      'Address:',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                    Text(
-                      '[College Name]',
-                      style: TextStyle(
-                        color: Colors.white,
-                       fontSize: 15,
-                      ),
-                    ),
-                    Text(
-                      '[Street Address]',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                    Text(
-                      '[City, State, Zip Code]',
-                      style: TextStyle(
-                        color: Colors.white,
-                       fontSize: 15,
-                      ),
-                    ),
-                    Text(
-                      'Phone: [+XX-XXX-XXX-XXXX]',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                    Text(
-                      'Email: [info@college.edu]',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
-          )
-        
-    ));
+          ),
+        ),
+      ),
+    );
   }
 }
-Map<String, double> marks = {
-  'maths': 85.0,
-  'science': 92.5,
-  'english': 78.0,
-  'social' : 95,
-};

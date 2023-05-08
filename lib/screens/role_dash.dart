@@ -60,7 +60,7 @@ class RoleScreen extends StatelessWidget {
           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Sdashboard(),
+                                builder: (context) => StudentDashboard(),
                               ),
                             );
         },
@@ -97,7 +97,7 @@ class RoleScreen extends StatelessWidget {
           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => parent_dashboard(),
+                                builder: (context) => ParentHomeScreen(),
                               ),
                             );
         },

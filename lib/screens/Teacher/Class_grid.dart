@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'Attendance.dart';
+import 'Result.dart';
+import 'Class_TimeTable.dart';
+import 'package:pathsala/about.dart';
 
 class ClassScreen extends StatelessWidget {
   final List<String> classes = [
@@ -90,12 +93,11 @@ class ClassDetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      AttendanceScreen(),
+                  builder: (context) => AttendanceScreen(),
                 ),
               );
             },
-                      ),
+          ),
           _buildCard(
             icon: Icons.notification_important,
             title: 'Notice',
@@ -107,14 +109,27 @@ class ClassDetailScreen extends StatelessWidget {
             icon: Icons.stacked_bar_chart,
             title: 'Result',
             onTap: () {
-              // TODO: Implement result screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ResultSection(),
+                ),
+              );
             },
           ),
           _buildCard(
             icon: Icons.schedule,
             title: 'Timetable',
-            onTap: () {
-              // TODO: Implement timetable screen
+            onTap: () 
+              {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TimetableScreen(),
+                ),
+              );
+            
+              
             },
           ),
           _buildCard(
@@ -128,7 +143,12 @@ class ClassDetailScreen extends StatelessWidget {
             icon: Icons.info,
             title: 'About',
             onTap: () {
-              // TODO: Implement about screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AboutScreen(),
+                ),
+              );
             },
           ),
         ],
@@ -136,7 +156,10 @@ class ClassDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCard({required IconData icon, required String title, required VoidCallback onTap}) {
+  Widget _buildCard(
+      {required IconData icon,
+      required String title,
+      required VoidCallback onTap}) {
     return InkWell(
       onTap: onTap,
       child: Card(
@@ -163,5 +186,3 @@ class ClassDetailScreen extends StatelessWidget {
     );
   }
 }
-
-   

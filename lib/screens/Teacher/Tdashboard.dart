@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'Class_grid.dart';
 import 'upload.dart';
+import 'Teacher_Timetable.dart';
 
 class TeacherDashboardScreen extends StatelessWidget {
-  const TeacherDashboardScreen({Key? key}) : super(key: key);
+   TeacherDashboardScreen({Key? key}) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +96,14 @@ class TeacherDashboardScreen extends StatelessWidget {
                   'Timetable',
                   Icons.calendar_today,
                   () {
-                    // Navigate to attendance management screen
+                    {
+                     Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TeacherTimeTableScreen( teacherName: 'Teacher Name',),
+                              ),
+                            );
+                    }
                   },
                 ),
                 _buildItem(
