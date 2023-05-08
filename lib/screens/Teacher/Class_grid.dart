@@ -3,6 +3,8 @@ import 'Attendance.dart';
 import 'Result.dart';
 import 'Class_TimeTable.dart';
 import 'package:pathsala/about.dart';
+import 'Notice.dart';
+import 'Student.dart';
 
 class ClassScreen extends StatelessWidget {
   final List<String> classes = [
@@ -25,7 +27,8 @@ class ClassScreen extends StatelessWidget {
           title: Center(child: Text('Classes')),
           backgroundColor: Color.fromARGB(255, 121, 6, 6)),
       backgroundColor: Color.fromARGB(255, 4, 28, 63),
-      body: GridView.builder(
+      body: 
+      GridView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: classes.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -46,18 +49,26 @@ class ClassScreen extends StatelessWidget {
             },
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.purple,
+                color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Center(
-                child: Text(
-                  classes[index],
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.school,
+                    color: Colors.purple,
+                    size: 40,
+                    
                   ),
-                ),
+                  Text(
+                    classes[index],
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -102,7 +113,14 @@ class ClassDetailScreen extends StatelessWidget {
             icon: Icons.notification_important,
             title: 'Notice',
             onTap: () {
-              // TODO: Implement notice screen
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TeacherNoticeScreen(),
+                  ),
+                );
+              }
             },
           ),
           _buildCard(
@@ -120,23 +138,25 @@ class ClassDetailScreen extends StatelessWidget {
           _buildCard(
             icon: Icons.schedule,
             title: 'Timetable',
-            onTap: () 
-              {
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => TimetableScreen(),
                 ),
               );
-            
-              
             },
           ),
           _buildCard(
             icon: Icons.person,
             title: 'Student Info',
             onTap: () {
-              // TODO: Implement student info screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StudentListScreen(),
+                ),
+              );
             },
           ),
           _buildCard(
