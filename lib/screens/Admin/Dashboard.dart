@@ -27,7 +27,7 @@ class DashboardScreen extends StatelessWidget {
                 height: 120.0,
                 child: DrawerHeader(
                   decoration: BoxDecoration(
-                    color: Colors.purple,
+                    color: Color.fromARGB(255, 121, 6, 6),
                   ),
                   child: Center(
                     child: Text(
@@ -85,11 +85,13 @@ class DashboardScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
+      body: 
+      Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        child: ListView( children:
+        
+          //mainAxisAlignment: MainAxisAlignment.center,
+          [
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

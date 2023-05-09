@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../Student/Attendance.dart';
+import '../Student/result.dart';
+import '../Student/timetable.dart';
 
 class ParentHomeScreen extends StatelessWidget {
   @override
@@ -55,7 +58,14 @@ class ParentHomeScreen extends StatelessWidget {
                         subtitle: 'Check if your child is present or absent',
                         icon: Icons.person_outline,
                         color: Color.fromARGB(255, 82, 170, 255),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Attendancelog(),
+                                ),
+                              );
+                        },
                       ),
                       SizedBox(height: 16.0),
                       HomeScreenCard(
@@ -71,7 +81,9 @@ class ParentHomeScreen extends StatelessWidget {
                         subtitle: 'View upcoming events and activities',
                         icon: Icons.event_outlined,
                         color: Color.fromARGB(255, 251, 205, 97),
-                        onPressed: () {},
+                        onPressed: () {
+                          
+                        },
                       ),
                       SizedBox(height: 16.0),
                       HomeScreenCard(
@@ -79,7 +91,14 @@ class ParentHomeScreen extends StatelessWidget {
                         subtitle: 'View exam schedules and results',
                         icon: Icons.library_books_outlined,
                         color: Color.fromARGB(255, 177, 197, 250),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Examresult(),
+                                ),
+                              );
+                        },
                       ),
                       SizedBox(height: 16.0),
                       HomeScreenCard(
@@ -87,7 +106,14 @@ class ParentHomeScreen extends StatelessWidget {
                         subtitle: 'View class timetables and schedules',
                         icon: Icons.access_time_outlined,
                         color: Color.fromARGB(255, 180, 221, 237),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TimetableScreen(),
+                                ),
+                              );
+                        },
                       ),
                       SizedBox(height: 16.0),
                     ],

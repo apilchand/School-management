@@ -1,70 +1,173 @@
 import 'package:flutter/material.dart';
 
-class MarksTable extends StatelessWidget {
-  final Map<String, double> marks;
-  MarksTable({required this.marks});
+
+class ExamResult {
+  final String examName;
+  final List<String> subjects;
+  final List<int> marks;
+
+  ExamResult(this.examName, this.subjects, this.marks);
+}
+
+class ResultDataSource {
+  List<ExamResult> getResults() {
+    // Replace this method with  own logic for retrieving
+    // results data for a student from a database or other data source.
+    
+    return [      ExamResult("Midterm Exam", ["Math", "Science", "English", "Social Studies"], [85, 90, 80, 88]),
+      ExamResult("Final Exam", ["Math", "Science", "English", "Social Studies"], [90, 95, 85, 90]),
+      ExamResult("Quarterly Exam", ["Math", "Science", "English", "Social Studies"], [80, 85, 75, 82]),
+      ExamResult("Half-Yearly Exam", ["Math", "Science", "English", "Social Studies"], [95, 97, 90, 92]),
+      ExamResult("Annual Exam", ["Math", "Science", "English", "Social Studies"], [92, 93, 88, 90]),
+    ];
+  }
+}
+
+class Examresult extends StatefulWidget {
+  const Examresult({super.key});
 
   @override
+  State<Examresult> createState() => _ExamresultState();
+}
+
+class _ExamresultState extends State<Examresult> {
+  int _selectedExamIndex = 0;
+  ResultDataSource dataSource = ResultDataSource();
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    
+    List<ExamResult> results = dataSource.getResults();
+
+    return  Scaffold(
         appBar: AppBar(
-            title: Center(child: Text('Marksheet')),
-            backgroundColor: Color.fromARGB(255, 121, 6, 6)),
-        body: Container(
-          padding: EdgeInsets.all(15),
-          child: Table(
-            border: TableBorder.all(),
-            columnWidths: {
-              0: FlexColumnWidth(2),
-              1: FlexColumnWidth(1),
-            },
-            children: [
-              TableRow(
-                children: [
-                  TableCell(
-                      child: Text('Subject',
-                          style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.bold))),
-                  TableCell(
-                      child: Text('Marks',
-                          style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.bold))),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Text('Maths')),
-                  TableCell(child: Text('${marks['maths']}')),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Text('Science')),
-                  TableCell(child: Text('${marks['science']}')),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Text('English')),
-                  TableCell(child: Text('${marks['english']}')),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Text('Social Studies')),
-                  TableCell(child: Text('${marks['social']}')),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Text('Total')),
-                  TableCell(
-                    child: Text('${marks.values.reduce((a, b) => a + b)}'),
+          title: Text('Exam Results'),
+          centerTitle: true,
+          backgroundColor: Color.fromARGB(255, 121, 6, 6)
+        ),
+         backgroundColor: Color.fromARGB(255, 4, 28, 63),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Select an exam:',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
-                ],
-              ),
-            ],
+                ),
+                SizedBox(height: 10),
+                Container(
+                  height: 50,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: results.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: _selectedExamIndex == index ? Colors.purple : Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _selectedExamIndex = index;
+                            });
+                          },
+                          child: Text(
+                            results[index].examName,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Exam Result:',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(height: 10
+),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Subject',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'Marks',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: results[_selectedExamIndex].subjects.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(results[_selectedExamIndex].subjects[index]),
+                                Text(results[_selectedExamIndex].marks[index].toString()),
+                              ],
+                            );
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Total Marks:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              results[_selectedExamIndex].marks.reduce((a, b) => a + b).toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ));
+        ),
+      );
+  
   }
 }

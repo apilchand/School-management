@@ -142,7 +142,7 @@ class StudentDashboard extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MonthlyAttendanceLogPage(),
+                                  builder: (context) => Attendancelog(),
                                 ),
                               );
                             },
@@ -179,7 +179,7 @@ class StudentDashboard extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MarksTable(marks: {},),
+                                  builder: (context) => Examresult(),
                                 ),
                               );
                             },
