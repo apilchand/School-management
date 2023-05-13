@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../Teacher/Notice.dart';
 import 'attendance_management.dart';
 import 'class_management.dart';
-import 'notice_management.dart';
+
 import 'result_management.dart';
-import 'student_management.dart';
-import 'teacher_management.dart';
+import 'Student_management/student_management.dart';
+import 'Teacher_management/teacher_management.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -14,22 +15,22 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard'),
-        backgroundColor: Color.fromARGB(255, 121, 6, 6),
+        title: const Center(child: Text('Dashboard')),
+        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       drawer: Drawer(
         child: Container(
-          color: Color.fromARGB(255, 4, 28, 63),
+          color: const Color.fromARGB(255, 4, 28, 63),
           child: ListView(
             children: [
               Container(
                 height: 120.0,
                 child: DrawerHeader(
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 121, 6, 6),
+                    color: const Color.fromARGB(255, 121, 6, 6),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'School Management System',
                       style: TextStyle(
@@ -44,166 +45,155 @@ class DashboardScreen extends StatelessWidget {
               DrawerItem(
                 icon: Icons.people,
                 title: 'Students',
-                onPressed: () {
-                  /*Navigator.push(
+                onTap: () {
+                  Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => StudentScreen()),
-                  );*/
+                    MaterialPageRoute(builder: (context) =>  StudentManagementScreen()),
+                  );
                 },
               ),
               DrawerItem(
                 icon: Icons.person,
                 title: 'Teachers',
-                onPressed: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TeacherManagementScreen()),
+                  );
+                },
               ),
               DrawerItem(
                 icon: Icons.class_,
                 title: 'Classes',
-                onPressed: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Classmgmt()),
+                  );
+                },
               ),
-              DrawerItem(
-                icon: Icons.calendar_today,
-                title: 'Attendance',
-                onPressed: () {},
-              ),
+              
               DrawerItem(
                 icon: Icons.grade,
                 title: 'Grades',
-                onPressed: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const GradeManagementScreen()),
+                  );
+                },
               ),
               DrawerItem(
                 icon: Icons.notifications,
                 title: 'Notices',
-                onPressed: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TeacherNoticeScreen()),
+                  );
+                },
               ),
+              
               DrawerItem(
                 icon: Icons.logout,
                 title: 'Logout',
-                onPressed: () {},
+                onTap: () {},
               ),
             ],
           ),
         ),
       ),
-      body: 
-      Padding(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView( children:
-        
-          //mainAxisAlignment: MainAxisAlignment.center,
-          [
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: DashboardCard(
+        child:GridView.count(
+        crossAxisCount: 2,
+        padding: EdgeInsets.all(16.0),
+        childAspectRatio: 1.0,
+        mainAxisSpacing: 16.0,
+        crossAxisSpacing: 16.0,
+        children: [
+                
+                     DashboardCard(
                       title: 'Students',
                       count: '1000',
                       icon: Icons.people,
                       color: Colors.purple,
                     ),
-                  ),
-                  Expanded(
-                    child: DashboardCard(
+                  
+                  
+                    DashboardCard(
                       title: 'Teachers',
                       count: '50',
                       icon: Icons.person,
                       color: Colors.purple,
-                    ),
+                    
                   ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: DashboardCard(
+            
+               
+                     DashboardCard(
                       title: 'Classes',
                       count: '20',
                       icon: Icons.class_,
                       color: Colors.purple,
                     ),
-                  ),
-                  Expanded(
-                    child: DashboardCard(
-                      title: 'Attendance Percentage',
+                
+                   DashboardCard(
+                      title: 'Attendance',
                       count: '85%',
                       icon: Icons.calendar_today,
                       color: Colors.purple,
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: DashboardCard(
+                
+                DashboardCard(
                       title: 'Pass percentage',
                       count: '80%',
                       icon: Icons.grade,
                       color: Colors.purple,
                     ),
-                  ),
-                  Expanded(
-                    child: DashboardCard(
-                      title: 'Notices',
-                      count: '5',
-                      icon: Icons.notifications,
-                      color: Colors.purple,
-                    ),
-                  ),
+                
                 ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+              )
+      ));
+
+
+            
+          
   }
 }
 
 class DrawerItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final Function onPressed;
-
   const DrawerItem({
     Key? key,
     required this.icon,
     required this.title,
-    required this.onPressed,
+    required this.onTap,
   }) : super(key: key);
+
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(
         icon,
-        color: Colors.purple,
+        color: Colors.white,
       ),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
         ),
       ),
-      onTap: onPressed(),
+      onTap: onTap,
     );
   }
 }
 
 class DashboardCard extends StatelessWidget {
-  final String title;
-  final String count;
-  final IconData icon;
-  final Color color;
-
   const DashboardCard({
     Key? key,
     required this.title,
@@ -212,43 +202,52 @@ class DashboardCard extends StatelessWidget {
     required this.color,
   }) : super(key: key);
 
+  final String title;
+  final String count;
+  final IconData icon;
+  final Color color;
+
   @override
   Widget build(BuildContext context) {
-    return 
-    Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Card(
-          child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 50.0,
-              color: color,
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(0.0, 1.0),
+            blurRadius: 6.0,
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 60.0,
+            color: color,
+          ),
+          const SizedBox(height: 10.0),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
             ),
-            SizedBox(height: 10.0),
-            Center(
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          ),
+          const SizedBox(height: 10.0),
+          Text(
+            count,
+            style: const TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.w600,
             ),
-            SizedBox(height: 5.0),
-            Text(
-              count,
-              style: TextStyle(
-                fontSize: 16.0,
-              ),
-            ),
-          ],
-        ),
-      )),
+          ),
+        ],
+      ),
     );
   }
 }

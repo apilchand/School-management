@@ -55,7 +55,7 @@ class RoleScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        GestureDetector(
+                        InkWell(
         onTap: () {
           Navigator.push(
                               context,
@@ -92,7 +92,7 @@ class RoleScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: 
                       [
-                        GestureDetector(
+                        InkWell(
         onTap: () {
           Navigator.push(
                               context,
@@ -135,7 +135,7 @@ class RoleScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        GestureDetector(
+                        InkWell(
         onTap: () {
           Navigator.push(
                               context,
@@ -174,7 +174,7 @@ class RoleScreen extends StatelessWidget {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: [ GestureDetector(
+                      children: [ InkWell(
         onTap: () {
           Navigator.push(
                               context,

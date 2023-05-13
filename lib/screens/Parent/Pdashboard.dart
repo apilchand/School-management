@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../Student/Attendance.dart';
+import '../Student/Download.dart';
 import '../Student/result.dart';
 import '../Student/timetable.dart';
 
 class ParentHomeScreen extends StatelessWidget {
+  const ParentHomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +76,14 @@ class ParentHomeScreen extends StatelessWidget {
                         subtitle: 'View assignments',
                         icon: Icons.assignment_outlined,
                         color: Color.fromARGB(255, 249, 151, 119),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResourceDownloadPage(),
+                                ),
+                              );
+                        },
                       ),
                       SizedBox(height: 16.0),
                       HomeScreenCard(
