@@ -1,95 +1,269 @@
 import 'package:flutter/material.dart';
 
-class GradeManagementScreen extends StatefulWidget {
-  const GradeManagementScreen({Key? key}) : super(key: key);
+class StudentMarks extends StatefulWidget {
+  const StudentMarks({super.key});
 
   @override
-  _GradeManagementScreenState createState() => _GradeManagementScreenState();
+  _StudentMarksState createState() => _StudentMarksState();
 }
 
-class _GradeManagementScreenState extends State<GradeManagementScreen> {
-  List<Student> students = [
-    Student(name: 'John Doe', rollNo: '001', grade: 'A'),
-    Student(name: 'Jane Smith', rollNo: '002', grade: 'B'),
-    Student(name: 'David Lee', rollNo: '003', grade: 'C'),
-    Student(name: 'Emma Brown', rollNo: '004', grade: 'B+'),
-  ];
+class _StudentMarksState extends State<StudentMarks> {
+  final Map<String, Map<String, Map<String, Map<String, double>>>> _studentMarks = {
+    'Class 1': {
+      'Quarterly': {
+        'John': {
+          'Math': 90,
+          'Science': 85,
+          'History': 75,
+          'English': 80,
+          'Art': 70,
+          'Music': 75,
+        },
+        'Alice': {
+          'Math': 85,
+          'Science': 90,
+          'History': 80,
+          'English': 75,
+          'Art': 85,
+          'Music': 80,
+        },
+        'Bob': {
+          'Math': 95,
+          'Science': 92,
+          'History': 85,
+          'English': 90,
+          'Art': 80,
+          'Music': 75,
+        },
+      },
+      'Half-Yearly': {
+        'John': {
+          'Math': 80,
+          'Science': 75,
+          'History': 70,
+          'English': 85,
+          'Art': 65,
+          'Music': 70,
+        },
+        'Alice': {
+          'Math': 90,
+          'Science': 85,
+          'History': 75,
+          'English': 80,
+          'Art': 80,
+          'Music': 85,
+        },
+        'Bob': {
+          'Math': 85,
+          'Science': 92,
+          'History': 85,
+          'English': 90,
+          'Art': 85,
+          'Music': 75,
+        },
+      },
+      'Annual': {
+        'John': {
+          'Math': 85,
+          'Science': 80,
+          'History': 70,
+          'English': 75,
+          'Art': 65,
+          'Music': 70,
+        },
+        'Alice': {
+          'Math': 90,
+          'Science': 85,
+          'History': 75,
+          'English': 80,
+          'Art': 85,
+          'Music': 80,
+        },
+        'Bob': {
+          'Math': 95,
+          'Science': 92,
+          'History': 85,
+          'English': 90,
+          'Art': 80,
+          'Music': 75,
+        },
+      },
+    },
+    'Class 2': {
+      'Quarterly': {
+        'John': {
+          'Math': 90,
+          'Science': 85,
+          'History': 75,
+          'English': 80,
+          'Art': 70,
+          'Music': 75,
+        },
+        'Alice': {
+          'Math': 85,
+          'Science': 90,
+          'History': 80,
+          'English': 75,
+          'Art': 85,
+          'Music': 80,
+        },
+        'Bob': {
+          'Math': 95,
+          'Science': 92,
+          'History': 85,
+          'English': 90,
+          'Art': 80,
+          'Music': 75,
+        },
+      },
+      'Half-Yearly': {
+        'John': {
+          'Math': 80,
+          'Science': 75,
+          'History': 70,
+          'English': 85,
+          'Art': 65,
+          'Music': 70,
+        },
+        'Alice': {
+          'Math': 90,
+          'Science': 85,
+          'History': 75,
+          'English': 80,
+          'Art': 85,
+          'Music': 80,
+        },
+        'Bob': {
+          'Math': 95,
+          'Science': 92,
+          'History': 85,
+          'English': 90,
+          'Art': 80,
+          'Music': 75,
+        }
+      },
+
+      'Annual': {
+        'John': {
+          'Math': 85,
+          'Science': 80,
+          'History': 70,
+          'English': 75,
+          'Art': 65,
+          'Music': 70,
+        },
+        'Alice': {
+          'Math': 90,
+          'Science': 85,
+          'History': 75,
+          'English': 80,
+          'Art': 85,
+          'Music': 80,
+        },
+        'Bob': {
+          'Math': 95,
+          'Science': 92,
+          'History': 85,
+          'English': 90,
+          'Art': 80,
+          'Music': 75,
+        },
+      },
+    },
+  };
+
+  String _selectedClass = 'Class 1';
+  String _selectedExam = 'Quarterly';
+  String _selectedStudent = 'John';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Grade Management'),
+        title: Text('Student Marks'),backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
-      body: ListView.builder(
-        itemCount: students.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(students[index].name),
-            subtitle: Text('Roll No: ${students[index].rollNo}'),
-            trailing: Text(students[index].grade),
-            onTap: () {
-              _showGradeDialog(index);
-            },
-          );
-        },
-      ),
-    );
-  }
-
-  void _showGradeDialog(int index) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        String? selectedGrade = students[index].grade;
-        return AlertDialog(
-          title: Text('Update Grade'),
-          content: DropdownButtonFormField(
-            value: selectedGrade,
-            items: [
-              DropdownMenuItem(value: 'A', child: Text('A')),
-              DropdownMenuItem(value: 'B', child: Text('B')),
-              DropdownMenuItem(value: 'C', child: Text('C')),
-              DropdownMenuItem(value: 'D', child: Text('D')),
-              DropdownMenuItem(value: 'F', child: Text('F')),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              DropdownButton<String>(
+                value: _selectedClass,
+                items: _studentMarks.keys
+                    .map((className) => DropdownMenuItem<String>(
+                          child: Text(className, style: TextStyle(color: Colors.white),),
+                          value: className,
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedClass = value!;
+                    _selectedExam = _studentMarks[_selectedClass]!.keys.first;
+                    _selectedStudent =
+                        _studentMarks[_selectedClass]![_selectedExam]!.keys.first;
+                  });
+                },
+              ),
+              DropdownButton<String>(
+                value: _selectedExam,
+                items: _studentMarks[_selectedClass]!.keys
+                    .map((examName) => DropdownMenuItem<String>(
+                          child: Text(examName, style: TextStyle(color: Colors.white),),
+                          value: examName,
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedExam = value!;
+                    _selectedStudent =
+                        _studentMarks[_selectedClass]![_selectedExam]!.keys.first;
+                  });
+                },
+              ),
+              DropdownButton<String>(
+                value: _selectedStudent,
+                items: _studentMarks[_selectedClass]![_selectedExam]!.keys
+                    .map((studentName) => DropdownMenuItem<String>(
+                          child: Text(studentName, style: TextStyle(color: Colors.white),),
+                          value: studentName,
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedStudent = value!;
+                  });
+                },
+              ),
             ],
-            onChanged: (value) {
-              setState(() {
-                selectedGrade = value.toString();
-              });
-            },
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('CANCEL'),
+          Expanded(
+            child: 
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
+              child: Container(
+                color: Colors.white,
+                padding: EdgeInsets.all(16),
+                child: ListView.builder(
+                  itemCount: _studentMarks[_selectedClass]![_selectedExam]![_selectedStudent]!
+                      .length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final subjectName = _studentMarks[_selectedClass]![_selectedExam]![_selectedStudent]!
+                        .keys
+                        .toList()[index];
+                    final subjectMarks = _studentMarks[_selectedClass]![_selectedExam]![_selectedStudent]![subjectName];
+                    return ListTile(
+                      title: Text(subjectName),
+                      trailing: Text(subjectMarks.toString()),
+                    );
+                  },
+                ),
+              ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  students[index].grade = selectedGrade!;
-                });
-                Navigator.of(context).pop();
-              },
-              child: Text('SAVE'),
-            ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
-}
-
-class Student {
-  final String name;
-  final String rollNo;
-  String grade;
-
-  Student({
-    required this.name,
-    required this.rollNo,
-    this.grade = 'F',
-  });
-}
+  }

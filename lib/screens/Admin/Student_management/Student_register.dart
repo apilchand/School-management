@@ -16,8 +16,20 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   DateTime? _selectedDate;
   String _selectedGender = 'Male';
 
- final List<String> _genderOptions = ['Male', 'Female', 'Other'];
- final _formKey = GlobalKey<FormState>();
+  final List<String> _genderOptions = ['Male', 'Female', 'Other'];
+  final List<String> _classOptions = [
+    'Class 1',
+    'Class 2',
+    'Class 3',
+    'Class 4',
+    'Class 5',
+    'Class 6',
+    'Class 7',
+    'Class 8',
+    'Class 9',
+    'Class 10',
+  ];
+  final _formKey = GlobalKey<FormState>();
 
   void _selectDate(BuildContext context) async {
     final picked = await showDatePicker(
@@ -25,7 +37,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-       builder: (BuildContext context, Widget? child) {
+      builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.light(
@@ -89,8 +101,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
               }
               return null;
             },
-          
-           items: _genderOptions
+            items: _genderOptions
                 .map((gender) => DropdownMenuItem<String>(
                       value: gender,
                       child: Text(gender),
@@ -116,7 +127,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   }
 
   void _submitForm() {
-    
     final formData = {
       'firstName': _firstNameController.text,
       'lastName': _lastNameController.text,
@@ -126,6 +136,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       'motherName': _motherNameController.text,
       'dateOfBirth': _selectedDate.toString(),
       'gender': _selectedGender,
+      'class': _classOptions,
     };
     print(formData);
   }
@@ -176,12 +187,49 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                   labelText: 'Mother\'s Name',
                 ),
                 SizedBox(height: 16),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Class',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Expanded(
+                      child: Container(
+                        color: Colors.white,
+                        child: DropdownButtonFormField<String>(
+                          value: _classOptions.first,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                          items: _classOptions.map((className) {
+                            return DropdownMenuItem<String>(
+                              value: className,
+                              child: Text(className),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select an option';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 16.0),
                 InkWell(
                   onTap: () => _selectDate(context),
                   child: AbsorbPointer(
                     child: TextField(
                       decoration: InputDecoration(
-                            labelText: 'Date of Birth',
+                        labelText: 'Date of Birth',
                         labelStyle: TextStyle(color: Colors.white),
                         suffixIcon: Icon(
                           Icons.calendar_today_rounded,
@@ -212,14 +260,15 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                 Center(
                   child: ElevatedButton(
                     style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-                              ),
-                    onPressed:(){
-                    if (_formKey.currentState!.validate()) {
-                  _submitForm;
-                              } 
-                    
-                    }, child: Text('Submit'),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.purple),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _submitForm;
+                      }
+                    },
+                    child: Text('Submit'),
                   ),
                 ),
                 SizedBox(height: 16),

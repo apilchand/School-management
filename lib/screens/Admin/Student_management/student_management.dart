@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pathsala/screens/Admin/Student_management/Show_students.dart';
 
 import 'Student_register.dart';
 
@@ -26,10 +27,10 @@ class _StudentManagementScreenState extends State<StudentManagementScreen> {
             SizedBox(height: 16),
             InkWell(
               onTap: () {
-               /* Navigator.push(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ),
-                ); */
+                  MaterialPageRoute(builder: (context) => StudentList() ),
+                ); 
               },
               child: Card(
                 margin: const EdgeInsets.all(16),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pathsala/screens/Admin/class_management/assign.dart';
 import 'package:pathsala/screens/Teacher/Class_grid.dart';
 
 
@@ -28,10 +29,10 @@ class _ClassmgmtState extends State<Classmgmt> {
             }),
             SizedBox(height: 20),
             buildCard('Assign Subjects', () {
-             /* Navigator.push(
+              Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AssignSubjects()),
-              );*/
+                MaterialPageRoute(builder: (context) => ClassSchedule()),
+              );
             }),
           ],
         ),

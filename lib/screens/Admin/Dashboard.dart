@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../Teacher/Notice.dart';
-import 'attendance_management.dart';
-import 'class_management.dart';
+
+import 'class_management/class_management.dart';
 
 import 'result_management.dart';
 import 'Student_management/student_management.dart';
@@ -79,7 +79,7 @@ class DashboardScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const GradeManagementScreen()),
+                    MaterialPageRoute(builder: (context) => StudentMarks()),
                   );
                 },
               ),
