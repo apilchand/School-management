@@ -1,4 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+ FirebaseFirestore db = FirebaseFirestore.instance;
+final CollectionReference studentsCollection = db.collection('Teacher');
+final CollectionReference userCollection = db.collection('User');
+
+Future<void> addTeacher(Map<String, dynamic> formData) {
+
+  return studentsCollection
+      .add(formData)
+      .then((value) => print("Teacher added"))
+      .catchError((error) => print("Failed to add Teacher: $error"));
+}
+Future<void> addUserTeacher(Map<String, dynamic> userTeacherData) {
+
+  return userCollection
+      .add(userTeacherData)
+      .then((value) => print("Teacher user added"))
+      .catchError((error) => print("Failed to add user teacher: $error"));
+}
+
 
 class TeacherAdd extends StatefulWidget {
   const TeacherAdd({super.key});
@@ -12,14 +32,11 @@ class _TeacherAdd extends State<TeacherAdd> {
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _contactController = TextEditingController();
-  final _fatherNameController = TextEditingController();
-  final _motherNameController = TextEditingController();
-
+  
   DateTime? _selectedDate;
   String _selectedGender = 'Male';
 
  final List<String> _genderOptions = ['Male', 'Female', 'Other'];
- final _formKey = GlobalKey<FormState>();
 
   void _selectDate(BuildContext context) async {
     final picked = await showDatePicker(
@@ -118,18 +135,34 @@ class _TeacherAdd extends State<TeacherAdd> {
   }
 
   void _submitForm() {
+    final userTeacherData ={
+      'role': 'teacher',
+      'username': _emailController.text,
+      'password': _contactController.text,
+      'student_id':_firstNameController.text+_contactController.text,
+    };
+    addUserTeacher(userTeacherData);
     
     final formData = {
       'firstName': _firstNameController.text,
       'lastName': _lastNameController.text,
       'email': _emailController.text,
       'contact': _contactController.text,
-      'fatherName': _fatherNameController.text,
-      'motherName': _motherNameController.text,
+     
       'dateOfBirth': _selectedDate.toString(),
       'gender': _selectedGender,
     };
-    print(formData);
+    addTeacher(formData).then((_) {
+    _firstNameController.clear();
+    _lastNameController.clear();
+    _emailController.clear();
+    _contactController.clear();
+    setState(() {
+      _selectedDate = null;
+      _selectedGender = 'Male';
+     
+    });
+  });
   }
 
   @override
@@ -167,17 +200,7 @@ class _TeacherAdd extends State<TeacherAdd> {
                   controller: _contactController,
                   labelText: 'Contact Number',
                 ),
-                SizedBox(height: 16),
-                _buildTextField(
-                  controller: _fatherNameController,
-                  labelText: 'Father\'s Name',
-                ),
-                SizedBox(height: 16),
-                _buildTextField(
-                  controller: _motherNameController,
-                  labelText: 'Mother\'s Name',
-                ),
-                SizedBox(height: 16),
+                
                 InkWell(
                   onTap: () => _selectDate(context),
                   child: AbsorbPointer(
@@ -217,9 +240,7 @@ class _TeacherAdd extends State<TeacherAdd> {
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
                               ),
                     onPressed:(){
-                    if (_formKey.currentState!.validate()) {
-                  _submitForm;
-                              } 
+                   _submitForm();
                     
                     }, child: Text('Submit'),
                   ),

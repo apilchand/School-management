@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'screens/Welcome.dart';
@@ -11,7 +12,9 @@ await Firebase.initializeApp(
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
+  FirebaseFirestore db = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: WelcomeScreen(), // set your welcome page as the home screen
+      home: WelcomeScreen(), 
     );
   }
 }

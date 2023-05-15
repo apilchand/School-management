@@ -1,4 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+ FirebaseFirestore db = FirebaseFirestore.instance;
+final CollectionReference noticeCollection = db.collection('Notice');
+
+Future<void> addNotice(Map<String, dynamic> formData) {
+
+  return noticeCollection
+      .add(formData)
+      .then((value) => print("Notice added"))
+      .catchError((error) => print("Failed to add Notice: $error"));
+}
 
 class TeacherNoticeScreen extends StatelessWidget {
   @override
@@ -118,6 +130,7 @@ class TeacherNoticeScreen extends StatelessWidget {
 
 class AddNoticeScreen extends StatefulWidget {
   const AddNoticeScreen({Key? key}) : super(key: key);
+  
 
   @override
   _AddNoticeScreenState createState() => _AddNoticeScreenState();
@@ -125,7 +138,22 @@ class AddNoticeScreen extends StatefulWidget {
 
 class _AddNoticeScreenState extends State<AddNoticeScreen> {
   final _noticeController = TextEditingController();
+  final _titleController = TextEditingController();
   List<String> _notices = [];
+  
+  void _submitNotice() {
+  final noticeData ={
+    'title' : _titleController.text,
+    'message': _noticeController.text,
+    'date' : DateTime.now().toString(),
+  };
+  addNotice(noticeData).then((_)  {
+    _titleController.clear();
+    _noticeController.clear();
+  });
+  
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +168,7 @@ class _AddNoticeScreenState extends State<AddNoticeScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: TextFormField(
-              controller: _noticeController,
+              controller: _titleController,
               decoration: InputDecoration(
                 hintText: 'Enter the title of your NOtice',
                 filled: true,
@@ -185,6 +213,7 @@ class _AddNoticeScreenState extends State<AddNoticeScreen> {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
+              _submitNotice();
               
             },
             child: Text('Post Notice'),
@@ -201,3 +230,5 @@ class _AddNoticeScreenState extends State<AddNoticeScreen> {
     );
   }
 }
+
+
