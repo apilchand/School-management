@@ -48,7 +48,7 @@ class _TeacherAdd extends State<TeacherAdd> {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.light(
-              primary: Colors.purple, // set primary color to purple
+              primary: Colors.purple, 
             ),
           ),
           child: child!,

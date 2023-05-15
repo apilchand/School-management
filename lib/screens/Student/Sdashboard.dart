@@ -1,24 +1,84 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pathsala/screens/Student/attendance.dart';
 import 'package:pathsala/screens/Student/download.dart';
 import 'package:pathsala/screens/Student/result.dart';
 import 'package:pathsala/screens/Student/timetable.dart';
 
-class StudentDashboard extends StatelessWidget {
+FirebaseFirestore db = FirebaseFirestore.instance;
+
+class StudentData {
+  final String name;
+  final String contact;
+  final String parentsName;
+  final String className;
+
+  StudentData(
+      {required this.name,
+      required this.contact,
+      required this.parentsName,
+      required this.className});
+}
+
+class Notice {
+  final String title;
+  final String message;
+  final String postedOn;
+
+  Notice({required this.title, required this.message, required this.postedOn});
+}
+
+
+
+class StudentDashboard extends StatelessWidget {  
+  final String studentId;
+
+  StudentDashboard({Key? key, required this.studentId}) : super(key: key);
+  Future<StudentData> getStudentData(String studentId) async {
+    DocumentSnapshot snapshot =
+        await db.collection('Student').doc(studentId).get();
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
+    return StudentData(
+      name: data['firstName'],
+      contact: data['contact'],
+      parentsName: data['fatherName'],
+      className: data['class'],
+    );
+  }
+
+  Future<Notice> getLatestNotice(String className) async {
+    QuerySnapshot querySnapshot = await db
+        .collection('Notice')
+        
+        .orderBy('postedOn', descending: true)
+        .limit(1)
+        .get();
+
+    Map<String, dynamic> data =
+        querySnapshot.docs.first.data() as Map<String, dynamic>;
+
+    return Notice(
+      title: data['title'],
+      message: data['message'],
+      postedOn: data['postedOn'],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 4, 28, 63),
       appBar: AppBar(
-        title: Text('Student Dashboard'),
-        centerTitle: true,
-       backgroundColor: Color.fromARGB(255, 121, 6, 6)      
-      ),
+          title: Text('Student Dashboard'),
+          centerTitle: true,
+          backgroundColor: Color.fromARGB(255, 121, 6, 6)),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(height: 20),
+              
               Container(
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -44,50 +104,99 @@ class StudentDashboard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 20),
-                    Expanded(
+                    FutureBuilder<StudentData>(
+                future: getStudentData(studentId),
+                builder: (BuildContext context,
+                    AsyncSnapshot<StudentData> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  StudentData studentData = snapshot.data!;
+                  
+                    return Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Name: Apil Chand',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                'Name: ${studentData.name}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Text(
+                                'Contact:',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                studentData.contact,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
                           ),
                           SizedBox(height: 10),
                           Text(
-                            'Roll No.: 05',
+                            studentData.className,
                             style: TextStyle(fontSize: 16),
                           ),
                           SizedBox(height: 10),
-                          Text(
-                            'Address: Kanchanpur',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Contact: 9865701163',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Grade: 10',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Parent's Name: Govind Bahadur Chand",
-                            style: TextStyle(fontSize: 16),
+                          Row(
+                            children: [
+                              Text(
+                                "Parent's Name:",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                studentData.parentsName,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ),
+                    );
+                    }
+                    )
                   ],
                 ),
               ),
               SizedBox(height: 20),
-              Container(
+              FutureBuilder<Notice>(
+                future: getLatestNotice('Class 10'),
+                builder:
+                    (BuildContext context, AsyncSnapshot<Notice> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  Notice notice = snapshot.data!;
+
+              return Container(
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.purple[600],
@@ -106,14 +215,30 @@ class StudentDashboard extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Dear Students,Please note that there will be a mandatory class on Friday, April 29th, 2023, from 10:00 AM to 12:00 PM in Room 102. Attendance is compulsory, and all students are required to bring their textbooks and writing materials.',
+                      notice.title,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),
                     ),
+                    Text(
+                      notice.message,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      notice.postedOn,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
                   ],
                 ),
+              );
+                    }
               ),
               SizedBox(height: 20),
               Container(
@@ -125,14 +250,11 @@ class StudentDashboard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Quick Links',
-                      style: TextStyle(
-                        fontSize: 18,)
-
-
-),
-                     SizedBox(height: 10),
+                    Text('Quick Links',
+                        style: TextStyle(
+                          fontSize: 18,
+                        )),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

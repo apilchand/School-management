@@ -196,6 +196,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       'gender': _selectedGender,
       'class': _selectedClass,
       "parentContact": _parentContact.text,
+      'student_id':_firstNameController.text+_selectedClass+_contactController.text,
     };
     addStudent(formData).then((_) {
     _firstNameController.clear();

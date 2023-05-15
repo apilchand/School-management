@@ -23,7 +23,7 @@ class RoleScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Add text field at the top
+            
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: 
@@ -60,7 +60,7 @@ class RoleScreen extends StatelessWidget {
           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => StudentDashboard(),
+                                builder: (context) => StudentDashboard(studentId: 'test',),
                               ),
                             );
         },
