@@ -24,15 +24,15 @@ class ClassScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Center(child: Text('Classes')),
-          backgroundColor: Color.fromARGB(255, 121, 6, 6)),
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+          title: const Center(child: Text('Classes')),
+          backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: 
       GridView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: classes.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
         ),
@@ -55,7 +55,7 @@ class ClassScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.school,
                     color: Colors.purple,
                     size: 40,
@@ -63,7 +63,7 @@ class ClassScreen extends StatelessWidget {
                   ),
                   Text(
                     classes[index],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -88,11 +88,11 @@ class ClassDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           title: Text(className),
-          backgroundColor: Color.fromARGB(255, 121, 6, 6)),
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+          backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: GridView.count(
         crossAxisCount: 2,
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         childAspectRatio: 1.3,
         mainAxisSpacing: 16.0,
         crossAxisSpacing: 16.0,
@@ -104,7 +104,7 @@ class ClassDetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AttendanceScreen(),
+                  builder: (context) => const AttendanceScreen(),
                 ),
               );
             },
@@ -154,7 +154,7 @@ class ClassDetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => StudentListScreen(),
+                  builder: (context) => const StudentListScreen(),
                 ),
               );
             },
@@ -192,10 +192,10 @@ class ClassDetailScreen extends StatelessWidget {
               size: 48.0,
               color: Colors.purple,
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               ),

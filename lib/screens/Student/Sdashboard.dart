@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pathsala/screens/Student/attendance.dart';
 import 'package:pathsala/screens/Student/download.dart';
+import 'package:pathsala/screens/Student/notices.dart';
 import 'package:pathsala/screens/Student/result.dart';
 import 'package:pathsala/screens/Student/timetable.dart';
 
@@ -40,17 +41,16 @@ class StudentDashboard extends StatelessWidget {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
 
     return StudentData(
-      name: data['firstName'],
+      name: data['firstName']+data['lastName'],
       contact: data['contact'],
       parentsName: data['fatherName'],
       className: data['class'],
     );
   }
 
-  Future<Notice> getLatestNotice(String className) async {
+  Future<Notice> getLatestNotice() async {
     QuerySnapshot querySnapshot = await db
         .collection('Notice')
-        
         .orderBy('postedOn', descending: true)
         .limit(1)
         .get();
@@ -68,19 +68,19 @@ class StudentDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       appBar: AppBar(
-          title: Text('Student Dashboard'),
+          title: const Text('Student Dashboard'),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 121, 6, 6)),
+          backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -103,13 +103,13 @@ class StudentDashboard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     FutureBuilder<StudentData>(
                 future: getStudentData(studentId),
                 builder: (BuildContext context,
                     AsyncSnapshot<StudentData> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
@@ -130,7 +130,7 @@ class StudentDashboard extends StatelessWidget {
                             children: [
                               Text(
                                 'Name: ${studentData.name}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -138,34 +138,34 @@ class StudentDashboard extends StatelessWidget {
                               
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 'Contact:',
                                 style: TextStyle(fontSize: 16),
                               ),
                               Text(
                                 studentData.contact,
-                                style: TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 16),
                               ),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             studentData.className,
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 "Parent's Name:",
                                 style: TextStyle(fontSize: 16),
                               ),
                               Text(
                                 studentData.parentsName,
-                                style: TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 16),
                               ),
                             ],
                           ),
@@ -177,13 +177,13 @@ class StudentDashboard extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               FutureBuilder<Notice>(
-                future: getLatestNotice('Class 10'),
+                future: getLatestNotice(),
                 builder:
                     (BuildContext context, AsyncSnapshot<Notice> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
@@ -197,7 +197,7 @@ class StudentDashboard extends StatelessWidget {
                   Notice notice = snapshot.data!;
 
               return Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.purple[600],
                   borderRadius: BorderRadius.circular(20),
@@ -205,32 +205,54 @@ class StudentDashboard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Notice',
+                    Row(
+                      children: [
+                        const Text(
+                          'Notice',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextButton(
+                          child:const Text(
+                      'view All',
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
+                        color: Colors.black38,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    onPressed: () {
+                      Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>  NoticeScreen(),
+                                ),
+                              );
+                    }
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 10),
                     Text(
                       notice.title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                     Text(
                       notice.message,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),
                     ),
-                    Text(
-                      notice.postedOn,
-                      style: TextStyle(
+                    Text('posted on:-${notice.postedOn}',
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,
                       ),
@@ -240,9 +262,9 @@ class StudentDashboard extends StatelessWidget {
               );
                     }
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -250,11 +272,11 @@ class StudentDashboard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Quick Links',
+                    const Text('Quick Links',
                         style: TextStyle(
                           fontSize: 18,
                         )),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -264,17 +286,17 @@ class StudentDashboard extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Attendancelog(),
+                                  builder: (context) => const Attendancelog(),
                                 ),
                               );
                             },
                             child: Container(
-                              padding: EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Column(
+                              child: const Column(
                                 children: [
                                   Icon(
                                     Icons.calendar_today,
@@ -294,24 +316,24 @@ class StudentDashboard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Expanded(
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Examresult(),
+                                  builder: (context) => const Examresult(),
                                 ),
                               );
                             },
                             child: Container(
-                              padding: EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Column(
+                              child: const Column(
                                 children: [
                                   Icon(
                                     Icons.assignment,
@@ -333,7 +355,7 @@ class StudentDashboard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -348,12 +370,12 @@ class StudentDashboard extends StatelessWidget {
                               );
                             },
                             child: Container(
-                              padding: EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Column(
+                              child: const Column(
                                 children: [
                                   Icon(
                                     Icons.schedule,
@@ -373,7 +395,7 @@ class StudentDashboard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Expanded(
                           child: InkWell(
                             onTap: () {
@@ -385,12 +407,12 @@ class StudentDashboard extends StatelessWidget {
                               );
                             },
                             child: Container(
-                              padding: EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Column(
+                              child: const Column(
                                 children: [
                                   Icon(
                                     Icons.file_download,

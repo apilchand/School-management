@@ -1,16 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 
 class UploadContentScreen extends StatefulWidget {
+ const UploadContentScreen({Key? key}) : super(key: key);
+
   @override
   _UploadContentScreenState createState() => _UploadContentScreenState();
 }
 
 class _UploadContentScreenState extends State<UploadContentScreen> {
    String? _selectedClass;
-  late String _description;
+  String _description = '';
     File? _selectedFile;
 
   Future<void> _pickFile() async {
@@ -27,23 +32,70 @@ class _UploadContentScreenState extends State<UploadContentScreen> {
     }
   }
 
-  void _uploadContent() {
-    // TODO: Implement content upload logic
+  void _uploadContent() async {
+    if (_selectedFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a file')),
+      );
+      return;
+    }
+  
+const folderName = "Download";
+  // Get a reference to the Firebase Storage bucket
+  final storage = FirebaseStorage.instance;
+  final bucket = storage.ref().child(folderName);
+
+  // Generate a unique filename for the uploaded file
+  
+  final filename = '${DateTime.now().millisecondsSinceEpoch}_${_selectedFile!.path}';
+
+  try {
+    // Upload the selected file to Firebase Storage
+    final task = bucket.child(filename).putFile(_selectedFile!);
+    final snapshot = await task.whenComplete(() {});
+
+    // Get the download URL for the uploaded file
+    final downloadURL = await snapshot.ref.getDownloadURL();
+
+    // Store the input fields (class, description, downloadURL) to Firebase Firestore
+    await FirebaseFirestore.instance.collection('Download').doc(_description).set({
+      'class': _selectedClass,
+      'description': _description,
+      'file': downloadURL,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+     setState(() {
+      _selectedFile = null;
+      _selectedClass = null;
+      _description = '';
+    });
+
+    // Display a success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Content uploaded successfully')),
+    );
+  } on FirebaseException catch (e) {
+    // Display an error message if the upload fails
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Upload failed: ${e.message}')),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Center(child: Text('Upload Content')),
-          backgroundColor: Color.fromARGB(255, 121, 6, 6)),
-      backgroundColor:  Color.fromARGB(255, 4, 28, 63),
+          title: const Center(child: Text('Upload Content')),
+          backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
+      backgroundColor:  const Color.fromARGB(255, 4, 28, 63),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
+            const Text(
               'Choose File',
               style: TextStyle(
                 fontSize: 18.0,
@@ -51,10 +103,10 @@ class _UploadContentScreenState extends State<UploadContentScreen> {
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             ElevatedButton.icon(
               onPressed: _pickFile,
-              icon: Icon(Icons.attach_file),
+              icon: const Icon(Icons.attach_file),
               label: Text(_selectedFile == null
                   ? 'Select a file'
                   : 'Selected: ${_selectedFile!.path}'),
@@ -63,8 +115,8 @@ class _UploadContentScreenState extends State<UploadContentScreen> {
               ),
 
             ),
-            SizedBox(height: 8.0),
-            Text(
+            const SizedBox(height: 8.0),
+            const Text(
               'Choose Class',
               style: TextStyle(
                 fontSize: 18.0,
@@ -72,7 +124,7 @@ class _UploadContentScreenState extends State<UploadContentScreen> {
                  color: Colors.white
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             DropdownButtonFormField<String>(
               value: _selectedClass,
               items: [
@@ -84,7 +136,8 @@ class _UploadContentScreenState extends State<UploadContentScreen> {
                 'Class 6',
                 'Class 7',
                 'Class 8',
-                'Class 9'
+                'Class 9',
+                'Class 10'
               ]
                   .map((className) => DropdownMenuItem(
                         value: className,
@@ -96,15 +149,15 @@ class _UploadContentScreenState extends State<UploadContentScreen> {
                   _selectedClass = value!;
                 });
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
                 filled: true,
                 fillColor: Colors.white
               ),
             ),
-            SizedBox(height: 8.0),
-            Text(
+            const SizedBox(height: 8.0),
+            const Text(
               'Description',
               style: TextStyle(
                 fontSize: 18.0,
@@ -112,7 +165,7 @@ class _UploadContentScreenState extends State<UploadContentScreen> {
                  color: Colors.white
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             TextField(
               maxLines: 3,
               onChanged: (value) {
@@ -120,7 +173,7 @@ class _UploadContentScreenState extends State<UploadContentScreen> {
                   _description = value;
                 });
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Enter a brief description...',
                 contentPadding: EdgeInsets.all(16.0),
@@ -128,10 +181,10 @@ class _UploadContentScreenState extends State<UploadContentScreen> {
                 fillColor: Colors.white
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _uploadContent,
-              child: Text('Upload'),
+              child: const Text('Upload'),
               style: ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
               ),

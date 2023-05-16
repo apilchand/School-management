@@ -10,15 +10,15 @@ class TeacherDashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Center(child: Text('Teacher Panel')),
-            backgroundColor: Color.fromARGB(255, 121, 6, 6)),
-        backgroundColor: Color.fromARGB(255, 4, 28, 63),
+            title: const Center(child: Text('Teacher Panel')),
+            backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
+        backgroundColor: const Color.fromARGB(255, 4, 28, 63),
         body: 
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
               child: Text(
                 'Welcome, [Teacher Name]!',
                 style: TextStyle(
@@ -28,7 +28,7 @@ class TeacherDashboardScreen extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -51,8 +51,8 @@ class TeacherDashboardScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 20),
-                  Expanded(
+                  const SizedBox(width: 20),
+                  const Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -75,7 +75,7 @@ class TeacherDashboardScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Expanded(
@@ -127,7 +127,7 @@ class TeacherDashboardScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => UploadContentScreen(),
+                              builder: (context) => const UploadContentScreen(),
                             ),
                           );
                         }
@@ -163,10 +163,10 @@ class TeacherDashboardScreen extends StatelessWidget {
               size: 64.0,
               color: Colors.purple,
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               title,
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
           ],

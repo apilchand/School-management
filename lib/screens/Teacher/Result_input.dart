@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,16 +31,16 @@ class _UpdateMarksState extends State<UpdateMarks> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Test Marks'),
-        backgroundColor: Color.fromARGB(255, 121, 6, 6),
+        title: const Text('Update Test Marks'),
+        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
         actions: [
           // DropdownButton to choose subject
           DropdownButton<String>(
             value: selectedSubject,
-            icon: Icon(Icons.arrow_drop_down),
+            icon: const Icon(Icons.arrow_drop_down),
             iconSize: 24,
             elevation: 16,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
             ),
@@ -59,13 +58,13 @@ class _UpdateMarksState extends State<UpdateMarks> {
           ),
         ],
       ),
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Expanded(
               child: ListView.builder(
                 itemCount: students.length,
@@ -79,7 +78,7 @@ class _UpdateMarksState extends State<UpdateMarks> {
                           flex: 2,
                           child: Text(
                             student["name"],
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                         Expanded(
@@ -88,14 +87,14 @@ class _UpdateMarksState extends State<UpdateMarks> {
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
                             ],
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Enter marks',
                               hintStyle: TextStyle(color: Colors.grey),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
                             ),
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                             controller: controllers[index],
                             onChanged: (text) {},
                           ),
@@ -106,9 +105,9 @@ class _UpdateMarksState extends State<UpdateMarks> {
                 },
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
-              child: Text('Update'),
+              child: const Text('Update'),
               onPressed: () {
                 for (int i = 0; i < students.length; i++) {
                   String marks = controllers[i].text;
