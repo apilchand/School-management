@@ -3,6 +3,9 @@ import 'Result_input.dart';
 import 'Result_report.dart';
 
 class ResultSection extends StatelessWidget {
+  final String classname;
+
+  const ResultSection({super.key, required this.classname});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +36,7 @@ class ResultSection extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UpdateMarks()),
+                  MaterialPageRoute(builder: (context) => UpdateMarks(classname: classname,)),
                 );
               },
               style:ButtonStyle(

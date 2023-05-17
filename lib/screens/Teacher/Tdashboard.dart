@@ -34,7 +34,7 @@ Future<TeacherData> getTeacherData(String teacherId) async {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
 
     return TeacherData(
-      name: data['firstName']+data['lastName'],
+      name: data['firstName']+' ' +data['lastName'],
       contact: data['contact'],
       email: data['email'],
       gender: data['gender'],

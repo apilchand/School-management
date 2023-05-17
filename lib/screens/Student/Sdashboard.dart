@@ -41,7 +41,7 @@ class StudentDashboard extends StatelessWidget {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
 
     return StudentData(
-      name: data['firstName']+data['lastName'],
+      name: data['firstName']+' '+data['lastName'],
       contact: data['contact'],
       parentsName: data['fatherName'],
       className: data['class'],
