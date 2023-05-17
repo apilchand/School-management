@@ -7,13 +7,13 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 class Student {
     final String name;
     final String gender;
-    final String studnetId;
+    final String studentId;
     //final String photoUrl;
     Student(
       {
         required this.name,
         required this.gender,
-        required this.studnetId,
+        required this.studentId,
         //required this.photoUrl,
       }
     );
@@ -46,7 +46,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
       Student(
         name: data['firstName']+' '+ data['lastName'],
         gender: data['gender'],
-        studnetId: document.id,
+        studentId: data['studentId'],
         //photoUrl: 'https://photos.app.goo.gl/o9eDB634r9wY8csR9',
       ),
     );
@@ -58,11 +58,11 @@ class _StudentListScreenState extends State<StudentListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       appBar: AppBar(
-        title: Text('Student List'),
+        title: const Text('Student List'),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 121, 6, 6)
+        backgroundColor: const Color.fromARGB(255, 121, 6, 6)
       ),
       body:FutureBuilder<List<Student>>(
                 future: getStudentList(),
@@ -88,15 +88,15 @@ class _StudentListScreenState extends State<StudentListScreen> {
         itemBuilder: (context, index) {
           final st = student[index];
           return ListTile(
-            title: Text(st.name,style: TextStyle(color: Colors.white),),
-            subtitle: Text(st.gender,style: TextStyle(color: Colors.white),),
-            trailing: Icon(Icons.arrow_circle_right_rounded,
+            title: Text(st.name,style: const TextStyle(color: Colors.white),),
+            subtitle: Text(st.gender,style: const TextStyle(color: Colors.white),),
+            trailing: const Icon(Icons.arrow_circle_right_rounded,
             color: Colors.purple,),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  StudentInfoScreen(studnetId: st.studnetId,),
+                  builder: (context) =>  StudentInfoScreen(studentId: st.studentId,),
                 ),
               );
             },

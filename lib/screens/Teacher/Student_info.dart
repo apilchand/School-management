@@ -22,15 +22,13 @@ class Student {
 
 class StudentInfoScreen extends StatelessWidget {
 
-  const StudentInfoScreen({Key? key, required this.studnetId,}) : super(key: key);
-final String studnetId;
+  const StudentInfoScreen({Key? key, required this.studentId,}) : super(key: key);
+final String studentId;
 Future<Student> getStudent() async {
   QuerySnapshot querySnapshot = await db
       .collection('Student')
-      .where('studentId' ,isEqualTo: studnetId )
+      .where('studentId' ,isEqualTo: studentId )
       .get();
-
- 
 
   for (QueryDocumentSnapshot document in querySnapshot.docs) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
@@ -84,7 +82,7 @@ Future<Student> getStudent() async {
                 children: [
                   const CircleAvatar(
                     radius: 50,
-                    backgroundImage: NetworkImage('https://photos.app.goo.gl/o9eDB634r9wY8csR9'),
+                    backgroundImage: NetworkImage('https://www.google.com/url?sa=i&url=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F42893664%2Ffirebase-photourl-from-a-google-auth-provider-returns-a-jpg-with-colors-inverted&psig=AOvVaw0pxDj5yPqzIXhKEk6N2Ae-&ust=1684399144525000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCIjw5Pf5-_4CFQAAAAAdAAAAABAE'),
                   ),
                   const SizedBox(height: 16.0),
                   Text(

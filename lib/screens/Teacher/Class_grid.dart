@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'Attendance.dart';
 import 'Result.dart';
 import 'Class_TimeTable.dart';
-import 'package:pathsala/about.dart';
+
 import 'Notice.dart';
 import 'Student.dart';
 
