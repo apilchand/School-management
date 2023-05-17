@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
  FirebaseFirestore db = FirebaseFirestore.instance;
-final CollectionReference studentsCollection = db.collection('Teacher');
+final CollectionReference teachersCollection = db.collection('Teacher');
 final CollectionReference userCollection = db.collection('User');
 
-Future<void> addTeacher(Map<String, dynamic> formData) {
+Future<void> addTeacher(String documentId,Map<String, dynamic> formData) {
 
-  return studentsCollection
-      .add(formData)
+  return teachersCollection
+       .doc(documentId)
+      .set(formData)
       .then((value) => print("Teacher added"))
       .catchError((error) => print("Failed to add Teacher: $error"));
 }
@@ -139,7 +140,7 @@ class _TeacherAdd extends State<TeacherAdd> {
       'role': 'teacher',
       'username': _emailController.text,
       'password': _contactController.text,
-      'student_id':_firstNameController.text+_contactController.text,
+      'teacher_id':_firstNameController.text+_contactController.text,
     };
     addUserTeacher(userTeacherData);
     
@@ -148,11 +149,12 @@ class _TeacherAdd extends State<TeacherAdd> {
       'lastName': _lastNameController.text,
       'email': _emailController.text,
       'contact': _contactController.text,
-     
+     'teacher_id':_firstNameController.text+_contactController.text,
       'dateOfBirth': _selectedDate.toString(),
       'gender': _selectedGender,
     };
-    addTeacher(formData).then((_) {
+    String teacherId= _firstNameController.text+_contactController.text;
+    addTeacher(teacherId,formData).then((_) {
     _firstNameController.clear();
     _lastNameController.clear();
     _emailController.clear();

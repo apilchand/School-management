@@ -5,17 +5,19 @@ final CollectionReference studentsCollection = db.collection('Student');
 final CollectionReference userCollection = db.collection('User');
 final CollectionReference parentCollection = db.collection('Parent');
 
-Future<void> addStudent(Map<String, dynamic> formData) {
+Future<void> addStudent(String documentId,Map<String, dynamic> formData) {
 
   return studentsCollection
-      .add(formData)
+  .doc(documentId)
+      .set(formData)
       .then((value) => print("Student added"))
       .catchError((error) => print("Failed to add student: $error"));
 }
-Future<void> addParent(Map<String, dynamic> parentData) {
+Future<void> addParent(String documentID,Map<String, dynamic> parentData) {
 
   return parentCollection
-      .add(parentData)
+  .doc(documentID)
+      .set(parentData)
       .then((value) => print("Parent added"))
       .catchError((error) => print("Failed to add parent: $error"));
 }
@@ -81,7 +83,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: Colors.purple, // set primary color to purple
             ),
           ),
@@ -105,9 +107,9 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: TextStyle(color: Colors.white),
+        labelStyle: const TextStyle(color: Colors.white),
       ),
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     );
   }
 
@@ -122,12 +124,12 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(width: 16),
+        const SizedBox(width: 16),
         Expanded(
           child: DropdownButtonFormField<String>(
             value: _selectedGender,
@@ -143,7 +145,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                       child: Text(gender),
                     ))
                 .toList(),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
               isDense: true,
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -167,7 +169,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       'role': 'student',
       'username': _emailController.text,
       'password': _contactController.text,
-      'student_id':_firstNameController.text+_selectedClass+_contactController.text,
+      'student_id':_firstNameController.text+_contactController.text,
     };
     final userParentData ={
       'role': 'parent',
@@ -179,11 +181,12 @@ class _StudentRegistrationState extends State<StudentRegistration> {
        'parent_id': _firstNameController.text+ _parentContact.text,
        'parent_name': _fatherNameController.text,
        'Contact': _parentContact.text,
-       'student_id':_firstNameController.text+_selectedClass+_contactController.text,
+       'student_id':_firstNameController.text+_contactController.text,
     };
+    String documentID =_firstNameController.text+ _parentContact.text;
     addUserParent(userParentData);
     addUserStudent(userStudentData);
-    addParent(parentData);
+    addParent(documentID,parentData);
    
     final formData = {
       'firstName': _firstNameController.text,
@@ -196,9 +199,10 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       'gender': _selectedGender,
       'class': _selectedClass,
       "parentContact": _parentContact.text,
-      'student_id':_firstNameController.text+_selectedClass+_contactController.text,
+      'studentId':_firstNameController.text+_contactController.text,
     };
-    addStudent(formData).then((_) {
+    String documentId =_firstNameController.text+_contactController.text;
+    addStudent(documentId,formData).then((_) {
     _firstNameController.clear();
     _lastNameController.clear();
     _emailController.clear();
@@ -220,7 +224,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       appBar: AppBar(
-        title: Text('Student Registration'),
+        title: const Text('Student Registration'),
         backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
       body: SafeArea(
@@ -230,47 +234,47 @@ class _StudentRegistrationState extends State<StudentRegistration> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _firstNameController,
                   labelText: 'First Name',
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _lastNameController,
                   labelText: 'Last Name',
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _emailController,
                   labelText: 'Email',
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _contactController,
                   labelText: 'Contact Number',
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _parentContact,
                   labelText: "Parent's Contact Number",
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _fatherNameController,
                   labelText: 'Father\'s Name',
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _motherNameController,
                   labelText: 'Mother\'s Name',
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Class',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -279,7 +283,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                         color: Colors.white,
                         child: DropdownButtonFormField<String>(
                           value: _classOptions.first,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                           ),
                           items: _classOptions.map((className) {
@@ -299,12 +303,12 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     )
                   ],
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 InkWell(
                   onTap: () => _selectDate(context),
                   child: AbsorbPointer(
                     child: TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Date of Birth',
                         labelStyle: TextStyle(color: Colors.white),
                         suffixIcon: Icon(
@@ -317,11 +321,11 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                             ? ''
                             : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
                       ),
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildGender(
                   title: 'Gender',
                   options: _genderOptions,
@@ -332,7 +336,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     });
                   },
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 Center(
                   child: ElevatedButton(
                     style: ButtonStyle(
@@ -345,10 +349,10 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                         
                       
                     },
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
               ],
             ),
           ),

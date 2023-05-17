@@ -37,7 +37,7 @@ class ClassScreen extends StatelessWidget {
           crossAxisSpacing: 16,
         ),
         itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
+          return InkWell(
             onTap: () {
               Navigator.push(
                 context,
@@ -92,10 +92,10 @@ class ClassDetailScreen extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: GridView.count(
         crossAxisCount: 2,
-        padding: const EdgeInsets.all(16.0),
-        childAspectRatio: 1.3,
-        mainAxisSpacing: 16.0,
-        crossAxisSpacing: 16.0,
+        padding: const EdgeInsets.all(20.0),
+        childAspectRatio: 1,
+        mainAxisSpacing: 20.0,
+        crossAxisSpacing: 25.0,
         children: [
           _buildCard(
             icon: Icons.assignment,
@@ -109,6 +109,7 @@ class ClassDetailScreen extends StatelessWidget {
               );
             },
           ),
+         
           _buildCard(
             icon: Icons.notification_important,
             title: 'Notice',
@@ -117,7 +118,7 @@ class ClassDetailScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TeacherNoticeScreen(),
+                    builder: (context) => const TeacherNoticeScreen(),
                   ),
                 );
               }
@@ -154,23 +155,12 @@ class ClassDetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const StudentListScreen(),
+                  builder: (context) => StudentListScreen(classname: className,),
                 ),
               );
             },
           ),
-          _buildCard(
-            icon: Icons.info,
-            title: 'About',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AboutScreen(),
-                ),
-              );
-            },
-          ),
+          
         ],
       ),
     );

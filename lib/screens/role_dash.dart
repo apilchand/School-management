@@ -140,7 +140,7 @@ class RoleScreen extends StatelessWidget {
           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => TeacherDashboardScreen(),
+                                builder: (context) => TeacherDashboardScreen(teacherId: 'test',),
                               ),
                             );
         },

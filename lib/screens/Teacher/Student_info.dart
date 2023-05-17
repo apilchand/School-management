@@ -1,44 +1,104 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'Student.dart';
+
+
+
+FirebaseFirestore db = FirebaseFirestore.instance;
+class Student {
+    final String name;
+    final String gender;
+  
+    //final String photoUrl;
+    Student(
+      {
+        required this.name,
+        required this.gender,
+        
+        //required this.photoUrl,
+      }
+    );
+  }
+
 
 class StudentInfoScreen extends StatelessWidget {
-  final Student student;
 
-  const StudentInfoScreen({Key? key, required this.student}) : super(key: key);
+  const StudentInfoScreen({Key? key, required this.studnetId,}) : super(key: key);
+final String studnetId;
+Future<Student> getStudent() async {
+  QuerySnapshot querySnapshot = await db
+      .collection('Student')
+      .where('studentId' ,isEqualTo: studnetId )
+      .get();
 
+ 
+
+  for (QueryDocumentSnapshot document in querySnapshot.docs) {
+    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+
+   
+      return Student(
+        name: data['firstName']+ ' '+data['lastName'],
+        gender: data['gender'],
+      
+        //photoUrl: 'https://photos.app.goo.gl/o9eDB634r9wY8csR9',
+      
+    );
+  }
+ throw Exception('Student not found');
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(student.name),backgroundColor: Color.fromARGB(255, 121, 6, 6)
+        title: const Text('Student Info'),backgroundColor: const Color.fromARGB(255, 121, 6, 6)
       ),
-      body: Container(
-        color:  Color.fromARGB(255, 4, 28, 63),
+      body: 
+      FutureBuilder<Student>(
+                future: getStudent(),
+                builder:
+                    (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+      Student student = snapshot.data!;
+      return
+      Container(
+        color:  const Color.fromARGB(255, 4, 28, 63),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 50,
-                    backgroundImage: NetworkImage(student.photoUrl),
+                    backgroundImage: NetworkImage('https://photos.app.goo.gl/o9eDB634r9wY8csR9'),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   Text(
                     student.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Text(
-                    'Class: ${student.classname}, Gender: ${student.gender}',
-                    style: TextStyle(
+                    ' Gender: ${student.gender}',
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                     ),
@@ -48,15 +108,16 @@ class StudentInfoScreen extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.purple,
+                padding: const EdgeInsets.all(16.0),
+                decoration: const BoxDecoration(
+                  color: Colors.white10,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24.0),
                     topRight: Radius.circular(24.0),
                   ),
                 ),
-                child: Column(
+                child: const SingleChildScrollView(child: 
+                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -108,9 +169,12 @@ class StudentInfoScreen extends StatelessWidget {
                 ),
               ),
             ),
+            )
           ],
         ),
-      ),
+      );
+                    }
+      )
     );
   }
 }

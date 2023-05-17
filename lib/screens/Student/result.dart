@@ -14,11 +14,11 @@ class ResultDataSource {
     // Replace this method with  own logic for retrieving
     // results data for a student from a database or other data source.
     
-    return [      ExamResult("Midterm Exam", ["Math", "Science", "English", "Social Studies"], [85, 90, 80, 88]),
+    return [    
       ExamResult("Final Exam", ["Math", "Science", "English", "Social Studies"], [90, 95, 85, 90]),
       ExamResult("Quarterly Exam", ["Math", "Science", "English", "Social Studies"], [80, 85, 75, 82]),
       ExamResult("Half-Yearly Exam", ["Math", "Science", "English", "Social Studies"], [95, 97, 90, 92]),
-      ExamResult("Annual Exam", ["Math", "Science", "English", "Social Studies"], [92, 93, 88, 90]),
+      
     ];
   }
 }
