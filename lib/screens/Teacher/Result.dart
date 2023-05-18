@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pathsala/screens/Student/result.dart';
 import 'Result_input.dart';
-import 'Result_report.dart';
 
 class ResultSection extends StatelessWidget {
   final String classname;
@@ -10,29 +10,29 @@ class ResultSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Result'),
-         backgroundColor: Color.fromARGB(255, 121, 6, 6)
+        title: const Text('Result'),
+         backgroundColor: const Color.fromARGB(255, 121, 6, 6)
       ),
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              child: Text('Show Report'),
+              child: const Text('Show Report'),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ResultReport()),
+                  MaterialPageRoute(builder: (context) => const Examresult()),
                 );
               },
               style: ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
-              child: Text('Update Test Marks'),
+              child: const Text('Update Test Marks'),
               onPressed: () {
                 Navigator.push(
                   context,

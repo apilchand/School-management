@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pathsala/screens/Admin/Teacher_management/Teacher_add.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'Teacher_add.dart';
 
 class TeacherManagementScreen extends StatefulWidget {
   const TeacherManagementScreen({Key? key}) : super(key: key);
@@ -10,30 +12,19 @@ class TeacherManagementScreen extends StatefulWidget {
 }
 
 class _TeacherManagementScreenState extends State<TeacherManagementScreen> {
-  List<Teacher> teachers = [
-    Teacher(
-      name: 'John Doe',
-      id: '001',
-    ),
-    Teacher(
-      name: 'Jane Smith',
-      id: '002',
-    ),
-    Teacher(
-      name: 'David Lee',
-      id: '003',
-    ),
-    Teacher(
-      name: 'Emma Brown',
-      id: '004',
-    ),
-  ];
+  late Stream<QuerySnapshot> _teachersStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _teachersStream = FirebaseFirestore.instance.collection('Teacher').snapshots();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Teacher Management'),
+        title: const Text('Teacher Management'),
         backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
       backgroundColor: const Color.fromARGB(255, 4, 28, 63),
@@ -47,17 +38,40 @@ class _TeacherManagementScreenState extends State<TeacherManagementScreen> {
             ),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: ListView.builder(
-            itemCount: teachers.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                title: Text(teachers[index].name),
-                subtitle: Text('ID: ${teachers[index].id}'),
-                trailing: Icon(Icons.arrow_forward_ios),
-                onTap: () {
-                  // Navigate to teacher details screen
-                },
-              );
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _teachersStream,
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                final teachers = snapshot.data!.docs;
+
+                return ListView.builder(
+                  itemCount: teachers.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final teacher = teachers[index];
+                    final firstName = teacher['firstName'] as String;
+                    final lastName = teacher['lastName'] as String;
+                    final teacherName = '$firstName $lastName';
+                    final teacherId = teacher['teacherId'] as String;
+
+                    return ListTile(
+                      title: Text(teacherName),
+                      subtitle: Text('ID: $teacherId'),
+                      trailing: const Icon(Icons.arrow_forward_ios),
+                      onTap: () {
+                        // Navigate to teacher details screen
+                      },
+                    );
+                  },
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             },
           ),
         ),
@@ -67,21 +81,11 @@ class _TeacherManagementScreenState extends State<TeacherManagementScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => TeacherAdd()),
+            MaterialPageRoute(builder: (context) => const TeacherAdd()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
-}
-
-class Teacher {
-  final String name;
-  final String id;
-
-  Teacher({
-    required this.name,
-    required this.id,
-  });
 }

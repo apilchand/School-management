@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'role_dash.dart';
+import 'package:pathsala/screens/login.dart';
+
 
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 4, 28, 63),
+        backgroundColor: const Color.fromARGB(255, 4, 28, 63),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
-                  padding: EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(24),
                   alignment: Alignment.center,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -22,8 +23,8 @@ class WelcomeScreen extends StatelessWidget {
                         width: 800,
                         height: 350,
                       ),
-                      SizedBox(height: 26),
-                      Text(
+                      const SizedBox(height: 26),
+                      const Text(
                         'Welcome to PathShala',
                         style: TextStyle(
                           color: Colors.white,
@@ -35,7 +36,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(24),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -46,14 +47,10 @@ class WelcomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RoleScreen(),
+                                builder: (context) => const LoginPage(),
                               ),
                             );
                           },
-                          child: Text(
-                            'Login',
-                            style: TextStyle(fontSize: 16),
-                          ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                               Colors.purple,
@@ -67,10 +64,14 @@ class WelcomeScreen extends StatelessWidget {
                               ),
                             ),
                             padding: MaterialStateProperty.all(
-                              EdgeInsets.symmetric(
+                              const EdgeInsets.symmetric(
                                 vertical: 16,
                               ),
                             ),
+                          ),
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(fontSize: 16),
                           ),
                         ),
                       ),

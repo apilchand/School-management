@@ -16,7 +16,7 @@ class _ClassmgmtState extends State<Classmgmt> {
         title: const Center(child: Text('Class Management')),
         backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -27,11 +27,11 @@ class _ClassmgmtState extends State<Classmgmt> {
                 MaterialPageRoute(builder: (context) => ClassScreen()),
               );
             }),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             buildCard('Assign Subjects', () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ClassSchedule()),
+                MaterialPageRoute(builder: (context) => const ClassSchedule()),
               );
             }),
           ],
@@ -45,10 +45,10 @@ class _ClassmgmtState extends State<Classmgmt> {
       onTap: onTap,
       child: Card(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Text(
             text,
-            style: TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 18),
           ),
         ),
       ),

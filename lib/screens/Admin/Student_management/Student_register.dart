@@ -169,13 +169,13 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       'role': 'student',
       'username': _emailController.text,
       'password': _contactController.text,
-      'student_id':_firstNameController.text+_contactController.text,
+      'uid':_firstNameController.text+_contactController.text,
     };
     final userParentData ={
       'role': 'parent',
       'username': _parentContact.text,
       'password': _parentContact.text,
-      'parent_id': _firstNameController.text+ _parentContact.text,
+      'uid': _firstNameController.text+ _parentContact.text,
     };
     final parentData={
        'parent_id': _firstNameController.text+ _parentContact.text,

@@ -48,7 +48,7 @@ class _TeacherAdd extends State<TeacherAdd> {
        builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: Colors.purple, 
             ),
           ),
@@ -72,9 +72,9 @@ class _TeacherAdd extends State<TeacherAdd> {
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: TextStyle(color: Colors.white),
+        labelStyle: const TextStyle(color: Colors.white),
       ),
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     );
   }
 
@@ -89,12 +89,12 @@ class _TeacherAdd extends State<TeacherAdd> {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(width: 16),
+        const SizedBox(width: 16),
         Expanded(
           child: DropdownButtonFormField<String>(
             value: _selectedGender,
@@ -116,7 +116,7 @@ class _TeacherAdd extends State<TeacherAdd> {
                       child: Text(gender),
                     ))
                 .toList(),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
               isDense: true,
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -140,7 +140,7 @@ class _TeacherAdd extends State<TeacherAdd> {
       'role': 'teacher',
       'username': _emailController.text,
       'password': _contactController.text,
-      'teacher_id':_firstNameController.text+_contactController.text,
+      'uid':_firstNameController.text+_contactController.text,
     };
     addUserTeacher(userTeacherData);
     
@@ -149,7 +149,7 @@ class _TeacherAdd extends State<TeacherAdd> {
       'lastName': _lastNameController.text,
       'email': _emailController.text,
       'contact': _contactController.text,
-     'teacher_id':_firstNameController.text+_contactController.text,
+     'teacherId':_firstNameController.text+_contactController.text,
       'dateOfBirth': _selectedDate.toString(),
       'gender': _selectedGender,
     };
@@ -172,7 +172,7 @@ class _TeacherAdd extends State<TeacherAdd> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       appBar: AppBar(
-        title: Text('Teacher Add'),
+        title: const Text('Teacher Add'),
         backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
       body: SafeArea(
@@ -182,22 +182,22 @@ class _TeacherAdd extends State<TeacherAdd> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _firstNameController,
                   labelText: 'First Name',
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _lastNameController,
                   labelText: 'Last Name',
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _emailController,
                   labelText: 'Email',
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(
                   controller: _contactController,
                   labelText: 'Contact Number',
@@ -207,7 +207,7 @@ class _TeacherAdd extends State<TeacherAdd> {
                   onTap: () => _selectDate(context),
                   child: AbsorbPointer(
                     child: TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                             labelText: 'Date of Birth',
                         labelStyle: TextStyle(color: Colors.white),
                         suffixIcon: Icon(
@@ -220,11 +220,11 @@ class _TeacherAdd extends State<TeacherAdd> {
                             ? ''
                             : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
                       ),
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildGender(
                   title: 'Gender',
                   options: _genderOptions,
@@ -235,7 +235,7 @@ class _TeacherAdd extends State<TeacherAdd> {
                     });
                   },
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 Center(
                   child: ElevatedButton(
                     style: ButtonStyle(
@@ -244,10 +244,10 @@ class _TeacherAdd extends State<TeacherAdd> {
                     onPressed:(){
                    _submitForm();
                     
-                    }, child: Text('Submit'),
+                    }, child: const Text('Submit'),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
               ],
             ),
           ),

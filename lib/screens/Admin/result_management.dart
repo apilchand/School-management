@@ -14,36 +14,32 @@ class _StudentMarksState extends State<StudentMarks> {
         'John': {
           'Math': 90,
           'Science': 85,
-          'History': 75,
+          'Social': 75,
           'English': 80,
-          'Art': 70,
-          'Music': 75,
+          
         },
         'Alice': {
           'Math': 85,
           'Science': 90,
-          'History': 80,
+          'Socail': 80,
           'English': 75,
-          'Art': 85,
-          'Music': 80,
+          
         },
         'Bob': {
           'Math': 95,
           'Science': 92,
-          'History': 85,
+          'Socail': 85,
           'English': 90,
-          'Art': 80,
-          'Music': 75,
+        
         },
       },
       'Half-Yearly': {
         'John': {
           'Math': 80,
           'Science': 75,
-          'History': 70,
+          'Social': 70,
           'English': 85,
-          'Art': 65,
-          'Music': 70,
+          
         },
         'Alice': {
           'Math': 90,
@@ -180,7 +176,7 @@ class _StudentMarksState extends State<StudentMarks> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Student Marks'),backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+        title: const Text('Student Marks'),backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
       backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: Column(
@@ -193,8 +189,8 @@ class _StudentMarksState extends State<StudentMarks> {
                 value: _selectedClass,
                 items: _studentMarks.keys
                     .map((className) => DropdownMenuItem<String>(
-                          child: Text(className, style: TextStyle(color: Colors.white),),
                           value: className,
+                          child: Text(className, style: const TextStyle(color: Colors.white),),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -210,8 +206,8 @@ class _StudentMarksState extends State<StudentMarks> {
                 value: _selectedExam,
                 items: _studentMarks[_selectedClass]!.keys
                     .map((examName) => DropdownMenuItem<String>(
-                          child: Text(examName, style: TextStyle(color: Colors.white),),
                           value: examName,
+                          child: Text(examName, style: const TextStyle(color: Colors.white),),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -226,8 +222,8 @@ class _StudentMarksState extends State<StudentMarks> {
                 value: _selectedStudent,
                 items: _studentMarks[_selectedClass]![_selectedExam]!.keys
                     .map((studentName) => DropdownMenuItem<String>(
-                          child: Text(studentName, style: TextStyle(color: Colors.white),),
                           value: studentName,
+                          child: Text(studentName, style: const TextStyle(color: Colors.white),),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -244,7 +240,7 @@ class _StudentMarksState extends State<StudentMarks> {
               padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
               child: Container(
                 color: Colors.white,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: ListView.builder(
                   itemCount: _studentMarks[_selectedClass]![_selectedExam]![_selectedStudent]!
                       .length,

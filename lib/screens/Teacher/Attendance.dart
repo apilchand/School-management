@@ -4,31 +4,41 @@ import 'package:pathsala/screens/Teacher/Attendanc_report.dart';
 
 final FirebaseFirestore db = FirebaseFirestore.instance;
 final CollectionReference attendanceCollection = db.collection('Attendance');
+final CollectionReference studentsCollection = db.collection('Student');
 
 class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({super.key});
+  final String classname;
+  const AttendanceScreen({Key? key, required this.classname}) : super(key: key);
 
   @override
   _AttendanceScreenState createState() => _AttendanceScreenState();
 }
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
-  List<bool> isCheckedList = List.generate(30, (index) => false);
+  late Stream<QuerySnapshot> studentsStream;
+  List<bool> isCheckedList = [];
+  List<String> studentNames = [];
+
+  @override
+  void initState() {
+    super.initState();
+    studentsStream = studentsCollection.where('class',isEqualTo: widget.classname).snapshots();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Take Attendance')),
-        backgroundColor: Color.fromARGB(255, 121, 6, 6),
+        title: const Center(child: Text('Take Attendance')),
+        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(16.0),
@@ -37,7 +47,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             ),
             child: Column(
               children: [
-                Text(
+                const Text(
                   'Today\'s Date',
                   style: TextStyle(
                     fontSize: 18.0,
@@ -45,10 +55,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     color: Color.fromARGB(255, 4, 28, 63),
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 Text(
                   '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 4, 28, 63),
@@ -58,75 +68,93 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.all(16.0),
-              itemCount: 30,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    'Student ${index + 1}',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  trailing: Checkbox(
-                    value: isCheckedList[index],
-                    onChanged: (value) {
-                      setState(() {
-                        isCheckedList[index] = value!;
-                      });
+            child: StreamBuilder<QuerySnapshot>(
+              stream: studentsStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final students = snapshot.data!.docs;
+                  isCheckedList = List.generate(students.length, (index) => false);
+                  studentNames = students.map((student) =>  student['firstName']+' '+student['lastName'] as String).toList();
+
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(16.0),
+                    itemCount: students.length,
+                    itemBuilder: (context, index) {
+                      final student = students[index];
+
+                      return ListTile(
+                        title: Text(
+                          student['firstName']+' '+student['lastName'],
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        trailing: Checkbox(
+                          value: isCheckedList[index],
+                          onChanged: (value) {
+                            setState(() {
+                              isCheckedList[index] = value!;
+                            });
+                          },
+                        ),
+                      );
                     },
-                  ),
-                );
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
               },
             ),
           ),
           Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
                 Map<String, dynamic> formData = {
-                  'date': DateTime.now(),
+                  
                   'attendance': isCheckedList,
+                  'studentName': studentNames,
                 };
-                String documentID = '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}+class';
+                String documentID = '${DateTime.now().day}-${DateTime.now}.month}-${DateTime.now().year}';
+
                 addAttendance(documentID, formData).then((value) {
                   setState(() {
-                    isCheckedList = List.generate(30, (index) => false);
+                    isCheckedList = List.generate(50, (index) => false);
                   });
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AttendanceReportScreen(),
+                      builder: (context) => AttendanceReportScreen( documentId: documentID),
                     ),
                   );
                 }).catchError((error) {
                   print("Failed to add attendance: $error");
                 });
               },
-              child: Text('Submit Attendance'),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
               ),
+              child: const Text('Submit Attendance'),
             ),
           ),
-          SizedBox(height: 16,),
+          const SizedBox(
+            height: 16,
+          ),
           Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
                 Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      AttendanceReportScreen(),
-                ),
-              );
-            },
-              
-              child: Text('View Attendance Report'),
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AttendanceReportScreen(documentId: '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}'),
+                  ),
+                );
+              },
               style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-              
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
               ),
+              child: const Text('View Attendance Report'),
             ),
           ),
         ],
@@ -138,6 +166,4 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     return attendanceCollection.doc(documentID).set(formData);
   }
 }
-
-
 

@@ -11,16 +11,16 @@ class ParentHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Center(child: Text('Parent')),
-          backgroundColor: Color.fromARGB(255, 121, 6, 6)),
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+          title: const Center(child: Text('Parent')),
+          backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(
@@ -33,8 +33,8 @@ class ParentHomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Hello, [Parent Name]',
                 style: TextStyle(
                   fontSize: 28.0,
@@ -42,15 +42,15 @@ class ParentHomeScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 8.0),
-              Text(
+              const SizedBox(height: 8.0),
+              const Text(
                 'Here is what’s happening in your school today:',
                 style: TextStyle(
                   fontSize: 18.0,
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 32.0),
+              const SizedBox(height: 32.0),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -60,62 +60,62 @@ class ParentHomeScreen extends StatelessWidget {
                         title: 'Attendance',
                         subtitle: 'Check if your child is present or absent',
                         icon: Icons.person_outline,
-                        color: Color.fromARGB(255, 82, 170, 255),
+                        color: const Color.fromARGB(255, 82, 170, 255),
                         onPressed: () {
                           Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Attendancelog(),
+                                  builder: (context) => MonthlyAttendanceLogScreen(studentName: 'Apil Chand'),
                                 ),
-                              );
+                          ); 
                         },
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                       HomeScreenCard(
                         title: 'Assignments',
                         subtitle: 'View assignments',
                         icon: Icons.assignment_outlined,
-                        color: Color.fromARGB(255, 249, 151, 119),
+                        color: const Color.fromARGB(255, 249, 151, 119),
                         onPressed: () {
                           Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ResourceDownloadPage(),
+                                  builder: (context) => const ResourceDownloadPage(),
                                 ),
                               );
                         },
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                       HomeScreenCard(
                         title: 'Events',
                         subtitle: 'View upcoming events and activities',
                         icon: Icons.event_outlined,
-                        color: Color.fromARGB(255, 251, 205, 97),
+                        color: const Color.fromARGB(255, 251, 205, 97),
                         onPressed: () {
                           
                         },
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                       HomeScreenCard(
                         title: 'Exams',
                         subtitle: 'View exam schedules and results',
                         icon: Icons.library_books_outlined,
-                        color: Color.fromARGB(255, 177, 197, 250),
+                        color: const Color.fromARGB(255, 177, 197, 250),
                         onPressed: () {
                           Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Examresult(),
+                                  builder: (context) => const Examresult(),
                                 ),
                               );
                         },
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                       HomeScreenCard(
                         title: 'Timetable',
                         subtitle: 'View class timetables and schedules',
                         icon: Icons.access_time_outlined,
-                        color: Color.fromARGB(255, 180, 221, 237),
+                        color: const Color.fromARGB(255, 180, 221, 237),
                         onPressed: () {
                           Navigator.push(
                                 context,
@@ -125,7 +125,7 @@ class ParentHomeScreen extends StatelessWidget {
                               );
                         },
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                     ],
                   ),
                 ),
@@ -170,7 +170,7 @@ class HomeScreenCard extends StatelessWidget {
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 2.0,
             blurRadius: 5.0,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -182,20 +182,20 @@ class HomeScreenCard extends StatelessWidget {
             color: color,
             size: 40.0,
           ),
-          SizedBox(width: 16.0),
+          const SizedBox(width: 16.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 4, 28, 63),
                   ),
                 ),
-                SizedBox(height: 4.0),
+                const SizedBox(height: 4.0),
                 Text(
                   subtitle,
                   style: TextStyle(

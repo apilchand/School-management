@@ -41,7 +41,7 @@ class StudentDashboard extends StatelessWidget {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
 
     return StudentData(
-      name: data['firstName']+' '+data['lastName'],
+      name: data['firstName']+data['lastName'],
       contact: data['contact'],
       parentsName: data['fatherName'],
       className: data['class'],
@@ -123,7 +123,12 @@ class StudentDashboard extends StatelessWidget {
                   StudentData studentData = snapshot.data!;
                   
                     return Expanded(
-                      child: Column(
+                      child: 
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,child: 
+                      
+                      SingleChildScrollView(child: 
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
@@ -157,6 +162,7 @@ class StudentDashboard extends StatelessWidget {
                             style: const TextStyle(fontSize: 16),
                           ),
                           const SizedBox(height: 10),
+                          
                           Row(
                             children: [
                               const Text(
@@ -171,7 +177,7 @@ class StudentDashboard extends StatelessWidget {
                           ),
                         ],
                       ),
-                    );
+                                        )));
                     }
                     )
                   ],
@@ -286,7 +292,7 @@ class StudentDashboard extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const Attendancelog(),
+                                  builder: (context) => MonthlyAttendanceLogScreen(studentName: 'Apil Chand',),
                                 ),
                               );
                             },

@@ -1,35 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pathsala/screens/Teacher/Student_info.dart';
 
-
-
 class StudentList extends StatefulWidget {
-  const StudentList({super.key});
+  const StudentList({Key? key}) : super(key: key);
 
   @override
   _StudentListState createState() => _StudentListState();
 }
 
 class _StudentListState extends State<StudentList> {
-  Map<String, List<String>> _students = {
-    'Class 1': ['John', 'Jane', 'Bob'],
-    'Class 2': ['Alice', 'Charlie', 'David'],
-    'Class 3': ['Eve', 'Frank', 'Grace'],
-  };
-
-  final List<String> _classOptions = [
-    'Class 1',
-    'Class 2',
-    'Class 3',
-  ];
-
+  late Future<List<Student>> _students;
+  final List<String> _classOptions = List.generate(10, (index) => 'Class ${index + 1}');
   String _selectedClass = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedClass = _classOptions.first;
+    _students = _fetchStudents(_selectedClass);
+  }
+
+  Future<List<Student>> _fetchStudents(String className) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('Student')
+        .where('class', isEqualTo: className)
+        .get();
+
+    return querySnapshot.docs.map((doc) {
+      final firstName = doc['firstName'] as String;
+      final lastName = doc['lastName'] as String;
+      final studentId = doc['studentId'] as String;
+      final studentName = '$firstName $lastName';
+      return Student(name: studentName, id: studentId);
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Students'),backgroundColor: Color.fromARGB(255, 121, 6, 6)
+        title: Text('Students'),
+        backgroundColor: Color.fromARGB(255, 121, 6, 6),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -56,41 +68,71 @@ class _StudentListState extends State<StudentList> {
               onChanged: (value) {
                 setState(() {
                   _selectedClass = value!;
+                  _students = _fetchStudents(_selectedClass);
                 });
               },
             ),
             SizedBox(height: 32.0),
-            if (_selectedClass.isNotEmpty)
-              ...[
-                Text(
-                  'Students in $_selectedClass:',
-                  style: TextStyle(fontSize: 24.0),
-                ),
-                SizedBox(height: 16.0),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: _students[_selectedClass]?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      final studentName = _students[_selectedClass]![index];
-                      return ListTile(
-                        title: Text(studentName),
-                        onTap: () {
-                         /* Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  StudentInfoScreen(student: studentName),
+            FutureBuilder<List<Student>>(
+              future: _students,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Text('No students available.');
+                } else {
+                  final students = snapshot.data!;
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height - 200, // Adjust the height as needed
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Students in $_selectedClass:',
+                              style: TextStyle(fontSize: 24.0),
                             ),
-                          );*/
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
+                            SizedBox(height: 16.0),
+                            ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: students.length,
+                              itemBuilder: (context, index) {
+                                final student = students[index];
+                                return ListTile(
+                                  title: Text(student.name),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => StudentInfoScreen(studentId: student.id),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),
     );
   }
+}
+
+class Student {
+  final String name;
+  final String id;
+
+  Student({required this.name, required this.id});
 }

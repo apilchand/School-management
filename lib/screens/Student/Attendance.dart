@@ -1,180 +1,170 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+class MonthlyAttendanceLogScreen extends StatefulWidget {
+  final String studentName;
 
-
-class AttendanceRecord {
-  final String date;
-  final bool isPresent;
-
-  AttendanceRecord(this.date, this.isPresent);
-}
-
-class AttendanceDataSource {
-  List<AttendanceRecord> getAttendanceForMonth(String month) {
-    // You would replace this method with your own logic for retrieving
-    // attendance data for a given month from a database or other data source.
-    // For this example, we'll just return some sample data.
-    List<AttendanceRecord> records = [];
-    if (month == "January") {
-      records = [
-        AttendanceRecord("Jan 1", true),
-        AttendanceRecord("Jan 2", false),
-        AttendanceRecord("Jan 3", true),
-        AttendanceRecord("Jan 4", true),
-        AttendanceRecord("Jan 5", true),
-        AttendanceRecord("Jan 6", false),
-        AttendanceRecord("Jan 7", true),
-        AttendanceRecord("Jan 8", true),
-        AttendanceRecord("Jan 9", true),
-        AttendanceRecord("Jan 10", true),
-      ];
-    } else if (month == "February") {
-      records = [
-        AttendanceRecord("Feb 1", true),
-        AttendanceRecord("Feb 2", true),
-        AttendanceRecord("Feb 3", false),
-        AttendanceRecord("Feb 4", true),
-        AttendanceRecord("Feb 5", true),
-        AttendanceRecord("Feb 6", false),
-        AttendanceRecord("Feb 7", true),
-        AttendanceRecord("Feb 8", true),
-        AttendanceRecord("Feb 9", true),
-        AttendanceRecord("Feb 10", true),
-      ];
-    }
-    return records;
-  }
-}
-class Attendancelog extends StatefulWidget {
-  const Attendancelog({super.key});
+  MonthlyAttendanceLogScreen({required this.studentName});
 
   @override
-  State<Attendancelog> createState() => _AttendancelogState();
+  State<MonthlyAttendanceLogScreen> createState() =>
+      _MonthlyAttendanceLogScreenState();
 }
 
-class _AttendancelogState extends State<Attendancelog> {
-   String selectedMonth = "January"; // initial selected month
-  
-  List<String> months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ]; // list of months for dropdown button
-  
-  AttendanceDataSource dataSource = AttendanceDataSource();
+class _MonthlyAttendanceLogScreenState
+    extends State<MonthlyAttendanceLogScreen> {
+  late Stream<QuerySnapshot> _attendanceStream;
+  List<String> _months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+  String _selectedMonth = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedMonth = _months[DateTime.now().month - 1];
+    _attendanceStream = FirebaseFirestore.instance
+        .collection('Attendance')
+        .where('studentName', isEqualTo: widget.studentName)
+        .where('month', isEqualTo: _selectedMonth)
+        .snapshots();
+  }
+
   @override
   Widget build(BuildContext context) {
-   
-    List<AttendanceRecord> records =
-        dataSource.getAttendanceForMonth(selectedMonth);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Monthly Attendance Log'),
+        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+      ),
+      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+      body: Column(
+        children: [
+          _buildMonthDropdown(),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(16.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 16.0,
+                crossAxisSpacing: 16.0,
+              ),
+              itemCount: DateTime(DateTime.now().year, _months.indexOf(_selectedMonth) + 1, 0).day,
+              itemBuilder: (context, index) {
+                final day = (index + 1).toString();
 
-   return
-       Scaffold(
-        appBar: AppBar(
-          title: Text('Attendance Log'),
-           backgroundColor: Color.fromARGB(255, 121, 6, 6) 
-        ),
-         backgroundColor: Color.fromARGB(255, 4, 28, 63),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Select a month:',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                SizedBox(height: 10),
-                DropdownButton<String>(
-                  value: selectedMonth,
-                  icon: const Icon(Icons.arrow_drop_down),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.white),
-                dropdownColor: Colors.grey[800],
-                  underline: Container(
-                    height: 2,
-                    color: Colors.purple,
-                  ),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedMonth = newValue!;
-                    });
-                  },
-                  items: months
-                      .map<DropdownMenuItem<String>>((
-// continued from previous code
-
-                    String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'Attendance for $selectedMonth:',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: DataTable(
-                    columns: [
-                      DataColumn(
-                        label: Text(
-                          'Date',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Attendance',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                    rows: records.map((record) {
-                      return DataRow(
-                        cells: [
-                          DataCell(
-                            Text(record.date),
-                          ),
-                          DataCell(
-                            Text(record.isPresent ? 'Present' : 'Absent'),
-                          ),
-                        ],
+                return StreamBuilder<QuerySnapshot>(
+                  stream: _attendanceStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final attendanceDocs = snapshot.data!.docs;
+                      final attendanceDoc = attendanceDocs.firstWhere(
+                        (doc) => doc.id == day,
+                       
                       );
-                    }).toList(),
-                  ),
-                ),
-              ],
+                      final attendanceStatus =
+                          attendanceDoc != null && attendanceDoc['attendance'];
+
+                      final boxColor =
+                          attendanceStatus ? Colors.green : Colors.red;
+
+                      return GestureDetector(
+                        onTap: () {
+                          // Handle box tap event if needed
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: boxColor,
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              day,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      // Return a fallback option with an empty box
+                      return GestureDetector(
+                        onTap: () {
+                          // Handle box tap event if needed
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(8.0),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 2.0,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              day,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                );
+              },
             ),
           ),
-        ),
-      );
-  
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMonthDropdown() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: DropdownButtonFormField<String>(
+        value: _selectedMonth,
+        items: _months.map((String month) {
+          return DropdownMenuItem<String>(
+            value: month,
+            child: Text(
+              month,
+              style: const TextStyle(color: Colors.white),
+            ),
+          );
+        }).toList(),
+        onChanged: (String? newValue) {
+          if (newValue != null) {
+            setState(() {
+              _selectedMonth = newValue;
+              _attendanceStream = FirebaseFirestore.instance
+                  .collection('Attendance')
+                  .where('studentName', isEqualTo: widget.studentName)
+                  .where('month', isEqualTo: _selectedMonth)
+                  .snapshots();
+            });
+          }
+        },
+      ),
+    );
   }
 }

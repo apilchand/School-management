@@ -104,7 +104,7 @@ class ClassDetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AttendanceScreen(),
+                  builder: (context) => AttendanceScreen(classname: className,),
                 ),
               );
             },
