@@ -10,45 +10,44 @@ class TeacherTimeTableScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Timetable for $teacherName'),
-       backgroundColor: Color.fromARGB(255, 121, 6, 6)),
-       backgroundColor: Color.fromARGB(255, 4, 28, 63),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
+              const Text(
                 'Monday',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
               _buildTimetableCard('Class 1', 'Maths', '9:00 AM - 10:00 AM'),
               _buildTimetableCard('Class 2', 'Science', '11:00 AM - 12:00 PM'),
               _buildTimetableCard('Class 3', 'Social Studies', '2:00 PM - 3:00 PM'),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Tuesday',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
               _buildTimetableCard('Class 4', 'English', '10:00 AM - 11:00 AM'),
               _buildTimetableCard('Class 5', 'Nepali', '1:00 PM - 2:00 PM'),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Wednesday',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
               _buildTimetableCard('Class 6', 'Maths', '9:00 AM - 10:00 AM'),
               _buildTimetableCard('Class 7', 'Science', '11:00 AM - 12:00 PM'),
               _buildTimetableCard('Class 8', 'Social Studies', '2:00 PM - 3:00 PM'),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Thursday',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
               _buildTimetableCard('Class 9', 'English', '10:00 AM - 11:00 AM'),
               _buildTimetableCard('Class 10', 'Nepali', '1:00 PM - 2:00 PM'),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Friday',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
@@ -64,7 +63,7 @@ class TeacherTimeTableScreen extends StatelessWidget {
 
   Widget _buildTimetableCard(String className, String subject, String timing) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -72,17 +71,17 @@ class TeacherTimeTableScreen extends StatelessWidget {
           children: [
             Text(
               className,
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height:16.0),
+            const SizedBox(height:16.0),
             Text(
               subject,
-              style: TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 16.0),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               timing,
-              style: TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 16.0),
             ),
           ],
         ),

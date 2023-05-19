@@ -46,8 +46,9 @@ Future<TeacherData> getTeacherData(String teacherId) async {
     return Scaffold(
         appBar: AppBar(
             title: const Center(child: Text('Teacher Panel')),
-            backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
-        backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+           // backgroundColor: const Color.fromARGB(255, 121, 6, 6)
+           ),
+       // backgroundColor: const Color.fromARGB(255, 4, 28, 63),
         body: 
         
         FutureBuilder<TeacherData>(
@@ -77,13 +78,13 @@ Future<TeacherData> getTeacherData(String teacherId) async {
                   style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                     ),
                 ),
               ),
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  //color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -92,7 +93,7 @@ Future<TeacherData> getTeacherData(String teacherId) async {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.purple,
+                        //color: Colors.purple,
                       ),
                       width: 130,
                       height: 130,
@@ -228,7 +229,7 @@ Future<TeacherData> getTeacherData(String teacherId) async {
             Icon(
               iconData,
               size: 64.0,
-              color: Colors.purple,
+              //color: Colors.purple,
             ),
             const SizedBox(height: 8.0),
             Text(

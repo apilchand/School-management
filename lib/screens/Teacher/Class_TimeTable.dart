@@ -5,14 +5,14 @@ class TimetableScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Timetable'),
-        backgroundColor: Color.fromARGB(255, 121, 6, 6)
+        title: const Text('Timetable'),
+       // backgroundColor: const Color.fromARGB(255, 121, 6, 6)
       
       ),
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
-      body: SingleChildScrollView(child:
+      //backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+      body: const SingleChildScrollView(child:
       Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -21,13 +21,13 @@ class TimetableScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+               // color: Colors.white,
               ),
             ),
             SizedBox(height: 16.0),
             Text(
               'Sunday',
-              style: TextStyle(color: Colors.white),
+             
             ),
             SizedBox(height: 8.0),
             TimetableCard(
@@ -47,7 +47,7 @@ class TimetableScreen extends StatelessWidget {
             SizedBox(height: 16.0),
             Text(
               'Monday',
-              style: TextStyle(color: Colors.white),
+             
             ),
             SizedBox(height: 8.0),
             TimetableCard(
@@ -80,9 +80,9 @@ class TimetableCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        //color: Colors.white,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Column(
@@ -90,18 +90,18 @@ class TimetableCard extends StatelessWidget {
         children: [
           Text(
             subject,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
-              color: Color.fromARGB(255, 4, 28, 63),
+             // color: Color.fromARGB(255, 4, 28, 63),
             ),
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Text(
             time,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14.0,
-              color: Color.fromARGB(255, 4, 28, 63),
+             // color: Color.fromARGB(255, 4, 28, 63),
             ),
           ),
         ],

@@ -1,43 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
- FirebaseFirestore db = FirebaseFirestore.instance;
+import 'package:file_picker/file_picker.dart';
+
+FirebaseFirestore db = FirebaseFirestore.instance;
 final CollectionReference teachersCollection = db.collection('Teacher');
 final CollectionReference userCollection = db.collection('User');
 
-Future<void> addTeacher(String documentId,Map<String, dynamic> formData) {
-
+Future<void> addTeacher(String documentId, Map<String, dynamic> formData) {
   return teachersCollection
-       .doc(documentId)
+      .doc(documentId)
       .set(formData)
       .then((value) => print("Teacher added"))
       .catchError((error) => print("Failed to add Teacher: $error"));
 }
-Future<void> addUserTeacher(Map<String, dynamic> userTeacherData) {
 
+Future<void> addUserTeacher(String documentId, Map<String, dynamic> userTeacherData) {
   return userCollection
-      .add(userTeacherData)
+      .doc(documentId)
+      .set(userTeacherData)
       .then((value) => print("Teacher user added"))
       .catchError((error) => print("Failed to add user teacher: $error"));
 }
 
-
 class TeacherAdd extends StatefulWidget {
-  const TeacherAdd({super.key});
+  const TeacherAdd({Key? key}) : super(key: key);
 
   @override
-  _TeacherAdd createState() => _TeacherAdd();
+  _TeacherAddState createState() => _TeacherAddState();
 }
 
-class _TeacherAdd extends State<TeacherAdd> {
+class _TeacherAddState extends State<TeacherAdd> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _contactController = TextEditingController();
-  
+
   DateTime? _selectedDate;
   String _selectedGender = 'Male';
+  String? _profilePictureUrl;
 
- final List<String> _genderOptions = ['Male', 'Female', 'Other'];
+  final List<String> _genderOptions = ['Male', 'Female', 'Other'];
 
   void _selectDate(BuildContext context) async {
     final picked = await showDatePicker(
@@ -45,20 +47,23 @@ class _TeacherAdd extends State<TeacherAdd> {
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-       builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Colors.purple, 
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
+      });
+    }
+  }
+
+  Future<void> _pickProfilePicture() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      String? filePath = result.files.first.path;
+      setState(() {
+        _profilePictureUrl = filePath;
       });
     }
   }
@@ -72,9 +77,7 @@ class _TeacherAdd extends State<TeacherAdd> {
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: const TextStyle(color: Colors.white),
       ),
-      style: const TextStyle(color: Colors.white),
     );
   }
 
@@ -90,7 +93,6 @@ class _TeacherAdd extends State<TeacherAdd> {
         Text(
           title,
           style: const TextStyle(
-            color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -109,25 +111,16 @@ class _TeacherAdd extends State<TeacherAdd> {
               }
               return null;
             },
-          
-           items: _genderOptions
+            items: _genderOptions
                 .map((gender) => DropdownMenuItem<String>(
-                      value: gender,
-                      child: Text(gender),
-                    ))
+              value: gender,
+              child: Text(gender),
+            ))
                 .toList(),
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               isDense: true,
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              filled: true,
-              fillColor: Colors.white,
             ),
           ),
         ),
@@ -136,44 +129,44 @@ class _TeacherAdd extends State<TeacherAdd> {
   }
 
   void _submitForm() {
-    final userTeacherData ={
+    String teacherId = _firstNameController.text + _contactController.text;
+    final userTeacherData = {
       'role': 'teacher',
       'username': _emailController.text,
       'password': _contactController.text,
-      'uid':_firstNameController.text+_contactController.text,
+      'uid': _firstNameController.text + _contactController.text,
     };
-    addUserTeacher(userTeacherData);
-    
+    addUserTeacher(teacherId, userTeacherData);
+
     final formData = {
       'firstName': _firstNameController.text,
       'lastName': _lastNameController.text,
       'email': _emailController.text,
       'contact': _contactController.text,
-     'teacherId':_firstNameController.text+_contactController.text,
+      'teacherId': _firstNameController.text + _contactController.text,
       'dateOfBirth': _selectedDate.toString(),
       'gender': _selectedGender,
+      'profilePictureUrl': _profilePictureUrl,
     };
-    String teacherId= _firstNameController.text+_contactController.text;
-    addTeacher(teacherId,formData).then((_) {
-    _firstNameController.clear();
-    _lastNameController.clear();
-    _emailController.clear();
-    _contactController.clear();
-    setState(() {
-      _selectedDate = null;
-      _selectedGender = 'Male';
-     
+
+    addTeacher(teacherId, formData).then((_) {
+      _firstNameController.clear();
+      _lastNameController.clear();
+      _emailController.clear();
+      _contactController.clear();
+      setState(() {
+        _selectedDate = null;
+        _selectedGender = 'Male';
+        _profilePictureUrl = null;
+      });
     });
-  });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       appBar: AppBar(
         title: const Text('Teacher Add'),
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
       body: SafeArea(
         child: Padding(
@@ -202,25 +195,20 @@ class _TeacherAdd extends State<TeacherAdd> {
                   controller: _contactController,
                   labelText: 'Contact Number',
                 ),
-                
+                const SizedBox(height: 16),
                 InkWell(
                   onTap: () => _selectDate(context),
                   child: AbsorbPointer(
                     child: TextField(
                       decoration: const InputDecoration(
-                            labelText: 'Date of Birth',
-                        labelStyle: TextStyle(color: Colors.white),
-                        suffixIcon: Icon(
-                          Icons.calendar_today_rounded,
-                          color: Colors.white,
-                        ),
+                        labelText: 'Date of Birth',
+                        suffixIcon: Icon(Icons.calendar_today_rounded),
                       ),
                       controller: TextEditingController(
                         text: _selectedDate == null
                             ? ''
                             : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
                       ),
-                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
@@ -235,16 +223,29 @@ class _TeacherAdd extends State<TeacherAdd> {
                     });
                   },
                 ),
+                const SizedBox(height: 16),
+                if (_profilePictureUrl != null)
+                  Container(
+                    alignment: Alignment.center,
+                    child: Image.network(
+                      _profilePictureUrl!,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: _pickProfilePicture,
+                  child: const Text('Upload Profile Picture'),
+                ),
                 const SizedBox(height: 32),
                 Center(
                   child: ElevatedButton(
-                    style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-                              ),
-                    onPressed:(){
-                   _submitForm();
-                    
-                    }, child: const Text('Submit'),
+                    onPressed: () {
+                      _submitForm();
+                    },
+                    child: const Text('Submit'),
                   ),
                 ),
                 const SizedBox(height: 16),

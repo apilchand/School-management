@@ -40,26 +40,26 @@ class _ExamresultState extends State<Examresult> {
 
     return  Scaffold(
         appBar: AppBar(
-          title: Text('Exam Results'),
+          title: const Text('Exam Results'),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 121, 6, 6)
+          //backgroundColor: Color.fromARGB(255, 121, 6, 6)
         ),
-         backgroundColor: Color.fromARGB(255, 4, 28, 63),
+        // backgroundColor: Color.fromARGB(255, 4, 28, 63),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Select an exam:',
                   style: TextStyle(
-                    color: Colors.white,
+                   // color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Container(
                   height: 50,
                   child: ListView.builder(
@@ -79,8 +79,8 @@ class _ExamresultState extends State<Examresult> {
                           },
                           child: Text(
                             results[index].examName,
-                            style: TextStyle(
-                              color: Colors.white,
+                            style: const TextStyle(
+                              //color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
@@ -90,27 +90,27 @@ class _ExamresultState extends State<Examresult> {
                     },
                   ),
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Exam Result:',
                   style: TextStyle(
-                    color: Colors.white,
+                   // color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),
-                SizedBox(height: 10
+                const SizedBox(height: 10
 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                   // color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
@@ -127,7 +127,7 @@ class _ExamresultState extends State<Examresult> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         ListView.builder(
                           shrinkWrap: true,
                           itemCount: results[_selectedExamIndex].subjects.length,
@@ -141,11 +141,11 @@ class _ExamresultState extends State<Examresult> {
                             );
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               'Total Marks:',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -153,7 +153,7 @@ class _ExamresultState extends State<Examresult> {
                             ),
                             Text(
                               results[_selectedExamIndex].marks.reduce((a, b) => a + b).toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

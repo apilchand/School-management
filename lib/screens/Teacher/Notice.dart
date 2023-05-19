@@ -50,11 +50,11 @@ class TeacherNoticeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+     
       appBar: AppBar(
         title: const Text('Notices'),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+       
         elevation: 0,
       ),
       body: Padding(
@@ -65,7 +65,7 @@ class TeacherNoticeScreen extends StatelessWidget {
             const Text(
               'Latest Notices',
               style: TextStyle(
-                color: Colors.white,
+                
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
@@ -84,7 +84,7 @@ class TeacherNoticeScreen extends StatelessWidget {
                 ;
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple,
+               
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -120,7 +120,8 @@ class TeacherNoticeScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              color: Colors.white,
+                              border: Border.all()
+                              //color: Colors.white,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,15 +131,15 @@ class TeacherNoticeScreen extends StatelessWidget {
                                   style: const TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 4, 28, 63),
+                                    //color: Color.fromARGB(255, 4, 28, 63),
                                   ),
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
                                   notice[index].message,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 18,
-                                    color: Colors.grey[700],
+                                    //color: Colors.grey[700],
                                   ),
                                 ),
                                 const SizedBox(height: 16),
@@ -147,7 +148,7 @@ class TeacherNoticeScreen extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'Posted on: ' + notice[index].postedOn,
+                                      'Posted on: ${notice[index].postedOn}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.grey[600],
@@ -199,8 +200,9 @@ class _AddNoticeScreenState extends State<AddNoticeScreen> {
     return Scaffold(
       appBar: AppBar(
           title: const Text('Add Notices'),
-          backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+         // backgroundColor: const Color.fromARGB(255, 121, 6, 6)
+         ),
+     // backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: Column(
         children: [
           const SizedBox(height: 20),
@@ -211,7 +213,7 @@ class _AddNoticeScreenState extends State<AddNoticeScreen> {
               decoration: InputDecoration(
                 hintText: 'Enter the title of your NOtice',
                 filled: true,
-                fillColor: Colors.white,
+                //fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide.none,
@@ -234,7 +236,7 @@ class _AddNoticeScreenState extends State<AddNoticeScreen> {
               decoration: InputDecoration(
                 hintText: 'Enter your notice here',
                 filled: true,
-                fillColor: Colors.white,
+                //fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide.none,
@@ -254,13 +256,13 @@ class _AddNoticeScreenState extends State<AddNoticeScreen> {
             onPressed: () {
               _submitNotice();
             },
-            child: const Text('Post Notice'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.purple,
+              //backgroundColor: Colors.purple,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
+            child: const Text('Post Notice'),
           )
         ],
       ),

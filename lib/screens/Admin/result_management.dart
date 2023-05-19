@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StudentMarks extends StatefulWidget {
-  const StudentMarks({super.key});
+  const StudentMarks({Key? key}) : super(key: key);
 
   @override
   _StudentMarksState createState() => _StudentMarksState();
@@ -16,21 +16,18 @@ class _StudentMarksState extends State<StudentMarks> {
           'Science': 85,
           'Social': 75,
           'English': 80,
-          
         },
         'Alice': {
           'Math': 85,
           'Science': 90,
           'Socail': 80,
           'English': 75,
-          
         },
         'Bob': {
           'Math': 95,
           'Science': 92,
           'Socail': 85,
           'English': 90,
-        
         },
       },
       'Half-Yearly': {
@@ -39,7 +36,6 @@ class _StudentMarksState extends State<StudentMarks> {
           'Science': 75,
           'Social': 70,
           'English': 85,
-          
         },
         'Alice': {
           'Math': 90,
@@ -176,9 +172,8 @@ class _StudentMarksState extends State<StudentMarks> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Student Marks'),backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+        title: const Text('Student Marks'),
       ),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -190,7 +185,7 @@ class _StudentMarksState extends State<StudentMarks> {
                 items: _studentMarks.keys
                     .map((className) => DropdownMenuItem<String>(
                           value: className,
-                          child: Text(className, style: const TextStyle(color: Colors.white),),
+                          child: Text(className),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -207,7 +202,7 @@ class _StudentMarksState extends State<StudentMarks> {
                 items: _studentMarks[_selectedClass]!.keys
                     .map((examName) => DropdownMenuItem<String>(
                           value: examName,
-                          child: Text(examName, style: const TextStyle(color: Colors.white),),
+                          child: Text(examName),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -223,7 +218,7 @@ class _StudentMarksState extends State<StudentMarks> {
                 items: _studentMarks[_selectedClass]![_selectedExam]!.keys
                     .map((studentName) => DropdownMenuItem<String>(
                           value: studentName,
-                          child: Text(studentName, style: const TextStyle(color: Colors.white),),
+                          child: Text(studentName),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -235,11 +230,10 @@ class _StudentMarksState extends State<StudentMarks> {
             ],
           ),
           Expanded(
-            child: 
-            Padding(
+            child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
               child: Container(
-                color: Colors.white,
+                
                 padding: const EdgeInsets.all(16),
                 child: ListView.builder(
                   itemCount: _studentMarks[_selectedClass]![_selectedExam]![_selectedStudent]!
@@ -262,4 +256,4 @@ class _StudentMarksState extends State<StudentMarks> {
       ),
     );
   }
-  }
+}

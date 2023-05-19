@@ -22,7 +22,13 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   void initState() {
     super.initState();
-    studentsStream = studentsCollection.where('class',isEqualTo: widget.classname).snapshots();
+    studentsStream = studentsCollection.where('class', isEqualTo: widget.classname).snapshots();
+
+    studentsStream.listen((snapshot) {
+      final students = snapshot.docs;
+      isCheckedList = List.generate(students.length, (index) => false);
+      studentNames = students.map((student) => '${student['firstName']} ${student['lastName']}').toList();
+    });
   }
 
   @override
@@ -30,16 +36,14 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Take Attendance')),
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: Color(0xFF7A5367),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(16.0),
                 bottomRight: Radius.circular(16.0),
@@ -52,7 +56,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 4, 28, 63),
                   ),
                 ),
                 const SizedBox(height: 8.0),
@@ -61,7 +64,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 4, 28, 63),
                   ),
                 ),
               ],
@@ -73,19 +75,18 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final students = snapshot.data!.docs;
-                  isCheckedList = List.generate(students.length, (index) => false);
-                  studentNames = students.map((student) =>  student['firstName']+' '+student['lastName'] as String).toList();
 
                   return ListView.builder(
                     padding: const EdgeInsets.all(16.0),
                     itemCount: students.length,
                     itemBuilder: (context, index) {
                       final student = students[index];
+                      final int Sn = index + 1;
 
                       return ListTile(
+                        leading: Text('$Sn'),
                         title: Text(
-                          student['firstName']+' '+student['lastName'],
-                          style: const TextStyle(color: Colors.white),
+                          student['firstName'] + ' ' + student['lastName'],
                         ),
                         trailing: Checkbox(
                           value: isCheckedList[index],
@@ -111,29 +112,26 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             child: ElevatedButton(
               onPressed: () {
                 Map<String, dynamic> formData = {
-                  
                   'attendance': isCheckedList,
                   'studentName': studentNames,
                 };
-                String documentID = '${DateTime.now().day}-${DateTime.now}.month}-${DateTime.now().year}';
+                String documentID =
+                    '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}';
 
                 addAttendance(documentID, formData).then((value) {
                   setState(() {
-                    isCheckedList = List.generate(50, (index) => false);
+                    isCheckedList = List.generate(studentNames.length, (index) => false);
                   });
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AttendanceReportScreen( documentId: documentID),
+                      builder: (context) => AttendanceReportScreen(documentId: documentID),
                     ),
                   );
                 }).catchError((error) {
                   print("Failed to add attendance: $error");
                 });
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-              ),
               child: const Text('Submit Attendance'),
             ),
           ),
@@ -147,13 +145,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AttendanceReportScreen(documentId: '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}'),
+                    builder: (context) =>
+                        AttendanceReportScreen(documentId: '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}'),
                   ),
                 );
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-              ),
               child: const Text('View Attendance Report'),
             ),
           ),
@@ -166,4 +162,3 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     return attendanceCollection.doc(documentID).set(formData);
   }
 }
-

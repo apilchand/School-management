@@ -23,71 +23,79 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text('Login'),
       ),
-      body: Container(
-        color: Colors.blueGrey, // Set the background color
-        child: Center(
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              final double containerWidth = constraints.maxWidth > 1007
-                  ? 500.0
-                  : constraints.maxWidth * 0.8;
-
-              return Container(
-                width: containerWidth,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 5.0,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
+      body: Stack(
+        children: [
+          Opacity(
+            opacity: 0.7,
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/login background.png'),
+                  fit: BoxFit.cover,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 16.0),
-                      TextField(
-                        controller: _usernameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Username',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      TextField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Password',
-                          border: OutlineInputBorder(),
-                        ),
-                        obscureText: true,
-                      ),
-                      const SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          _login();
-                        },
-                        child: const Text('Login'),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
+              ),
+            ),
           ),
-        ),
+          Container(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Welcome Back',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                     
+                    ),
+                  ),
+                  const SizedBox(height: 32.0),
+                  Card(
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: _usernameController,
+                            decoration: const InputDecoration(
+                              labelText: 'Username',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          const SizedBox(height: 16.0),
+                          TextField(
+                            controller: _passwordController,
+                            decoration: const InputDecoration(
+                              labelText: 'Password',
+                              border: OutlineInputBorder(),
+                            ),
+                            obscureText: true,
+                          ),
+                          const SizedBox(height: 16.0),
+                          ElevatedButton(
+                            onPressed: _login,
+                            child: const Text('Login'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
- 
-
-  void _login() async {
+  Future<void> _login() async {
     final String enteredUsername = _usernameController.text.trim();
     final String enteredPassword = _passwordController.text.trim();
 

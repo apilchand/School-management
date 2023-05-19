@@ -1,41 +1,45 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
- FirebaseFirestore db = FirebaseFirestore.instance;
+import 'package:file_picker/file_picker.dart';
+
+FirebaseFirestore db = FirebaseFirestore.instance;
 final CollectionReference studentsCollection = db.collection('Student');
 final CollectionReference userCollection = db.collection('User');
 final CollectionReference parentCollection = db.collection('Parent');
 
-Future<void> addStudent(String documentId,Map<String, dynamic> formData) {
-
+Future<void> addStudent(String documentId, Map<String, dynamic> formData) {
   return studentsCollection
-  .doc(documentId)
+      .doc(documentId)
       .set(formData)
       .then((value) => print("Student added"))
       .catchError((error) => print("Failed to add student: $error"));
 }
-Future<void> addParent(String documentID,Map<String, dynamic> parentData) {
 
+Future<void> addParent(String documentID, Map<String, dynamic> parentData) {
   return parentCollection
-  .doc(documentID)
+      .doc(documentID)
       .set(parentData)
       .then((value) => print("Parent added"))
       .catchError((error) => print("Failed to add parent: $error"));
 }
-Future<void> addUserStudent(Map<String, dynamic> userStudentData) {
 
+Future<void> addUserStudent(String documentId, Map<String, dynamic> userStudentData) {
   return userCollection
-      .add(userStudentData)
+      .doc(documentId)
+      .set(userStudentData)
       .then((value) => print("Student user added"))
       .catchError((error) => print("Failed to add user student: $error"));
 }
-Future<void> addUserParent (Map<String, dynamic> userParentData) {
 
+Future<void> addUserParent(String documentID,Map<String, dynamic> userParentData) {
   return userCollection
-      .add(userParentData)
-      .then((value) => print("user added"))
+      .doc(documentID)
+      .set(userParentData)
+      .then((value) => print("User added"))
       .catchError((error) => print("Failed to add parent user: $error"));
 }
-
 
 final _formKey = GlobalKey<FormState>();
 
@@ -58,6 +62,8 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   DateTime? _selectedDate;
   String _selectedGender = 'Male';
   String _selectedClass = 'Class 1';
+  String? _profilePicturePath;
+  String? _profilePictureURL;
 
   final List<String> _genderOptions = ['Male', 'Female', 'Other'];
   late final List<String> _classOptions = [
@@ -72,7 +78,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
     'Class 9',
     'Class 10',
   ];
-  
 
   void _selectDate(BuildContext context) async {
     final picked = await showDatePicker(
@@ -80,16 +85,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Colors.purple, // set primary color to purple
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
     if (picked != null && picked != _selectedDate) {
       setState(() {
@@ -107,9 +102,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: const TextStyle(color: Colors.white),
       ),
-      style: const TextStyle(color: Colors.white),
     );
   }
 
@@ -125,7 +118,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
         Text(
           title,
           style: const TextStyle(
-            color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -138,7 +130,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                 _selectedGender = value!;
               });
             },
-            
             items: _genderOptions
                 .map((gender) => DropdownMenuItem<String>(
                       value: gender,
@@ -149,14 +140,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
               border: OutlineInputBorder(),
               isDense: true,
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              filled: true,
-              fillColor: Colors.white,
             ),
           ),
         ),
@@ -164,30 +147,40 @@ class _StudentRegistrationState extends State<StudentRegistration> {
     );
   }
 
+  Future<void> _pickProfilePicture() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
+    if (result != null) {
+      setState(() {
+        _profilePicturePath = result.files.single.path!;
+      });
+    }
+  }
+
   void _submitForm() {
-    final userStudentData ={
+    final userStudentData = {
       'role': 'student',
       'username': _emailController.text,
       'password': _contactController.text,
-      'uid':_firstNameController.text+_contactController.text,
+      'uid': _firstNameController.text + _contactController.text,
     };
-    final userParentData ={
+    final userParentData = {
       'role': 'parent',
       'username': _parentContact.text,
       'password': _parentContact.text,
-      'uid': _firstNameController.text+ _parentContact.text,
+      'uid': _firstNameController.text + _parentContact.text,
     };
-    final parentData={
-       'parent_id': _firstNameController.text+ _parentContact.text,
-       'parent_name': _fatherNameController.text,
-       'Contact': _parentContact.text,
-       'student_id':_firstNameController.text+_contactController.text,
+    final parentData = {
+      'parent_id': _firstNameController.text + _parentContact.text,
+      'parent_name': _fatherNameController.text,
+      'Contact': _parentContact.text,
+      'student_id': _firstNameController.text + _contactController.text,
     };
-    String documentID =_firstNameController.text+ _parentContact.text;
-    addUserParent(userParentData);
-    addUserStudent(userStudentData);
-    addParent(documentID,parentData);
-   
+    String documentID = _firstNameController.text + _parentContact.text;
+    String documentId = _firstNameController.text + _contactController.text;
+    addUserParent(documentID, userParentData);
+    addUserStudent(documentId, userStudentData);
+    addParent(documentID, parentData);
+
     final formData = {
       'firstName': _firstNameController.text,
       'lastName': _lastNameController.text,
@@ -198,34 +191,35 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       'dateOfBirth': _selectedDate,
       'gender': _selectedGender,
       'class': _selectedClass,
-      "parentContact": _parentContact.text,
-      'studentId':_firstNameController.text+_contactController.text,
+      'parentContact': _parentContact.text,
+      'studentId': _firstNameController.text + _contactController.text,
+      'profilePictureURL': _profilePictureURL,
     };
-    String documentId =_firstNameController.text+_contactController.text;
-    addStudent(documentId,formData).then((_) {
-    _firstNameController.clear();
-    _lastNameController.clear();
-    _emailController.clear();
-    _contactController.clear();
-    _fatherNameController.clear();
-    _motherNameController.clear();
-    _parentContact.clear();
-    setState(() {
-      _selectedDate = null;
-      _selectedGender = 'Male';
-      _selectedClass = 'Class 1';
+
+    addStudent(documentId, formData).then((_) {
+      _firstNameController.clear();
+      _lastNameController.clear();
+      _emailController.clear();
+      _contactController.clear();
+      _fatherNameController.clear();
+      _motherNameController.clear();
+      _parentContact.clear();
+      
+      setState(() {
+        _selectedDate = null;
+        _selectedGender = 'Male';
+        _selectedClass = 'Class 1';
+        _profilePicturePath = null;
+        _profilePictureURL = null;
+      });
     });
-  });
- 
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       appBar: AppBar(
         title: const Text('Student Registration'),
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
       body: SafeArea(
         child: Padding(
@@ -274,18 +268,11 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Class',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                    const Text('Class'),
                     Expanded(
                       child: Container(
-                        color: Colors.white,
                         child: DropdownButtonFormField<String>(
                           value: _classOptions.first,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
                           items: _classOptions.map((className) {
                             return DropdownMenuItem<String>(
                               value: className,
@@ -297,7 +284,6 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                               _selectedClass = value!;
                             });
                           },
-                          
                         ),
                       ),
                     )
@@ -310,18 +296,13 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     child: TextField(
                       decoration: const InputDecoration(
                         labelText: 'Date of Birth',
-                        labelStyle: TextStyle(color: Colors.white),
-                        suffixIcon: Icon(
-                          Icons.calendar_today_rounded,
-                          color: Colors.white,
-                        ),
+                        suffixIcon: Icon(Icons.calendar_today_rounded),
                       ),
                       controller: TextEditingController(
                         text: _selectedDate == null
                             ? ''
                             : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
                       ),
-                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
@@ -336,19 +317,31 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     });
                   },
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
                 Center(
                   child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.purple),
+                    onPressed: _pickProfilePicture,
+                    child: const Text('Pick Profile Picture'),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                if (_profilePicturePath != null) ...[
+                  const Center(
+                    child: Text('Profile Picture Selected'),
+                  ),
+                  const SizedBox(height: 8),
+                  Center(
+                    child: Image.file(
+                      File(_profilePicturePath!),
+                      width: 100,
+                      height: 100,
                     ),
-                    onPressed: () {
-                      
-                        _submitForm();
-                        
-                      
-                    },
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                Center(
+                  child: ElevatedButton(
+                    onPressed: _submitForm,
                     child: const Text('Submit'),
                   ),
                 ),

@@ -55,7 +55,7 @@ class _ResourceDownloadPageState extends State<ResourceDownloadPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Download Resources'),
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+        
       ),
       body: 
       FutureBuilder<List<Download>>(
@@ -73,21 +73,32 @@ class _ResourceDownloadPageState extends State<ResourceDownloadPage> {
                   }
                   List<Download> downld = snapshot.data!;
       
-      return ListView.builder(
-        itemCount: downld.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: const Icon(Icons.file_copy),
-            title: 
-            Text(downld[index].description),
-            trailing: IconButton(
-              icon: const Icon(Icons.download_rounded),
-              onPressed: () {
-                launch(downld[index].file);
-              },
-            ),
-          );
-        },
+      return 
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+         decoration: BoxDecoration(
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(20)
+         ),
+         padding: const EdgeInsets.all(16),
+          child: ListView.builder(
+            itemCount: downld.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: const Icon(Icons.file_copy),
+                title: 
+                Text(downld[index].description),
+                trailing: IconButton(
+                  icon: const Icon(Icons.download_rounded),
+                  onPressed: () {
+                    launch(downld[index].file);
+                  },
+                ),
+              );
+            },
+          ),
+        ),
       );
       }
       )

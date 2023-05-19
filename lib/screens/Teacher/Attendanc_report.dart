@@ -16,16 +16,16 @@ class AttendanceReportScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Attendance Report')),
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+       
       ),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+     
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: Color(0xFF7A5367),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(16.0),
                 bottomRight: Radius.circular(16.0),
@@ -38,7 +38,7 @@ class AttendanceReportScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 4, 28, 63),
+                  
                   ),
                 ),
                 const SizedBox(height: 8.0),
@@ -47,7 +47,7 @@ class AttendanceReportScreen extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 4, 28, 63),
+                   // color: Color.fromARGB(255, 4, 28, 63),
                   ),
                 ),
               ],
@@ -72,11 +72,12 @@ class AttendanceReportScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final studentName = studentNames[index] as String;
                         final status = attendanceStatus[index] as bool;
-
+final sn = index+1;
                         return ListTile(
+                          leading: Text('$sn'),
                           title: Text(
                             studentName,
-                            style: const TextStyle(color: Colors.white),
+                           
                           ),
                           trailing: Text(
                             status ? 'Present' : 'Absent',

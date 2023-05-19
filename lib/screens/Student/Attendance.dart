@@ -14,7 +14,7 @@ class MonthlyAttendanceLogScreen extends StatefulWidget {
 class _MonthlyAttendanceLogScreenState
     extends State<MonthlyAttendanceLogScreen> {
   late Stream<QuerySnapshot> _attendanceStream;
-  List<String> _months = [
+  final List<String> _months = [
     'January',
     'February',
     'March',
@@ -46,9 +46,9 @@ class _MonthlyAttendanceLogScreenState
     return Scaffold(
       appBar: AppBar(
         title: const Text('Monthly Attendance Log'),
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+      
       ),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+     
       body: Column(
         children: [
           _buildMonthDropdown(),
@@ -69,10 +69,13 @@ class _MonthlyAttendanceLogScreenState
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final attendanceDocs = snapshot.data!.docs;
-                      final attendanceDoc = attendanceDocs.firstWhere(
-                        (doc) => doc.id == day,
-                       
-                      );
+                      var attendanceDoc;
+                      for (var doc in attendanceDocs) {
+                        if (doc.id == day) {
+                          attendanceDoc = doc;
+                          break;
+                        }
+                      }
                       final attendanceStatus =
                           attendanceDoc != null && attendanceDoc['attendance'];
 
@@ -101,25 +104,21 @@ class _MonthlyAttendanceLogScreenState
                         ),
                       );
                     } else {
-                      // Return a fallback option with an empty box
+                      // Return a fallback option with a white box
                       return GestureDetector(
                         onTap: () {
                           // Handle box tap event if needed
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.transparent,
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 2.0,
-                            ),
                           ),
                           child: Center(
                             child: Text(
                               day,
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.0,
                               ),
@@ -148,7 +147,7 @@ class _MonthlyAttendanceLogScreenState
             value: month,
             child: Text(
               month,
-              style: const TextStyle(color: Colors.white),
+             
             ),
           );
         }).toList(),

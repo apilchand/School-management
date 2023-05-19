@@ -13,17 +13,22 @@ class TimetableScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 4, 28, 63),
+     // backgroundColor: Color.fromARGB(255, 4, 28, 63),
       appBar: AppBar(
-        title: Text('Timetable'),
-        backgroundColor: Color.fromARGB(255, 121, 6, 6),
+        title: const Text('Timetable'),
+        //backgroundColor: Color.fromARGB(255, 121, 6, 6),
       ),
       body: ListView.builder(
         itemCount: _timetableData.length,
         itemBuilder: (BuildContext context, int index) {
           return Card(
             
-            color: Colors.white,
+            //color: Colors.white,
+            margin: EdgeInsets.symmetric(
+    horizontal: MediaQuery.of(context).size.width * 0.1,
+    vertical: MediaQuery.of(context).size.height * 0.02,),
+            
+            //color: Colors.white,
             child:
              
             Padding(
@@ -34,49 +39,46 @@ class TimetableScreen extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'Day ${index + 1}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('10:00 - 11:00'),
+                      const Text('10:00 - 11:00'),
                       Text(_timetableData[index][0]),
                     ],
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('11:00 - 12:00'),
+                      const Text('11:00 - 12:00'),
                       Text(_timetableData[index][1]),
                     ],
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('12:00 - 1:00'),
+                      const Text('12:00 - 1:00'),
                       Text(_timetableData[index][2]),
                     ],
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('1:00 - 2:00'),
+                      const Text('1:00 - 2:00'),
                       Text(_timetableData[index][3]),
                     ],
                   ),
                 ],
               ),
             ),
-            margin: EdgeInsets.symmetric(
-    horizontal: MediaQuery.of(context).size.width * 0.1,
-    vertical: MediaQuery.of(context).size.height * 0.02,),
           );
         },
       ),

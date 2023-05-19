@@ -1,44 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:pathsala/screens/Admin/Student_management/Show_students.dart';
-
 import 'Student_register.dart';
 
-
-class StudentManagementScreen extends StatefulWidget {
-  @override
-  _StudentManagementScreenState createState() => _StudentManagementScreenState();
-}
-
-class _StudentManagementScreenState extends State<StudentManagementScreen> {
- 
+class StudentManagementScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       appBar: AppBar(
-        title: Text('Student Management'),
+        title: const Text('Student Management'),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
-      body: 
-       SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             InkWell(
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => StudentList() ),
-                ); 
+                  MaterialPageRoute(builder: (context) => const StudentList()),
+                );
               },
-              child: Card(
-                margin: const EdgeInsets.all(16),
+              child: const Card(
+                margin: EdgeInsets.all(16),
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   child: Row(
                     children: [
-                      Icon(Icons.account_circle, color: Colors.purple,),
+                      Icon(Icons.account_circle),
                       SizedBox(width: 16),
                       Text(
                         'View Students',
@@ -49,22 +38,21 @@ class _StudentManagementScreenState extends State<StudentManagementScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             InkWell(
               onTap: () {
-               Navigator.push(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => StudentRegistration()),
+                  MaterialPageRoute(builder: (context) => const StudentRegistration()),
                 );
               },
-              child: Card(
-                margin: const EdgeInsets.all(16),
+              child: const Card(
+                margin: EdgeInsets.all(16),
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   child: Row(
                     children: [
-                      Icon(Icons.add_home,
-                      color: Colors.purple),
+                      Icon(Icons.add_home),
                       SizedBox(width: 16),
                       Text(
                         'Add Student',
@@ -75,12 +63,10 @@ class _StudentManagementScreenState extends State<StudentManagementScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
         ),
       ),
     );
   }
 }
-
-

@@ -14,9 +14,9 @@ class _ClassmgmtState extends State<Classmgmt> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Class Management')),
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+      
       ),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+      
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

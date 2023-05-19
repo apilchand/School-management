@@ -5,18 +5,17 @@ import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-
 class UploadContentScreen extends StatefulWidget {
- const UploadContentScreen({Key? key}) : super(key: key);
+  const UploadContentScreen({Key? key}) : super(key: key);
 
   @override
   _UploadContentScreenState createState() => _UploadContentScreenState();
 }
 
 class _UploadContentScreenState extends State<UploadContentScreen> {
-   String? _selectedClass;
+  String? _selectedClass;
   String _description = '';
-    File? _selectedFile;
+  File? _selectedFile;
 
   Future<void> _pickFile() async {
     try {
@@ -39,57 +38,60 @@ class _UploadContentScreenState extends State<UploadContentScreen> {
       );
       return;
     }
-  
-const folderName = "Download";
-  // Get a reference to the Firebase Storage bucket
-  final storage = FirebaseStorage.instance;
-  final bucket = storage.ref().child(folderName);
 
-  // Generate a unique filename for the uploaded file
-  
-  final filename = '${DateTime.now().millisecondsSinceEpoch}_${_selectedFile!.path}';
+    const folderName = "Download";
+    // Get a reference to the Firebase Storage bucket
+    final storage = FirebaseStorage.instance;
+    final bucket = storage.ref().child(folderName);
 
-  try {
-    // Upload the selected file to Firebase Storage
-    final task = bucket.child(filename).putFile(_selectedFile!);
-    final snapshot = await task.whenComplete(() {});
+    // Generate a unique filename for the uploaded file
+    final filename =
+        '${DateTime.now().millisecondsSinceEpoch}_${_selectedFile!.path}';
 
-    // Get the download URL for the uploaded file
-    final downloadURL = await snapshot.ref.getDownloadURL();
+    try {
+      // Upload the selected file to Firebase Storage
+      final task = bucket.child(filename).putFile(_selectedFile!);
+      final snapshot = await task.whenComplete(() {});
 
-    // Store the input fields (class, description, downloadURL) to Firebase Firestore
-    await FirebaseFirestore.instance.collection('Download').doc(_description).set({
-      'class': _selectedClass,
-      'description': _description,
-      'file': downloadURL,
-      'createdAt': FieldValue.serverTimestamp(),
-    });
-     setState(() {
-      _selectedFile = null;
-      _selectedClass = null;
-      _description = '';
-    });
+      // Get the download URL for the uploaded file
+      final downloadURL = await snapshot.ref.getDownloadURL();
 
-    // Display a success message
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Content uploaded successfully')),
-    );
-  } on FirebaseException catch (e) {
-    // Display an error message if the upload fails
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Upload failed: ${e.message}')),
-    );
+      // Store the input fields (class, description, downloadURL) to Firebase Firestore
+      await FirebaseFirestore.instance
+          .collection('Download')
+          .doc(_description)
+          .set({
+        'class': _selectedClass,
+        'description': _description,
+        'file': downloadURL,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+      setState(() {
+        _selectedFile = null;
+        _selectedClass = null;
+        _description = '';
+      });
+
+      // Display a success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Content uploaded successfully')),
+      );
+    } on FirebaseException catch (e) {
+      // Display an error message if the upload fails
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Upload failed: ${e.message}')),
+      );
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Center(child: Text('Upload Content')),
-          backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
-      backgroundColor:  const Color.fromARGB(255, 4, 28, 63),
+        title: const Center(child: Text('Upload Content')),
+        backgroundColor: Colors.blue, // Set the desired app bar color here
+      ),
+      backgroundColor: Colors.white, // Set the desired background color here
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -100,7 +102,6 @@ const folderName = "Download";
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
               ),
             ),
             const SizedBox(height: 8.0),
@@ -110,10 +111,6 @@ const folderName = "Download";
               label: Text(_selectedFile == null
                   ? 'Select a file'
                   : 'Selected: ${_selectedFile!.path}'),
-                  style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-              ),
-
             ),
             const SizedBox(height: 8.0),
             const Text(
@@ -121,7 +118,6 @@ const folderName = "Download";
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
-                 color: Colors.white
               ),
             ),
             const SizedBox(height: 8.0),
@@ -152,8 +148,6 @@ const folderName = "Download";
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                filled: true,
-                fillColor: Colors.white
               ),
             ),
             const SizedBox(height: 8.0),
@@ -162,7 +156,6 @@ const folderName = "Download";
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
-                 color: Colors.white
               ),
             ),
             const SizedBox(height: 8.0),
@@ -177,17 +170,12 @@ const folderName = "Download";
                 border: OutlineInputBorder(),
                 hintText: 'Enter a brief description...',
                 contentPadding: EdgeInsets.all(16.0),
-                filled: true,
-                fillColor: Colors.white
               ),
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _uploadContent,
               child: const Text('Upload'),
-              style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-              ),
             ),
           ],
         ),

@@ -62,9 +62,9 @@ class _UpdateMarksState extends State<UpdateMarks> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Update Test Marks'),
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+      
       ),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+     
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: studentsFuture,
         builder: (context, snapshot) {
@@ -95,7 +95,7 @@ class _UpdateMarksState extends State<UpdateMarks> {
                       iconSize: 24,
                       elevation: 16,
                       style: const TextStyle(
-                        color: Colors.grey,
+                        //color: Colors.grey,
                         fontSize: 24,
                       ),
                       onChanged: (newValue) {
@@ -105,6 +105,7 @@ class _UpdateMarksState extends State<UpdateMarks> {
                       },
                       items: subjects.map<DropdownMenuItem<String>>((String subject) {
                         return DropdownMenuItem<String>(
+                          
                           value: subject,
                           child: Text(subject),
                         );
@@ -112,12 +113,13 @@ class _UpdateMarksState extends State<UpdateMarks> {
                     ),
                     const SizedBox(width: 20),
                     DropdownButton<String>(
+                      
                       value: selectedExam,
                       icon: const Icon(Icons.arrow_drop_down),
                       iconSize: 24,
                       elevation: 16,
                       style: const TextStyle(
-                        color: Colors.grey,
+                        //color: Colors.grey,
                         fontSize: 24,
                       ),
                                             onChanged: (newValue) {
@@ -140,13 +142,16 @@ class _UpdateMarksState extends State<UpdateMarks> {
                     itemCount: students.length,
                     itemBuilder: (context, index) {
                       final student = students[index];
+                      final Sn = index+1;
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Row(
                           children: [
+                            Text('$Sn'),
+                            const SizedBox(width:10 ,),
                             Text(
                               student['firstName'] + ' ' + student['lastName'],
-                              style: const TextStyle(color: Colors.white),
+                              //style: const TextStyle(color: Colors.white),
                             ),
                             const SizedBox(width: 20),
                             Expanded(
@@ -157,12 +162,12 @@ class _UpdateMarksState extends State<UpdateMarks> {
                                 ],
                                 decoration: const InputDecoration(
                                   hintText: 'Enter marks',
-                                  hintStyle: TextStyle(color: Colors.grey),
+                                
                                   enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
+                                  
                                   ),
                                 ),
-                                style: const TextStyle(color: Colors.white),
+                               
                                 controller: controllers[index],
                                 onChanged: (text) {},
                               ),

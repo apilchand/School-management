@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pathsala/screens/login.dart';
 
 import '../Teacher/Notice.dart';
 
@@ -16,148 +17,145 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Dashboard')),
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
       ),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       drawer: Drawer(
-        child: Container(
-          color: const Color.fromARGB(255, 4, 28, 63),
-          child: ListView(
-            children: [
-              Container(
-                height: 120.0,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 121, 6, 6),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'School Management System',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+        child: ListView(
+          children: [
+            Container(
+              height: 120.0,
+              child: const DrawerHeader(
+                decoration: BoxDecoration(
+                  
+                ),
+                child: Center(
+                  child: Text(
+                    'School Management System',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      
                     ),
                   ),
                 ),
               ),
-              DrawerItem(
-                icon: Icons.people,
-                title: 'Students',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  StudentManagementScreen()),
-                  );
-                },
-              ),
-              DrawerItem(
-                icon: Icons.person,
-                title: 'Teachers',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const TeacherManagementScreen()),
-                  );
-                },
-              ),
-              DrawerItem(
-                icon: Icons.class_,
-                title: 'Classes',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Classmgmt()),
-                  );
-                },
-              ),
+            ),
+            DrawerItem(
+              icon: Icons.people,
+              title: 'Students',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  StudentManagementScreen()),
+                );
+              },
+            ),
+            DrawerItem(
+              icon: Icons.person,
+              title: 'Teachers',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TeacherManagementScreen()),
+                );
+              },
+            ),
+            DrawerItem(
+              icon: Icons.class_,
+              title: 'Classes',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Classmgmt()),
+                );
+              },
+            ),
+            
+            DrawerItem(
+              icon: Icons.grade,
+              title: 'Grades',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StudentMarks()),
+                );
+              },
+            ),
+            DrawerItem(
+              icon: Icons.notifications,
+              title: 'Notices',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TeacherNoticeScreen()),
+                );
+              },
+            ),
+            
+            DrawerItem(
+              icon: Icons.logout,
+              title: 'Logout',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              },
               
-              DrawerItem(
-                icon: Icons.grade,
-                title: 'Grades',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => StudentMarks()),
-                  );
-                },
-              ),
-              DrawerItem(
-                icon: Icons.notifications,
-                title: 'Notices',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TeacherNoticeScreen()),
-                  );
-                },
-              ),
-              
-              DrawerItem(
-                icon: Icons.logout,
-                title: 'Logout',
-                onTap: () {},
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child:GridView.count(
         crossAxisCount: 2,
-        padding: EdgeInsets.all(16.0),
-        childAspectRatio: 1.0,
+        padding: const EdgeInsets.all(16.0),
+        childAspectRatio: 0.75,
         mainAxisSpacing: 16.0,
         crossAxisSpacing: 16.0,
-        children: [
+        children: const [
                 
                      DashboardCard(
                       title: 'Students',
-                      count: '1000',
+                      count: '500',
                       icon: Icons.people,
-                      color: Colors.purple,
+                      color: Colors.white,
                     ),
                   
                   
                     DashboardCard(
                       title: 'Teachers',
-                      count: '50',
+                      count: '20',
                       icon: Icons.person,
-                      color: Colors.purple,
+                      color: Colors.white,
                     
                   ),
             
                
                      DashboardCard(
                       title: 'Classes',
-                      count: '20',
+                      count: '10',
                       icon: Icons.class_,
-                      color: Colors.purple,
+                      color: Colors.white,
                     ),
                 
                    DashboardCard(
                       title: 'Attendance',
                       count: '85%',
                       icon: Icons.calendar_today,
-                      color: Colors.purple,
+                      color: Colors.white,
                     ),
                 
                 DashboardCard(
                       title: 'Pass percentage',
                       count: '80%',
                       icon: Icons.grade,
-                      color: Colors.purple,
+                      color: Colors.white,
                     ),
                 
                 ],
               )
       ));
-
-
-            
-          
   }
 }
 
@@ -178,12 +176,12 @@ class DrawerItem extends StatelessWidget {
     return ListTile(
       leading: Icon(
         icon,
-        color: Colors.white,
+        
       ),
       title: Text(
         title,
         style: const TextStyle(
-          color: Colors.white,
+         
           fontSize: 18.0,
           fontWeight: FontWeight.bold,
         ),
@@ -212,11 +210,11 @@ class DashboardCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black12,
+            
             offset: Offset(0.0, 1.0),
             blurRadius: 6.0,
           )
@@ -233,7 +231,7 @@ class DashboardCard extends StatelessWidget {
           const SizedBox(height: 10.0),
           Text(
             title,
-            style: const TextStyle(
+            style: const TextStyle(color: Colors.white,
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),
@@ -241,7 +239,7 @@ class DashboardCard extends StatelessWidget {
           const SizedBox(height: 10.0),
           Text(
             count,
-            style: const TextStyle(
+            style: const TextStyle(color: Colors.white,
               fontSize: 18.0,
               fontWeight: FontWeight.w600,
             ),

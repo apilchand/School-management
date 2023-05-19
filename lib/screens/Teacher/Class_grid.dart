@@ -25,10 +25,8 @@ class ClassScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           title: const Center(child: Text('Classes')),
-          backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
-      body: 
-      GridView.builder(
+      ),
+      body: GridView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: classes.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -49,17 +47,17 @@ class ClassScreen extends StatelessWidget {
             },
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(8),
+               
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(24),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(
                     Icons.school,
-                    color: Colors.purple,
+                   // color: Colors.purple,
                     size: 40,
-                    
                   ),
                   Text(
                     classes[index],
@@ -87,9 +85,8 @@ class ClassDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(className),
-          backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+        title: Text(className),
+      ),
       body: GridView.count(
         crossAxisCount: 2,
         padding: const EdgeInsets.all(20.0),
@@ -104,12 +101,13 @@ class ClassDetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AttendanceScreen(classname: className,),
+                  builder: (context) => AttendanceScreen(
+                    classname: className,
+                  ),
                 ),
               );
             },
           ),
-         
           _buildCard(
             icon: Icons.notification_important,
             title: 'Notice',
@@ -131,7 +129,9 @@ class ClassDetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ResultSection(classname: className,),
+                  builder: (context) => ResultSection(
+                    classname: className,
+                  ),
                 ),
               );
             },
@@ -155,12 +155,13 @@ class ClassDetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => StudentListScreen(classname: className,),
+                  builder: (context) => StudentListScreen(
+                    classname: className,
+                  ),
                 ),
               );
             },
           ),
-          
         ],
       ),
     );
@@ -180,7 +181,6 @@ class ClassDetailScreen extends StatelessWidget {
             Icon(
               icon,
               size: 48.0,
-              color: Colors.purple,
             ),
             const SizedBox(height: 8.0),
             Text(

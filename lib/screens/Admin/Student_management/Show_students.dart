@@ -40,22 +40,21 @@ class _StudentListState extends State<StudentList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Students'),
-        backgroundColor: Color.fromARGB(255, 121, 6, 6),
+        title: const Text('Students'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Select a class:',
               style: TextStyle(fontSize: 24.0),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             DropdownButtonFormField<String>(
               value: _selectedClass.isNotEmpty ? _selectedClass : null,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Class',
                 border: OutlineInputBorder(),
               ),
@@ -72,32 +71,32 @@ class _StudentListState extends State<StudentList> {
                 });
               },
             ),
-            SizedBox(height: 32.0),
+            const SizedBox(height: 32.0),
             FutureBuilder<List<Student>>(
               future: _students,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Text('No students available.');
+                  return const Text('No students available.');
                 } else {
                   final students = snapshot.data!;
                   return Expanded(
                     child: SingleChildScrollView(
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height - 200, // Adjust the height as needed
+                        height: MediaQuery.of(context).size.height - 200, 
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Students in $_selectedClass:',
-                              style: TextStyle(fontSize: 24.0),
+                              style: const TextStyle(fontSize: 24.0),
                             ),
-                            SizedBox(height: 16.0),
+                            const SizedBox(height: 16.0),
                             ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: students.length,
                               itemBuilder: (context, index) {

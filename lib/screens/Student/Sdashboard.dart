@@ -14,11 +14,12 @@ class StudentData {
   final String parentsName;
   final String className;
 
-  StudentData(
-      {required this.name,
-      required this.contact,
-      required this.parentsName,
-      required this.className});
+  StudentData({
+    required this.name,
+    required this.contact,
+    required this.parentsName,
+    required this.className,
+  });
 }
 
 class Notice {
@@ -26,27 +27,40 @@ class Notice {
   final String message;
   final String postedOn;
 
-  Notice({required this.title, required this.message, required this.postedOn});
+  Notice({
+    required this.title,
+    required this.message,
+    required this.postedOn,
+  });
 }
 
-
-
-class StudentDashboard extends StatelessWidget {  
+class StudentDashboard extends StatelessWidget {
   final String studentId;
 
   StudentDashboard({Key? key, required this.studentId}) : super(key: key);
-  Future<StudentData> getStudentData(String studentId) async {
-    DocumentSnapshot snapshot =
-        await db.collection('Student').doc(studentId).get();
-    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
 
-    return StudentData(
-      name: data['firstName']+data['lastName'],
-      contact: data['contact'],
-      parentsName: data['fatherName'],
-      className: data['class'],
-    );
+ Future<StudentData> getStudentData(studentId) async {
+  DocumentSnapshot documentSnapshot = await db.collection('Student').doc(studentId).get();
+  
+  if (!documentSnapshot.exists) {
+    
+    throw Exception('Document does not exist or data is null');
   }
+Map<String, dynamic>? data = documentSnapshot.data() as Map<String, dynamic>?;
+
+
+if (data == null) {
+    throw Exception('Data is null');
+  }
+
+  return StudentData(
+    name: data['firstName'] + data['lastName'],
+    contact: data['contact'],
+    parentsName: data['fatherName'],
+    className: data['class'],
+  );
+}
+
 
   Future<Notice> getLatestNotice() async {
     QuerySnapshot querySnapshot = await db
@@ -68,21 +82,19 @@ class StudentDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       appBar: AppBar(
-          title: const Text('Student Dashboard'),
-          centerTitle: true,
-          backgroundColor: const Color.fromARGB(255, 121, 6, 6)),
+        title: const Text('Student Dashboard'),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
               const SizedBox(height: 20),
-              
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                 // color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -91,7 +103,7 @@ class StudentDashboard extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey[200],
+                       // color: Colors.grey[200],
                       ),
                       width: 120,
                       height: 120,
@@ -105,80 +117,77 @@ class StudentDashboard extends StatelessWidget {
                     ),
                     const SizedBox(width: 20),
                     FutureBuilder<StudentData>(
-                future: getStudentData(studentId),
-                builder: (BuildContext context,
-                    AsyncSnapshot<StudentData> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+                      future: getStudentData(studentId),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<StudentData> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
 
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
-                  }
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text('Error: ${snapshot.error}'),
+                          );
+                        }
 
-                  StudentData studentData = snapshot.data!;
-                  
-                    return Expanded(
-                      child: 
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,child: 
-                      
-                      SingleChildScrollView(child: 
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Name: ${studentData.name}',
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                        StudentData studentData = snapshot.data!;
+
+                        return Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Name: ${studentData.name}',
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              
-                            ],
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Contact:',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    Text(
+                                      studentData.contact,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  studentData.className,
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    const Text(
+                                      "Parent's Name:",
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    Text(
+                                      studentData.parentsName,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              const Text(
-                                'Contact:',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                studentData.contact,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            studentData.className,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          const SizedBox(height: 10),
-                          
-                          Row(
-                            children: [
-                              const Text(
-                                "Parent's Name:",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                studentData.parentsName,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                                        )));
-                    }
+                        );
+                      },
                     )
                   ],
                 ),
@@ -188,7 +197,8 @@ class StudentDashboard extends StatelessWidget {
                 future: getLatestNotice(),
                 builder:
                     (BuildContext context, AsyncSnapshot<Notice> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
+                  if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
@@ -202,86 +212,91 @@ class StudentDashboard extends StatelessWidget {
 
                   Notice notice = snapshot.data!;
 
-              return Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.purple[600],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                  return Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                     // color: Colors.purple[600],
+                     border: Border.all(),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Notice',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
+                        Row(
+                          children: [
+                            const Text(
+                              'Notice',
+                              style: TextStyle(
+                               // color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextButton(
+                              child: const Text(
+                                'view All',
+                                style: TextStyle(
+                                  //color: Colors.black38,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NoticeScreen(),
+                                  ),
+                                );
+                              },
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          notice.title,
+                          style: const TextStyle(
+                            //color: Colors.white,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        TextButton(
-                          child:const Text(
-                      'view All',
-                      style: TextStyle(
-                        color: Colors.black38,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>  NoticeScreen(),
-                                ),
-                              );
-                    }
-                        )
+                        Text(
+                          notice.message,
+                          style: const TextStyle(
+                            //color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          'posted on:-${notice.postedOn}',
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                          ),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      notice.title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                    Text(
-                      notice.message,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text('posted on:-${notice.postedOn}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-                    }
+                  );
+                },
               ),
               const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  border: Border.all(),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Quick Links',
-                        style: TextStyle(
-                          fontSize: 18,
-                        )),
+                    const Text(
+                      'Quick Links',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -292,14 +307,18 @@ class StudentDashboard extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MonthlyAttendanceLogScreen(studentName: 'Apil Chand',),
+                                  builder: (context) =>
+                                      MonthlyAttendanceLogScreen(
+                                    studentName: 'Apil Chand',
+                                  ),
                                 ),
                               );
                             },
                             child: Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color: Colors.grey[200],
+                               // color: Colors.grey[200],
+                               border: Border.all(),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: const Column(
@@ -307,7 +326,6 @@ class StudentDashboard extends StatelessWidget {
                                   Icon(
                                     Icons.calendar_today,
                                     size: 50,
-                                    color: Colors.purple,
                                   ),
                                   SizedBox(height: 10),
                                   Text(
@@ -336,7 +354,8 @@ class StudentDashboard extends StatelessWidget {
                             child: Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color: Colors.grey[200],
+                               // color: Colors.grey[200],
+                               border: Border.all(),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: const Column(
@@ -344,7 +363,6 @@ class StudentDashboard extends StatelessWidget {
                                   Icon(
                                     Icons.assignment,
                                     size: 50,
-                                    color: Colors.purple,
                                   ),
                                   SizedBox(height: 10),
                                   Text(
@@ -378,7 +396,8 @@ class StudentDashboard extends StatelessWidget {
                             child: Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color: Colors.grey[200],
+                                //color: Colors.grey[200],
+                                border: Border.all(),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: const Column(
@@ -386,7 +405,6 @@ class StudentDashboard extends StatelessWidget {
                                   Icon(
                                     Icons.schedule,
                                     size: 50,
-                                    color: Colors.purple,
                                   ),
                                   SizedBox(height: 10),
                                   Text(
@@ -408,14 +426,16 @@ class StudentDashboard extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ResourceDownloadPage(),
+                                  builder: (context) =>
+                                      ResourceDownloadPage(),
                                 ),
                               );
                             },
                             child: Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color: Colors.grey[200],
+                                //color: Colors.grey[200],
+                                border: Border.all(),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: const Column(
@@ -423,7 +443,6 @@ class StudentDashboard extends StatelessWidget {
                                   Icon(
                                     Icons.file_download,
                                     size: 50,
-                                    color: Colors.purple,
                                   ),
                                   SizedBox(height: 10),
                                   Text(

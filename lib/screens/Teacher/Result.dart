@@ -5,43 +5,38 @@ import 'Result_input.dart';
 class ResultSection extends StatelessWidget {
   final String classname;
 
-  const ResultSection({super.key, required this.classname});
+  const ResultSection({Key? key, required this.classname}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Result'),
-         backgroundColor: const Color.fromARGB(255, 121, 6, 6)
       ),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              child: const Text('Show Report'),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const Examresult()),
                 );
               },
-              style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-              ),
+              child: const Text('Show Report'),
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              child: const Text('Update Test Marks'),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UpdateMarks(classname: classname,)),
+                  MaterialPageRoute(
+                    builder: (context) => UpdateMarks(classname: classname),
+                  ),
                 );
               },
-              style:ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-              ),
+              child: const Text('Update Test Marks'),
             )
           ],
         ),

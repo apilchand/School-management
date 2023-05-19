@@ -5,20 +5,19 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About'),
-        backgroundColor: Color.fromARGB(255, 121, 6, 6),
+        title: const Text('About'),
       ),
       body: Container(
-        padding: EdgeInsets.all(16),
-        color: Color.fromARGB(255, 4, 28, 63),
+        padding: const EdgeInsets.all(16),
+        color: Theme.of(context).backgroundColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
               width: 120,
               height: 120,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: AssetImage('images/school.png'),
@@ -26,40 +25,40 @@ class AboutScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               'School Management System',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Theme.of(context).textTheme.headline6?.color,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               'Version 1.0.0',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.white,
+                color: Theme.of(context).textTheme.bodyText1?.color,
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
               'Developed By:',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Theme.of(context).textTheme.headline6?.color,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
               ),
-              child: Row(
+              child: const Row(
                 children: [
                   Icon(Icons.person, size: 32),
                   SizedBox(width: 16),
@@ -86,14 +85,14 @@ class AboutScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
               ),
-              child: Row(
+              child: const Row(
                 children: [
                   Icon(Icons.person, size: 32),
                   SizedBox(width: 16),

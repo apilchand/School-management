@@ -100,7 +100,7 @@ class _ClassScheduleState extends State<ClassSchedule> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Class Schedule'),
-        backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+        
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
