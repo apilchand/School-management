@@ -9,7 +9,7 @@ class AboutScreen extends StatelessWidget {
       ),
       body: Container(
         padding: const EdgeInsets.all(16),
-        color: Theme.of(context).backgroundColor,
+        
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -20,7 +20,7 @@ class AboutScreen extends StatelessWidget {
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: AssetImage('images/school.png'),
+                  image: AssetImage('images/logo.png'),
                   fit: BoxFit.cover,
                 ),
               ),

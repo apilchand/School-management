@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pathsala/screens/Welcome.dart';
 
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      
+     
       body: 
+      
       Padding(
         padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
         child: SingleChildScrollView(
@@ -18,7 +23,10 @@ class LandingPage extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // Add your navigation logic here
+                        Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+                );
                       },
                       child: const Icon(
                         Icons.people
@@ -130,7 +138,7 @@ class FeatureItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Column(
         children: [
@@ -142,97 +150,233 @@ class FeatureItem extends StatelessWidget {
     );
   }
 }
-
 class ContactSection extends StatelessWidget {
   const ContactSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
       color: const Color.fromARGB(255, 118, 34, 6),
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Contact Us',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 20),
-          const Row(
-            children: [
-              Icon(
-                Icons.location_on,
-                color: Colors.white,
-              ),
-              SizedBox(width: 10),
-              Text(
-                'mahendranagar, kanchanpur',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const Row(
-            children: [
-              Icon(
-                Icons.email,
-                color: Colors.white,
-              ),
-              SizedBox(width: 10),
-              Text(
-                'info@abcschool.com',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const Row(
-            children: [
-              Icon(
-                Icons.phone,
-                color: Colors.white,
-              ),
-              SizedBox(width: 10),
-              Text(
-                '099-520264',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(
-                Icons.download,
-                color: Colors.white,
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Contact Us',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        'Mahendranagar, Kanchanpur',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.email,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        'info@abcschool.com',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.phone,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        '099-520264',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(width: 10),
-              TextButton(
-                onPressed: () {
-                  // Add your download logic here
-                },
-                child: const Text(
-                  'Download our mobile app',
-                  style: TextStyle(
+              if (screenWidth >= 600) ...[
+                Column(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        // Add your download logic here
+                      },
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.download,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Download our mobile app',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    InkWell(
+                      onTap: () {
+                        // Add your gallery link logic here
+                      },
+                      child: const Text(
+                        'Gallery',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    InkWell(
+                      onTap: () {
+                        // Add your academic link logic here
+                      },
+                      child: const Text(
+                        'Academic',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    InkWell(
+                      onTap: () {
+                        // Add your publication link logic here
+                      },
+                      child: const Text(
+                        'Publication',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    InkWell(
+                      onTap: () {
+                        // Add your report link logic here
+                      },
+                      child: const Text(
+                        'Report',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ],
+          ),
+          if (screenWidth < 600) ...[
+            const SizedBox(height: 20),
+            InkWell(
+              onTap: () {
+                // Add your download logic here
+              },
+              child: const Row(
+                children: [
+                  Icon(
+                    Icons.download,
                     color: Colors.white,
                   ),
+                  SizedBox(width: 10),
+                  Text(
+                    'Download our mobile app',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            InkWell(
+              onTap: () {
+                // Add your gallery link logic here
+              },
+              child: const Text(
+                'Gallery',
+                style: TextStyle(
+                  color: Colors.white,
                 ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 10),
+            InkWell(
+              onTap: () {
+                // Add your academic link logic here
+              },
+              child: const Text(
+                'Academic',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            InkWell(
+              onTap: () {
+                // Add your publication link logic here
+              },
+              child: const Text(
+                'Publication',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            InkWell(
+              onTap: () {
+                // Add your report link logic here
+              },
+              child: const Text(
+                'Report',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ],
-      ),
+      )
     );
   }
 }
