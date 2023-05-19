@@ -47,6 +47,11 @@ dependencies:
   url_launcher: ^6.1.11
   firebase_auth: ^4.6.1
 
+  
+  
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -76,6 +81,7 @@ flutter:
       - images/picture.jpg
       - images/background.png
       - images/login background.png
+      - images/logo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

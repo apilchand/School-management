@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../Student/Attendance.dart';
 import '../Student/Download.dart';
 import '../Student/result.dart';
 import '../Student/timetable.dart';
 
 class ParentHomeScreen extends StatelessWidget {
-  const ParentHomeScreen({Key? key}) : super(key: key);
+  final String parentId;
+  const ParentHomeScreen({Key? key, required this.parentId}) : super(key: key);
+
+  Future<String> fetchStudentName() async {
+    final studentSnapshot = await FirebaseFirestore.instance
+        .collection('Student')
+        .where('parentId', isEqualTo: parentId)
+        .limit(1)
+        .get();
+
+    final studentData = studentSnapshot.docs.first.data();
+    return studentData['firstName']+' '+studentData['lastName'];
+
+  }
+   
+
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +30,7 @@ class ParentHomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Center(child: Text('Parent')),
       ),
-      backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -25,7 +42,7 @@ class ParentHomeScreen extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.menu,
-                    color: Colors.white,
+                   
                   ),
                   CircleAvatar(
                     radius: 25.0,
@@ -35,11 +52,11 @@ class ParentHomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
               const Text(
-                'Hello, [Parent Name]',
+                'Hello',
                 style: TextStyle(
                   fontSize: 28.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                 
                 ),
               ),
               const SizedBox(height: 8.0),
@@ -47,7 +64,7 @@ class ParentHomeScreen extends StatelessWidget {
                 'Here is what’s happening in your school today:',
                 style: TextStyle(
                   fontSize: 18.0,
-                  color: Colors.white,
+                 
                 ),
               ),
               const SizedBox(height: 32.0),
@@ -56,16 +73,28 @@ class ParentHomeScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      HomeScreenCard(
-                        title: 'Attendance',
-                        subtitle: 'Check if your child is present or absent',
-                        icon: Icons.person_outline,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MonthlyAttendanceLogScreen(studentName: 'Apil Chand'),
-                            ),
+                      FutureBuilder<String>(
+                        future: fetchStudentName(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          }
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          final studentName = snapshot.data ?? 'Unknown';
+                          return HomeScreenCard(
+                            title: 'Attendance',
+                            subtitle: 'Check if your child is present or absent',
+                            icon: Icons.person_outline,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MonthlyAttendanceLogScreen(studentName: studentName),
+                                ),
+                              );
+                            },
                           );
                         },
                       ),
@@ -155,16 +184,9 @@ class HomeScreenCard extends StatelessWidget {
         onTap: onPressed,
         child: Container(
           decoration: BoxDecoration(
-            
             borderRadius: BorderRadius.circular(8.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 2.0,
-                blurRadius: 5.0,
-                offset: const Offset(0, 2),
-              ),
-            ],
+           border: Border.all()
+          
           ),
           padding: const EdgeInsets.all(16.0),
           child: Row(

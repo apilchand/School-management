@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pathsala/screens/webLanding.dart';
 import 'firebase_options.dart';
 import 'screens/Welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -173,7 +175,17 @@ darkTheme: FlexThemeData.dark(
  themeMode: ThemeMode.system,
 
       debugShowCheckedModeBanner: false,
-      home: WelcomeScreen(), 
+      home: getHomePage()
     );
   }
+  Widget getHomePage() {
+    if (kIsWeb) {
+      // Return the LandingPage for web
+      return LandingPage();
+    } else {
+      // Return the WelcomeScreen for mobile
+      return const WelcomeScreen();
+    }
+  }
+
 }

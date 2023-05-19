@@ -62,7 +62,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                        SizedBox(height: screenHeight*0.1),
                        Image.asset(
                         'images/background.png',
-                       fit: BoxFit.contain,
+                       fit: BoxFit.fill,
                       ),
                        SizedBox(height: screenHeight*0.1),
                    

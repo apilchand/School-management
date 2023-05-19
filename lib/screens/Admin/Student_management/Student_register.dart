@@ -194,6 +194,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       'parentContact': _parentContact.text,
       'studentId': _firstNameController.text + _contactController.text,
       'profilePictureURL': _profilePictureURL,
+      'parentId': _firstNameController.text + _parentContact.text,
     };
 
     addStudent(documentId, formData).then((_) {
