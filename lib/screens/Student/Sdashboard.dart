@@ -13,12 +13,14 @@ class StudentData {
   final String contact;
   final String parentsName;
   final String className;
+  final String profile;
 
   StudentData({
     required this.name,
     required this.contact,
     required this.parentsName,
     required this.className,
+    required this.profile,
   });
 }
 
@@ -39,28 +41,27 @@ class StudentDashboard extends StatelessWidget {
 
   StudentDashboard({Key? key, required this.studentId}) : super(key: key);
 
- Future<StudentData> getStudentData(studentId) async {
-  DocumentSnapshot documentSnapshot = await db.collection('Student').doc(studentId).get();
-  
-  if (!documentSnapshot.exists) {
-    
-    throw Exception('Document does not exist or data is null');
+  Future<StudentData> getStudentData(String studentId) async {
+    DocumentSnapshot documentSnapshot =
+        await db.collection('Student').doc(studentId).get();
+
+    if (!documentSnapshot.exists) {
+      throw Exception('Document does not exist or data is null');
+    }
+    Map<String, dynamic>? data =
+        documentSnapshot.data() as Map<String, dynamic>?;
+
+    if (data == null) {
+      throw Exception('Data is null');
+    }
+
+    return StudentData(
+        name: data['firstName'] + data['lastName'],
+        contact: data['contact'],
+        parentsName: data['fatherName'],
+        className: data['class'],
+        profile: data['profilePictureURL']);
   }
-Map<String, dynamic>? data = documentSnapshot.data() as Map<String, dynamic>?;
-
-
-if (data == null) {
-    throw Exception('Data is null');
-  }
-
-  return StudentData(
-    name: data['firstName'] + data['lastName'],
-    contact: data['contact'],
-    parentsName: data['fatherName'],
-    className: data['class'],
-  );
-}
-
 
   Future<Notice> getLatestNotice() async {
     QuerySnapshot querySnapshot = await db
@@ -91,51 +92,45 @@ if (data == null) {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                 // color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                       // color: Colors.grey[200],
-                      ),
-                      width: 120,
-                      height: 120,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          'images/picture.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+              FutureBuilder<StudentData>(
+                future: getStudentData(studentId),
+                builder:
+                    (BuildContext context, AsyncSnapshot<StudentData> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  }
+
+                  StudentData studentData = snapshot.data!;
+
+                  return Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    const SizedBox(width: 20),
-                    FutureBuilder<StudentData>(
-                      future: getStudentData(studentId),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<StudentData> snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text('Error: ${snapshot.error}'),
-                          );
-                        }
-
-                        StudentData studentData = snapshot.data!;
-
-                        return Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          width: 120,
+                          height: 120,
+                          child:  CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(studentData.profile),
+                ),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Column(
@@ -186,19 +181,18 @@ if (data == null) {
                               ],
                             ),
                           ),
-                        );
-                      },
-                    )
-                  ],
-                ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 20),
               FutureBuilder<Notice>(
                 future: getLatestNotice(),
                 builder:
                     (BuildContext context, AsyncSnapshot<Notice> snapshot) {
-                  if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
@@ -215,8 +209,7 @@ if (data == null) {
                   return Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                     // color: Colors.purple[600],
-                     border: Border.all(),
+                      border: Border.all(),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
@@ -227,7 +220,6 @@ if (data == null) {
                             const Text(
                               'Notice',
                               style: TextStyle(
-                               // color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -236,7 +228,6 @@ if (data == null) {
                               child: const Text(
                                 'view All',
                                 style: TextStyle(
-                                  //color: Colors.black38,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -256,7 +247,6 @@ if (data == null) {
                         Text(
                           notice.title,
                           style: const TextStyle(
-                            //color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -264,7 +254,6 @@ if (data == null) {
                         Text(
                           notice.message,
                           style: const TextStyle(
-                            //color: Colors.white,
                             fontSize: 16,
                           ),
                         ),
@@ -293,9 +282,7 @@ if (data == null) {
                     const Text(
                       'Quick Links',
                       style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold
-                      ),
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 10),
                     Row(
@@ -317,8 +304,7 @@ if (data == null) {
                             child: Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                               // color: Colors.grey[200],
-                               border: Border.all(),
+                                border: Border.all(),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: const Column(
@@ -354,8 +340,7 @@ if (data == null) {
                             child: Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                               // color: Colors.grey[200],
-                               border: Border.all(),
+                                border: Border.all(),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: const Column(
@@ -396,7 +381,6 @@ if (data == null) {
                             child: Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                //color: Colors.grey[200],
                                 border: Border.all(),
                                 borderRadius: BorderRadius.circular(20),
                               ),
@@ -434,7 +418,6 @@ if (data == null) {
                             child: Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                //color: Colors.grey[200],
                                 border: Border.all(),
                                 borderRadius: BorderRadius.circular(20),
                               ),

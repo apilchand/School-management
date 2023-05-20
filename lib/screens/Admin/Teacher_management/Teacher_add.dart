@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -37,7 +40,7 @@ class _TeacherAddState extends State<TeacherAdd> {
 
   DateTime? _selectedDate;
   String _selectedGender = 'Male';
-  String? _profilePictureUrl;
+  File? _profilePicture;
 
   final List<String> _genderOptions = ['Male', 'Female', 'Other'];
 
@@ -55,18 +58,7 @@ class _TeacherAddState extends State<TeacherAdd> {
     }
   }
 
-  Future<void> _pickProfilePicture() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
-
-    if (result != null && result.files.isNotEmpty) {
-      String? filePath = result.files.first.path;
-      setState(() {
-        _profilePictureUrl = filePath;
-      });
-    }
-  }
+  
 
   Widget _buildTextField({
     TextEditingController? controller,
@@ -127,8 +119,41 @@ class _TeacherAddState extends State<TeacherAdd> {
       ],
     );
   }
+ Future<void> _pickProfilePicture() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
+    if (result != null) {
+      setState(() {
+        _profilePicture = File(result.files.single.path!);
+      });
+    }
+  }
 
-  void _submitForm() {
+
+  Future<void> _submitForm() async {
+ if (  _profilePicture== null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a file')),
+      );
+      return;
+    }
+
+    const folderName = "profilePicture";
+    // Get a reference to the Firebase Storage bucket
+    final storage = FirebaseStorage.instance;
+    final bucket = storage.ref().child(folderName);
+    final filename =_firstNameController.text + _contactController.text;
+    
+    try {
+      // Upload the selected file to Firebase Storage
+      final task = bucket.child(filename).putFile(_profilePicture!);
+      final snapshot = await task.whenComplete(() {});
+
+      // Get the download URL for the uploaded file
+      final _profileURL = await snapshot.ref.getDownloadURL();
+
+
+
+
     String teacherId = _firstNameController.text + _contactController.text;
     final userTeacherData = {
       'role': 'teacher',
@@ -146,7 +171,7 @@ class _TeacherAddState extends State<TeacherAdd> {
       'teacherId': _firstNameController.text + _contactController.text,
       'dateOfBirth': _selectedDate.toString(),
       'gender': _selectedGender,
-      'profilePictureUrl': _profilePictureUrl,
+      'profilePictureURL': _profileURL,
     };
 
     addTeacher(teacherId, formData).then((_) {
@@ -157,9 +182,18 @@ class _TeacherAddState extends State<TeacherAdd> {
       setState(() {
         _selectedDate = null;
         _selectedGender = 'Male';
-        _profilePictureUrl = null;
+        _profilePicture = null;
       });
     });
+     ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Content uploaded successfully')),
+      );
+    } on FirebaseException catch (e) {
+      // Display an error message if the upload fails
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Upload failed: ${e.message}')),
+      );
+    }
   }
 
   @override
@@ -224,11 +258,11 @@ class _TeacherAddState extends State<TeacherAdd> {
                   },
                 ),
                 const SizedBox(height: 16),
-                if (_profilePictureUrl != null)
+                if (_profilePicture != null)
                   Container(
                     alignment: Alignment.center,
-                    child: Image.network(
-                      _profilePictureUrl!,
+                    child: Image.file(
+                      _profilePicture!,
                       width: 100,
                       height: 100,
                       fit: BoxFit.cover,

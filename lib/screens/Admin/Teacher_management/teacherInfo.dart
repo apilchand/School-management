@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 
 FirebaseFirestore db = FirebaseFirestore.instance;
-class Student {
+class Teacher {
     final String name;
     final String gender;
 final String photoUrl;
-    Student(
+    Teacher(
       {
         required this.name,
         required this.gender,
@@ -18,21 +18,21 @@ final String photoUrl;
   }
 
 
-class StudentInfoScreen extends StatelessWidget {
+class TeacherInfoScreen extends StatelessWidget {
 
-  const StudentInfoScreen({Key? key, required this.studentId,}) : super(key: key);
-final String studentId;
-Future<Student> getStudent() async {
+  const TeacherInfoScreen({Key? key, required this.teacherId,}) : super(key: key);
+final String teacherId;
+Future<Teacher> getTeacher() async {
   QuerySnapshot querySnapshot = await db
-      .collection('Student')
-      .where('studentId' ,isEqualTo: studentId )
+      .collection('Teacher')
+      .where('teacherId' ,isEqualTo: teacherId )
       .get();
 
   for (QueryDocumentSnapshot document in querySnapshot.docs) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
    
-      return Student(
+      return Teacher(
         name: data['firstName']+ ' '+data['lastName'],
         gender: data['gender'],
         photoUrl: data['profilePictureURL']
@@ -41,18 +41,18 @@ Future<Student> getStudent() async {
       
     );
   }
- throw Exception('Student not found');
+ throw Exception('Teacher not found');
   }
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Student Info')
+        title: const Text('Teacher Info')
       ),
       body: 
-      FutureBuilder<Student>(
-                future: getStudent(),
+      FutureBuilder<Teacher>(
+                future: getTeacher(),
                 builder:
                     (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -67,7 +67,7 @@ Future<Student> getStudent() async {
                     );
                   }
 
-      Student student = snapshot.data!;
+      Teacher teacher = snapshot.data!;
       return
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -79,11 +79,11 @@ Future<Student> getStudent() async {
               children: [
                  CircleAvatar(
                   radius: 50,
-                  backgroundImage: NetworkImage(student.photoUrl),
+                  backgroundImage: NetworkImage(teacher.photoUrl),
                 ),
                 const SizedBox(height: 16.0),
                 Text(
-                  student.name,
+                  teacher.name,
                   style: const TextStyle(
                    
                     fontSize: 24,
@@ -92,7 +92,7 @@ Future<Student> getStudent() async {
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  ' Gender: ${student.gender}',
+                  ' Gender: ${teacher.gender}',
                   style: const TextStyle(
                    
                     fontSize: 16,
@@ -111,58 +111,7 @@ Future<Student> getStudent() async {
                   topRight: Radius.circular(24.0),
                 ),
               ),
-              child: const SingleChildScrollView(child: 
-               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Performance:',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                     // color:Colors.white
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    '90%',
-                    style: TextStyle(
-                      fontSize: 18,//color:Colors.white
-                    ),
-                  ),
-                  SizedBox(height: 32.0),
-                  Text(
-                    'Attendance Percentage:',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,//color:Colors.white
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    '85%',
-                    style: TextStyle(
-                      fontSize: 18,//color:Colors.white
-                    ),
-                  ),
-                  SizedBox(height: 32.0),
-                  Text(
-                    'Result Percentage:',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,//color:Colors.white
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    '92%',
-                    style: TextStyle(
-                      fontSize: 18,//color:Colors.white
-                    ),
-                  ),
-                ],
-              ),
-            ),
+              
           ),
           )
         ],

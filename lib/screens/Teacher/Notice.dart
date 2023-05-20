@@ -121,7 +121,7 @@ class TeacherNoticeScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all()
-                              //color: Colors.white,
+                              
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +131,7 @@ class TeacherNoticeScreen extends StatelessWidget {
                                   style: const TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
-                                    //color: Color.fromARGB(255, 4, 28, 63),
+                                    
                                   ),
                                 ),
                                 const SizedBox(height: 16),
@@ -139,7 +139,7 @@ class TeacherNoticeScreen extends StatelessWidget {
                                   notice[index].message,
                                   style: const TextStyle(
                                     fontSize: 18,
-                                    //color: Colors.grey[700],
+                                    
                                   ),
                                 ),
                                 const SizedBox(height: 16),

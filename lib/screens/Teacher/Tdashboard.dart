@@ -12,12 +12,14 @@ class TeacherData{
   final String contact;
   final String email;
   final String gender;
+  final String profile;
   TeacherData(
     {
       required this.name,
       required this.contact,
       required this.email,
       required this.gender,
+      required this.profile
 
     }
   );
@@ -38,6 +40,7 @@ Future<TeacherData> getTeacherData(String teacherId) async {
       contact: data['contact'],
       email: data['email'],
       gender: data['gender'],
+      profile: data['profilePictureURL']
     );
   }
 
@@ -46,9 +49,8 @@ Future<TeacherData> getTeacherData(String teacherId) async {
     return Scaffold(
         appBar: AppBar(
             title: const Center(child: Text('Teacher Panel')),
-           // backgroundColor: const Color.fromARGB(255, 121, 6, 6)
-           ),
-       // backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+                   ),
+       
         body: 
         
         FutureBuilder<TeacherData>(
@@ -84,8 +86,9 @@ Future<TeacherData> getTeacherData(String teacherId) async {
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  //color: Colors.white,
+               
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all()
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,17 +96,14 @@ Future<TeacherData> getTeacherData(String teacherId) async {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        //color: Colors.purple,
+                       
                       ),
                       width: 130,
                       height: 130,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          'images/picture.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      child:  CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(teacherData.profile),
+                ),
                     ),
                     const SizedBox(width: 30),
                      Expanded(

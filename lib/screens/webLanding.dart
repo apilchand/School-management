@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pathsala/screens/Welcome.dart';
 
 class LandingPage extends StatelessWidget {
+  const LandingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
 
@@ -119,7 +121,7 @@ class LandingPage extends StatelessWidget {
           ),
         ),
       ),
-    //  bottomNavigationBar: const ContactSection(),
+  
     );
   }
 }
@@ -233,7 +235,7 @@ class ContactSection extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        // Add your download logic here
+                       
                       },
                       child: const Row(
                         children: [
@@ -254,7 +256,7 @@ class ContactSection extends StatelessWidget {
                     const SizedBox(height: 10),
                     InkWell(
                       onTap: () {
-                        // Add your gallery link logic here
+                       
                       },
                       child: const Text(
                         'Gallery',
@@ -266,7 +268,7 @@ class ContactSection extends StatelessWidget {
                     const SizedBox(height: 10),
                     InkWell(
                       onTap: () {
-                        // Add your academic link logic here
+                       
                       },
                       child: const Text(
                         'Academic',

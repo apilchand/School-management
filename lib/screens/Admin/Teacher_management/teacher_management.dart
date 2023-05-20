@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pathsala/screens/Admin/Teacher_management/teacherInfo.dart';
 
 import 'Teacher_add.dart';
 
@@ -48,7 +49,10 @@ class _TeacherManagementScreenState extends State<TeacherManagementScreen> {
                     subtitle: Text('ID: $teacherId'),
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
-                      // Navigate to teacher details screen
+                      Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TeacherInfoScreen(teacherId: teacherId)),
+          );
                     },
                   );
                 },

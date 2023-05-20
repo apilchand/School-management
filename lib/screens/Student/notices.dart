@@ -41,11 +41,11 @@ class NoticeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: const Color.fromARGB(255, 4, 28, 63),
+     
       appBar: AppBar(
         title: const Text('Notices'),
         centerTitle: true,
-       // backgroundColor: const Color.fromARGB(255, 121, 6, 6),
+      
         elevation: 0,
       ),
       body: Padding(
@@ -56,7 +56,7 @@ class NoticeScreen extends StatelessWidget {
             const Text(
               'Latest Notices',
               style: TextStyle(
-               // color: Colors.white,
+               
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
@@ -92,7 +92,7 @@ class NoticeScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              //color: Colors.white,
+                              border: Border.all()
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +102,7 @@ class NoticeScreen extends StatelessWidget {
                                   style: const TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
-                                   // color: Color.fromARGB(255, 4, 28, 63),
+                                   
                                   ),
                                 ),
                                 const SizedBox(height: 16),
@@ -110,7 +110,7 @@ class NoticeScreen extends StatelessWidget {
                                   notice[index].message,
                                   style: const TextStyle(
                                     fontSize: 18,
-                                   // color: Colors.grey[700],
+                                   
                                   ),
                                 ),
                                 const SizedBox(height: 16),
@@ -122,7 +122,7 @@ class NoticeScreen extends StatelessWidget {
                                       'Posted on: ${notice[index].postedOn}',
                                       style: const TextStyle(
                                         fontSize: 16,
-                                        //color: Colors.grey[600],
+                                         color:Colors.grey,
                                       ),
                                     ),
                                   ],

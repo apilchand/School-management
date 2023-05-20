@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
@@ -62,8 +63,8 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   DateTime? _selectedDate;
   String _selectedGender = 'Male';
   String _selectedClass = 'Class 1';
-  String? _profilePicturePath;
-  String? _profilePictureURL;
+  File? _profilePicture;
+ 
 
   final List<String> _genderOptions = ['Male', 'Female', 'Other'];
   late final List<String> _classOptions = [
@@ -151,12 +152,34 @@ class _StudentRegistrationState extends State<StudentRegistration> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
     if (result != null) {
       setState(() {
-        _profilePicturePath = result.files.single.path!;
+        _profilePicture = File(result.files.single.path!);
       });
     }
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
+    if (  _profilePicture== null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a file')),
+      );
+      return;
+    }
+
+    const folderName = "profilePicture";
+    // Get a reference to the Firebase Storage bucket
+    final storage = FirebaseStorage.instance;
+    final bucket = storage.ref().child(folderName);
+    final filename =_firstNameController.text + _contactController.text;
+    
+    try {
+      // Upload the selected file to Firebase Storage
+      final task = bucket.child(filename).putFile(_profilePicture!);
+      final snapshot = await task.whenComplete(() {});
+
+      // Get the download URL for the uploaded file
+      final _profileURL = await snapshot.ref.getDownloadURL();
+
+
     final userStudentData = {
       'role': 'student',
       'username': _emailController.text,
@@ -193,7 +216,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
       'class': _selectedClass,
       'parentContact': _parentContact.text,
       'studentId': _firstNameController.text + _contactController.text,
-      'profilePictureURL': _profilePictureURL,
+      'profilePictureURL': _profileURL,
       'parentId': _firstNameController.text + _parentContact.text,
     };
 
@@ -210,10 +233,20 @@ class _StudentRegistrationState extends State<StudentRegistration> {
         _selectedDate = null;
         _selectedGender = 'Male';
         _selectedClass = 'Class 1';
-        _profilePicturePath = null;
-        _profilePictureURL = null;
+        _profilePicture = null;
+       
       });
     });
+
+     ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Content uploaded successfully')),
+      );
+    } on FirebaseException catch (e) {
+      // Display an error message if the upload fails
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Upload failed: ${e.message}')),
+      );
+    }
   }
 
   @override
@@ -326,14 +359,14 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                if (_profilePicturePath != null) ...[
+                if (_profilePicture != null) ...[
                   const Center(
                     child: Text('Profile Picture Selected'),
                   ),
                   const SizedBox(height: 8),
                   Center(
                     child: Image.file(
-                      File(_profilePicturePath!),
+                      _profilePicture! ,
                       width: 100,
                       height: 100,
                     ),
